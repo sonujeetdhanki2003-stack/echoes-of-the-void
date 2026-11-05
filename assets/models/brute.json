@@ -1,0 +1,185 @@
+{
+ "file": "brute.glb",
+ "creature": "Brute",
+ "units": "metres",
+ "facing": "Blender -Y = glTF +Z: in Godot the model faces +Z (use look_at(target, Vector3.UP, true) or rotate 180 deg)",
+ "origin": "ground, between the feet",
+ "dimensions_m": {
+  "width": 2.478,
+  "length": 1.575,
+  "height": 2.859
+ },
+ "triangles": 19509,
+ "bones": [
+  "root",
+  "hips",
+  "spine_01",
+  "spine_02",
+  "chest",
+  "neck",
+  "head",
+  "jaw",
+  "back_crystal",
+  "shoulder.L",
+  "upper_arm.L",
+  "forearm.L",
+  "hand.L",
+  "shoulder.R",
+  "upper_arm.R",
+  "forearm.R",
+  "hand.R",
+  "thigh.L",
+  "shin.L",
+  "foot.L",
+  "toe.L",
+  "thigh.R",
+  "shin.R",
+  "foot.R",
+  "toe.R"
+ ],
+ "clips": [
+  {
+   "name": "idle",
+   "seconds": 3.2,
+   "frames": 96,
+   "loop": true,
+   "events": {}
+  },
+  {
+   "name": "walk",
+   "seconds": 1.3,
+   "frames": 39,
+   "loop": true,
+   "ground_speed_mps": 1.4,
+   "events": {
+    "footsteps": [
+     0.0,
+     0.65
+    ]
+   }
+  },
+  {
+   "name": "charge",
+   "seconds": 0.6,
+   "frames": 18,
+   "loop": true,
+   "ground_speed_mps": 7.0,
+   "events": {
+    "footsteps": [
+     0.0,
+     0.048,
+     0.276,
+     0.336
+    ]
+   },
+   "notes": "knuckle-gallop, head down"
+  },
+  {
+   "name": "slam",
+   "seconds": 2.2,
+   "frames": 66,
+   "loop": false,
+   "events": {
+    "telegraph_start": 0.0,
+    "arms_up": 0.9,
+    "hit": 1.0,
+    "recover_start": 1.4
+   },
+   "notes": "both fists hit the ground ~1.45 m in front (Godot +Z), x = +/-0.36",
+   "impact_point_m": [
+    0.0,
+    0.0,
+    1.45
+   ]
+  },
+  {
+   "name": "swipe",
+   "seconds": 1.4,
+   "frames": 42,
+   "loop": false,
+   "events": {
+    "windup_end": 0.6,
+    "hit": 0.72
+   },
+   "notes": "right-arm horizontal sweep from its right to its left at chest height, reach ~1.6 m"
+  },
+  {
+   "name": "charge_start",
+   "seconds": 1.0,
+   "frames": 30,
+   "loop": false,
+   "events": {
+    "roar": 0.42,
+    "launch": 1.0
+   },
+   "notes": "ends exactly on charge frame 0"
+  },
+  {
+   "name": "charge_stun",
+   "seconds": 1.8,
+   "frames": 54,
+   "loop": false,
+   "events": {
+    "impact": 0.0,
+    "head_shake": [
+     0.75,
+     1.32
+    ]
+   },
+   "notes": "starts from the charge pose; staggers ~0.4 m back in place and returns"
+  },
+  {
+   "name": "roar",
+   "seconds": 2.0,
+   "frames": 60,
+   "loop": false,
+   "events": {
+    "roar_start": 0.6,
+    "roar_end": 1.5
+   }
+  },
+  {
+   "name": "hit",
+   "seconds": 0.8,
+   "frames": 24,
+   "loop": false,
+   "events": {}
+  },
+  {
+   "name": "death",
+   "seconds": 2.5,
+   "frames": 75,
+   "loop": false,
+   "events": {
+    "knees_hit": 0.95,
+    "face_hits_ground": 2.1
+   },
+   "notes": "falls to its knees, then forward onto its face; last frame holds"
+  }
+ ],
+ "materials": [
+  "Flesh",
+  "EmitBack",
+  "Crystal",
+  "Armor"
+ ],
+ "sockets": {
+  "head": "head",
+  "back_crystal": "back_crystal",
+  "hand_l": "hand.L",
+  "hand_r": "hand.R",
+  "chest": "chest"
+ },
+ "weak_spot": {
+  "bone": "back_crystal",
+  "material": "EmitBack",
+  "notes": "magenta crystal cluster on the upper back (2x damage); a sphere ~0.45 m radius centred ~0.25 m along the back_crystal bone covers it"
+ },
+ "notes": [
+  "In-place animations; move it at ground_speed_mps during walk/charge. Loop idle, walk and charge in code (Godot imports them non-looping).",
+  "slam: 0.9 s telegraph (arms raised high), fists hit at 1.0 s ~1.45 m in front.",
+  "charge_start ends exactly on charge frame 0; charge_stun starts from that pose.",
+  "Material 'Armor' = fused station plating; 'EmitBack' = weak-point crystals (also two small crystal 'eyes').",
+  "death: last frame holds (lying face down)."
+ ]
+}

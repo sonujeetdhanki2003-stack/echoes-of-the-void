@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scenes/weapons/weapon_scene.gd" id="1"]
+[ext_resource type="Resource" path="res://data/weapons/energy_pistol.tres" id="2"]
+[ext_resource type="PackedScene" path="res://assets/models/energy_pistol.glb" id="3"]
+
+[node name="energy_pistol" type="Node3D"]
+script = ExtResource("1")
+data = ExtResource("2")
+
+[node name="Model" parent="." instance=ExtResource("3")]

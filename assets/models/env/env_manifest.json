@@ -1,0 +1,2518 @@
+{
+ "about": "ECHOES OF THE VOID environment assets (Tab env helper). Blender Z-up, exported glTF +Y up. Blender -Y = model front = Godot +Z. Origins at base centre on the ground (z=0) unless the notes say otherwise. Dimensions in metres as [x, y(depth), z(height)] in Blender axes. UVs: world-scale box projection, 1 UV unit = 1 m (set uv1_scale to taste, e.g. 0.5 for a 2 m tile); Screen faces are 0..1 planar. Material slots are named by role (Panel, PanelAlt, Trim, Floor, Dark, Metal, Accent, Hazard, Rubber, Grate, Glass*, Screen, Emit*): override by name to theme an area. Constant PBR defaults are set so every file looks right untextured; Hazard carries an embedded 512 px stripe texture. Child node pivots are listed in Blender coordinates (Godot: x, z, -y).",
+ "texture_library_dir": "assets/textures/",
+ "texture_sets": [
+  "concrete",
+  "diamond_plate",
+  "fabric",
+  "floor_rubber",
+  "floor_tiles",
+  "grate",
+  "ground_alien",
+  "hazard_clean",
+  "hazard_stripes",
+  "ice_frost",
+  "metal_dark",
+  "panel_scifi",
+  "panel_white",
+  "rock_alien",
+  "rubber",
+  "scratched_metal"
+ ],
+ "suggested_texture_for_role": {
+  "Panel": "panel_white",
+  "PanelAlt": "panel_white (tinted) or panel_scifi",
+  "Trim": "metal_dark",
+  "Floor": "floor_tiles / floor_rubber / diamond_plate",
+  "Dark": "metal_dark",
+  "Metal": "scratched_metal",
+  "Grate": "grate_albedo_alpha.png (alpha) or metal_dark",
+  "Hazard": "hazard_clean (embedded) or hazard_stripes",
+  "Rubber": "rubber",
+  "Concrete": "concrete",
+  "Rock": "rock_alien",
+  "Ground": "ground_alien",
+  "Fabric": "fabric"
+ },
+ "files": {
+  "alien_plant_a": {
+   "file": "models/env/alien_plant_a.glb",
+   "tris": 1276,
+   "dims_m": [
+    1.019,
+    1.23,
+    2.091
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.333,
+     -0.594,
+     -0.175
+    ],
+    "max": [
+     0.686,
+     0.636,
+     1.916
+    ]
+   },
+   "materials": [
+    "EmitPlant",
+    "PlantDark",
+    "PlantTissue"
+   ],
+   "children": [],
+   "notes": "Bioluminescent stalk plant ~1.2 m wide, up to 2 m tall: dark curved stalks ending in glowing EmitPlant bulbs (teal). Origin ground centre. Sway via a vertex shader or a small node rotation.",
+   "size_kb": 73.7
+  },
+  "alien_plant_b": {
+   "file": "models/env/alien_plant_b.glb",
+   "tris": 1276,
+   "dims_m": [
+    3.078,
+    2.819,
+    0.717
+   ],
+   "bounds_blender": {
+    "min": [
+     -1.512,
+     -1.453,
+     -0.082
+    ],
+    "max": [
+     1.566,
+     1.366,
+     0.635
+    ]
+   },
+   "materials": [
+    "EmitPlant",
+    "PlantDark",
+    "PlantTissue"
+   ],
+   "children": [],
+   "notes": "Fan-frond plant ~3 m across, ~1 m tall: 9 dark double-sided fronds with glowing EmitPlant mid-veins and glowing seed pods at the centre. Origin ground centre.",
+   "size_kb": 86.0
+  },
+  "alien_plant_c": {
+   "file": "models/env/alien_plant_c.glb",
+   "tris": 1780,
+   "dims_m": [
+    2.682,
+    2.364,
+    2.892
+   ],
+   "bounds_blender": {
+    "min": [
+     -1.342,
+     -1.288,
+     -0.006
+    ],
+    "max": [
+     1.341,
+     1.076,
+     2.886
+    ]
+   },
+   "materials": [
+    "EmitPlant",
+    "PlantDark",
+    "PlantTissue"
+   ],
+   "children": [],
+   "notes": "Cap-fungus cluster up to ~3.5 m tall (one big cap + 4 smaller): dark caps with glowing EmitPlant gills underneath and glowing spots on top. Origin ground centre.",
+   "size_kb": 116.2
+  },
+  "alien_rock_a": {
+   "file": "models/env/alien_rock_a.glb",
+   "tris": 1600,
+   "dims_m": [
+    4.869,
+    3.76,
+    2.711
+   ],
+   "bounds_blender": {
+    "min": [
+     -2.49,
+     -1.843,
+     -0.08
+    ],
+    "max": [
+     2.379,
+     1.918,
+     2.631
+    ]
+   },
+   "materials": [
+    "Rock"
+   ],
+   "children": [],
+   "notes": "Boulder ~4 x 3 x 2.5 m with layered strata + a small companion stone. Material Rock (use rock_alien textures, uv1_scale ~0.35). Origin ground centre.",
+   "size_kb": 108.4
+  },
+  "alien_rock_b": {
+   "file": "models/env/alien_rock_b.glb",
+   "tris": 1920,
+   "dims_m": [
+    9.581,
+    6.297,
+    4.835
+   ],
+   "bounds_blender": {
+    "min": [
+     -4.611,
+     -3.338,
+     -0.15
+    ],
+    "max": [
+     4.97,
+     2.96,
+     4.685
+    ]
+   },
+   "materials": [
+    "Rock"
+   ],
+   "children": [],
+   "notes": "Large layered rock mound ~9 x 6 x 4.5 m with two satellite stones. Origin ground centre.",
+   "size_kb": 130.4
+  },
+  "alien_rock_c": {
+   "file": "models/env/alien_rock_c.glb",
+   "tris": 1600,
+   "dims_m": [
+    4.213,
+    4.037,
+    11.355
+   ],
+   "bounds_blender": {
+    "min": [
+     -1.933,
+     -1.995,
+     -0.1
+    ],
+    "max": [
+     2.281,
+     2.042,
+     11.255
+    ]
+   },
+   "materials": [
+    "Rock"
+   ],
+   "children": [],
+   "notes": "Tall rock spire / hoodoo ~11 m tall, strongly layered. Origin ground centre.",
+   "size_kb": 98.7
+  },
+  "alien_rock_d": {
+   "file": "models/env/alien_rock_d.glb",
+   "tris": 1600,
+   "dims_m": [
+    14.566,
+    6.602,
+    3.625
+   ],
+   "bounds_blender": {
+    "min": [
+     -7.322,
+     -3.035,
+     -0.3
+    ],
+    "max": [
+     7.244,
+     3.567,
+     3.325
+    ]
+   },
+   "materials": [
+    "Rock"
+   ],
+   "children": [],
+   "notes": "Long flat layered outcrop / ridge ~13 x 6 x 3 m (cover and terrain breakup). Origin ground centre.",
+   "size_kb": 96.0
+  },
+  "ammo_pistol": {
+   "file": "models/env/ammo_pistol.glb",
+   "tris": 408,
+   "dims_m": [
+    0.13,
+    0.06,
+    0.152
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.065,
+     -0.03,
+     0.0
+    ],
+    "max": [
+     0.065,
+     0.03,
+     0.152
+    ]
+   },
+   "materials": [
+    "EmitCellPistol",
+    "Metal",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Energy Pistol ammo pickup: two CYAN cells in a clip, 0.13 x 0.06 x 0.15 m, origin base centre. EmitCellPistol = cyan.",
+   "size_kb": 32.1
+  },
+  "ammo_rifle": {
+   "file": "models/env/ammo_rifle.glb",
+   "tris": 180,
+   "dims_m": [
+    0.124,
+    0.08,
+    0.225
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.062,
+     -0.04,
+     0.0
+    ],
+    "max": [
+     0.062,
+     0.04,
+     0.225
+    ]
+   },
+   "materials": [
+    "Dark",
+    "EmitAmber",
+    "EmitCellRifle",
+    "Metal",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Pulse Rifle ammo pickup: one ORANGE box cell, 0.12 x 0.08 x 0.23 m, origin base centre. EmitCellRifle = orange.",
+   "size_kb": 18.3
+  },
+  "antenna_mast": {
+   "file": "models/env/antenna_mast.glb",
+   "tris": 1452,
+   "dims_m": [
+    12.724,
+    11.1,
+    19.212
+   ],
+   "bounds_blender": {
+    "min": [
+     -6.362,
+     -3.8,
+     -0.012
+    ],
+    "max": [
+     6.362,
+     7.3,
+     19.2
+    ]
+   },
+   "materials": [
+    "Cable",
+    "Concrete",
+    "EmitRed",
+    "HullDark",
+    "Metal",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Lattice comms mast 19 m tall (triangular truss), antenna array + equipment boxes at the top, two EmitRed aviation beacons, three guy wires anchored 7 m out. Origin ground centre.",
+   "size_kb": 138.4
+  },
+  "barrel": {
+   "file": "models/env/barrel.glb",
+   "tris": 736,
+   "dims_m": [
+    0.634,
+    0.634,
+    0.91
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.317,
+     -0.317,
+     0.0
+    ],
+    "max": [
+     0.317,
+     0.317,
+     0.91
+    ]
+   },
+   "materials": [
+    "Accent",
+    "Hazard",
+    "Metal"
+   ],
+   "children": [],
+   "notes": "Chemical/fuel drum 0.6 m diameter x 0.91 m, Accent body (recolour per area), Hazard band. Origin base centre.",
+   "size_kb": 76.4
+  },
+  "cable_bundle": {
+   "file": "models/env/cable_bundle.glb",
+   "tris": 816,
+   "dims_m": [
+    4.015,
+    0.663,
+    0.091
+   ],
+   "bounds_blender": {
+    "min": [
+     -2.007,
+     -0.333,
+     0.0
+    ],
+    "max": [
+     2.008,
+     0.33,
+     0.091
+    ]
+   },
+   "materials": [
+    "Cable",
+    "CableColor",
+    "Hazard",
+    "Rubber"
+   ],
+   "children": [],
+   "notes": "Bundle of 7 floor cables snaking along X for 4 m (x -2..2, ~0.6 m wide), with two hazard cable ramps. Origin floor centre. No collision needed.",
+   "size_kb": 77.8
+  },
+  "cargo_containers": {
+   "file": "models/env/cargo_containers.glb",
+   "tris": 2724,
+   "dims_m": [
+    6.485,
+    5.246,
+    5.19
+   ],
+   "bounds_blender": {
+    "min": [
+     -3.03,
+     -1.25,
+     0.0
+    ],
+    "max": [
+     3.455,
+     3.996,
+     5.19
+    ]
+   },
+   "materials": [
+    "Accent",
+    "ContainerBlue",
+    "Metal",
+    "PanelAlt",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Stack of three 20 ft shipping containers (6.06 x 2.44 x 2.59 m each): two side by side (orange Accent, blue ContainerBlue) and one on top (PanelAlt), corrugated sides, corner posts, end doors on +X. ~6.3 x 5.3 x 5.2 m, origin ground centre.",
+   "size_kb": 236.0
+  },
+  "cargo_lift": {
+   "file": "models/env/cargo_lift.glb",
+   "tris": 3540,
+   "dims_m": [
+    7.1,
+    7.22,
+    8.75
+   ],
+   "bounds_blender": {
+    "min": [
+     -3.55,
+     -3.67,
+     -0.35
+    ],
+    "max": [
+     3.55,
+     3.55,
+     8.4
+    ]
+   },
+   "materials": [
+    "Cable",
+    "Dark",
+    "EmitAmber",
+    "EmitStatus",
+    "Floor",
+    "Hazard",
+    "Metal",
+    "PanelAlt",
+    "Screen",
+    "Trim"
+   ],
+   "children": [
+    {
+     "name": "Platform",
+     "type": "mesh",
+     "parent": "cargo_lift",
+     "pivot_blender": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tris": 1492,
+     "materials": [
+      "Trim",
+      "Floor",
+      "Hazard",
+      "Dark",
+      "Metal",
+      "PanelAlt",
+      "EmitStatus",
+      "Screen"
+     ]
+    }
+   ],
+   "notes": "Cargo lift: 7 x 7 x 8.4 m frame (4 columns with guide rails, top beams, pulley housing), origin base centre at the lower floor level. Child \"Platform\" (6 x 6 m deck, top surface at its pivot, railings on +X/-X/+Y, open at -Y, control pedestal with EmitStatus button + Screen): move it along the up axis (0 -> 7.6 m max). EmitAmber beacon on the frame.",
+   "size_kb": 269.9
+  },
+  "ceiling_lamp": {
+   "file": "models/env/ceiling_lamp.glb",
+   "tris": 304,
+   "dims_m": [
+    1.2,
+    0.24,
+    0.76
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.6,
+     -0.12,
+     -0.16
+    ],
+    "max": [
+     0.6,
+     0.12,
+     0.6
+    ]
+   },
+   "materials": [
+    "Dark",
+    "EmitLight",
+    "Metal",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Hanging strip light 1.2 x 0.24 m, origin at the TOP of its 0.6 m hanging wires (attach to the ceiling), the lamp body hangs 0.6..0.76 m below. EmitLight diffuser faces down.",
+   "size_kb": 23.3
+  },
+  "chair": {
+   "file": "models/env/chair.glb",
+   "tris": 812,
+   "dims_m": [
+    0.639,
+    0.687,
+    1.127
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.289,
+     -0.334,
+     0.0
+    ],
+    "max": [
+     0.35,
+     0.353,
+     1.127
+    ]
+   },
+   "materials": [
+    "Fabric",
+    "Metal",
+    "Rubber",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Swivel office chair 0.64 x 0.64 x 1.15 m, origin base centre, seat faces -Y. Knock over / rotate freely.",
+   "size_kb": 61.0
+  },
+  "comms_console": {
+   "file": "models/env/comms_console.glb",
+   "tris": 2130,
+   "dims_m": [
+    2.9,
+    0.98,
+    2.643
+   ],
+   "bounds_blender": {
+    "min": [
+     -1.75,
+     -0.45,
+     -0.03
+    ],
+    "max": [
+     1.15,
+     0.53,
+     2.613
+    ]
+   },
+   "materials": [
+    "Cable",
+    "Dark",
+    "Decal_Comms",
+    "EmitAmber",
+    "EmitGreen",
+    "EmitRed",
+    "Metal",
+    "PanelAlt",
+    "Plastic",
+    "Rubber",
+    "Screen",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Comms station 3.5 x 0.85 x 2.6 m (desk + radio rack on the left), origin base centre, operator stands at -Y. Three Screen monitors + 4 small rack screens; EmitRed = transmit button; EmitAmber/EmitGreen rack LEDs.",
+   "size_kb": 165.4
+  },
+  "conduit_console": {
+   "file": "models/env/conduit_console.glb",
+   "tris": 2258,
+   "dims_m": [
+    3.571,
+    0.59,
+    3.109
+   ],
+   "bounds_blender": {
+    "min": [
+     -1.786,
+     -0.55,
+     0.0
+    ],
+    "max": [
+     1.786,
+     0.04,
+     3.109
+    ]
+   },
+   "materials": [
+    "Dark",
+    "Decal_Conduit",
+    "EmitAmber",
+    "EmitCyan",
+    "EmitLight",
+    "Hazard",
+    "Metal",
+    "PanelAlt",
+    "Screen",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Wall-standing puzzle console 3.6 x 0.55 x 3.05 m, origin base centre, back against the wall at y=0, front -Y. \"Screen\" = the empty 2.6 x 1.34 m display (planar 0..1 UVs, z 1.08..2.42, at Blender y=-0.305) for the conduit grid; a second small Screen on the ledge. EmitCyan rings on the side power columns, EmitLight bar on top.",
+   "size_kb": 201.6
+  },
+  "console_large": {
+   "file": "models/env/console_large.glb",
+   "tris": 1348,
+   "dims_m": [
+    3.1,
+    1.071,
+    1.986
+   ],
+   "bounds_blender": {
+    "min": [
+     -1.55,
+     -0.5,
+     0.0
+    ],
+    "max": [
+     1.55,
+     0.571,
+     1.986
+    ]
+   },
+   "materials": [
+    "Dark",
+    "EmitAmber",
+    "EmitCyan",
+    "EmitGreen",
+    "PanelAlt",
+    "Screen",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Large control desk 3.1 x 0.95 x 2.0 m with four Screens (three angled main + one top status), button field (EmitGreen/Amber/Cyan). Origin base centre, operators at -Y.",
+   "size_kb": 103.2
+  },
+  "containment_tube": {
+   "file": "models/env/containment_tube.glb",
+   "tris": 1604,
+   "dims_m": [
+    1.92,
+    1.92,
+    4.031
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.96,
+     -0.96,
+     0.0
+    ],
+    "max": [
+     0.96,
+     0.96,
+     4.031
+    ]
+   },
+   "materials": [
+    "Cable",
+    "EmitCrystal",
+    "EmitCyan",
+    "Glass",
+    "Liquid",
+    "Metal",
+    "Screen",
+    "Tissue",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Specimen containment tube 1.9 m diameter base, 3.95 m tall (glass 0.4..3.0 m), filled with Liquid (semi-transparent teal, slight emission) and a crystal-laced specimen (Tissue + EmitCrystal). Origin base centre. Screen on the base front.",
+   "size_kb": 108.8
+  },
+  "containment_tube_broken": {
+   "file": "models/env/containment_tube_broken.glb",
+   "tris": 1832,
+   "dims_m": [
+    4.571,
+    3.712,
+    4.055
+   ],
+   "bounds_blender": {
+    "min": [
+     -2.069,
+     -2.289,
+     -0.024
+    ],
+    "max": [
+     2.502,
+     1.423,
+     4.031
+    ]
+   },
+   "materials": [
+    "Cable",
+    "Crystal",
+    "EmitCrystal",
+    "EmitCyan",
+    "GlassBroken",
+    "Metal",
+    "Screen",
+    "Tissue",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Shattered containment tube (same footprint as containment_tube): jagged GlassBroken remains, glass shards on the floor out to 2.4 m, black/violet crystal residue (Crystal + EmitCrystal) and a dark dried Tissue puddle. Origin base centre.",
+   "size_kb": 151.2
+  },
+  "crate_large": {
+   "file": "models/env/crate_large.glb",
+   "tris": 428,
+   "dims_m": [
+    1.62,
+    1.127,
+    1.21
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.81,
+     -0.565,
+     0.0
+    ],
+    "max": [
+     0.81,
+     0.562,
+     1.21
+    ]
+   },
+   "materials": [
+    "Accent",
+    "Dark",
+    "Panel",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Large cargo container/crate 1.62 x 1.12 x 1.21 m, safety-orange Accent body with gunmetal ribs, fork pockets, a blank label plate. Origin base centre.",
+   "size_kb": 28.4
+  },
+  "crate_small": {
+   "file": "models/env/crate_small.glb",
+   "tris": 428,
+   "dims_m": [
+    0.62,
+    0.63,
+    0.6
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.31,
+     -0.32,
+     0.0
+    ],
+    "max": [
+     0.31,
+     0.31,
+     0.6
+    ]
+   },
+   "materials": [
+    "Hazard",
+    "Metal",
+    "PanelAlt",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Small cargo crate 0.62 m cube, reinforced edges, hazard tag, handle. Origin base centre. Stackable.",
+   "size_kb": 58.9
+  },
+  "cryo_pod": {
+   "file": "models/env/cryo_pod.glb",
+   "tris": 3822,
+   "dims_m": [
+    1.4,
+    1.59,
+    2.798
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.7,
+     -0.72,
+     0.0
+    ],
+    "max": [
+     0.7,
+     0.87,
+     2.798
+    ]
+   },
+   "materials": [
+    "Cable",
+    "Dark",
+    "Decal_Cryo",
+    "EmitPod",
+    "Fabric",
+    "GlassFrost",
+    "Panel",
+    "Rubber",
+    "Screen",
+    "Trim"
+   ],
+   "children": [
+    {
+     "name": "Lid",
+     "type": "mesh",
+     "parent": "cryo_pod",
+     "pivot_blender": [
+      0.53,
+      -0.282,
+      0.36
+     ],
+     "tris": 1028,
+     "materials": [
+      "Panel",
+      "GlassFrost",
+      "EmitPod",
+      "Trim"
+     ]
+    }
+   ],
+   "notes": "Upright stasis pod, 1.4 m plinth, 2.66 m tall, origin base centre, front -Y. Child \"Lid\" (frame + GlassFrost canopy) is hinged at its pivot on the right-front edge: rotate the Lid about the up axis to swing it open (Blender Z -100 deg = Godot rotation.y -100 deg; it clears the shell). EmitPod = cyan status lights (plinth ring, side strips, lid band). Screen surfaces on the plinth and the back service box.",
+   "size_kb": 229.6
+  },
+  "crystal_cluster_a": {
+   "file": "models/env/crystal_cluster_a.glb",
+   "tris": 360,
+   "dims_m": [
+    5.219,
+    2.658,
+    4.225
+   ],
+   "bounds_blender": {
+    "min": [
+     -2.754,
+     -1.308,
+     -0.312
+    ],
+    "max": [
+     2.464,
+     1.35,
+     3.913
+    ]
+   },
+   "materials": [
+    "Crystal",
+    "EmitCrystal",
+    "Rock"
+   ],
+   "children": [],
+   "notes": "Large Echo crystal cluster ~4 m tall on a dark rock base: black-violet glassy Crystal prisms with glowing EmitCrystal bands + small glowing shards. Origin ground centre. Add an OmniLight3D (violet, ~3 m) inside for the glow.",
+   "size_kb": 37.6
+  },
+  "crystal_cluster_b": {
+   "file": "models/env/crystal_cluster_b.glb",
+   "tris": 338,
+   "dims_m": [
+    1.725,
+    1.428,
+    1.963
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.844,
+     -0.584,
+     -0.188
+    ],
+    "max": [
+     0.88,
+     0.843,
+     1.774
+    ]
+   },
+   "materials": [
+    "Crystal",
+    "EmitCrystal",
+    "Rock"
+   ],
+   "children": [],
+   "notes": "Medium Echo crystal cluster ~2.2 m tall. Origin ground centre.",
+   "size_kb": 35.2
+  },
+  "crystal_cluster_c": {
+   "file": "models/env/crystal_cluster_c.glb",
+   "tris": 258,
+   "dims_m": [
+    0.898,
+    0.851,
+    0.915
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.538,
+     -0.413,
+     -0.081
+    ],
+    "max": [
+     0.36,
+     0.438,
+     0.834
+    ]
+   },
+   "materials": [
+    "Crystal",
+    "EmitCrystal",
+    "Rock"
+   ],
+   "children": [],
+   "notes": "Small Echo crystal cluster ~1 m tall (good for walls/corridors infested by the Echo, also indoors). Origin ground centre.",
+   "size_kb": 26.8
+  },
+  "datapad": {
+   "file": "models/env/datapad.glb",
+   "tris": 244,
+   "dims_m": [
+    0.24,
+    0.17,
+    0.017
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.12,
+     -0.085,
+     -0.001
+    ],
+    "max": [
+     0.12,
+     0.085,
+     0.016
+    ]
+   },
+   "materials": [
+    "Dark",
+    "EmitData",
+    "Rubber",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Research-log datapad 0.24 x 0.17 x 0.017 m lying flat, origin base centre, screen faces up (EmitData, planar 0..1 UVs: swap in a log-screen texture if wanted).",
+   "size_kb": 19.4
+  },
+  "debris_pile": {
+   "file": "models/env/debris_pile.glb",
+   "tris": 1144,
+   "dims_m": [
+    1.994,
+    1.874,
+    0.765
+   ],
+   "bounds_blender": {
+    "min": [
+     -1.086,
+     -0.777,
+     -0.083
+    ],
+    "max": [
+     0.908,
+     1.097,
+     0.681
+    ]
+   },
+   "materials": [
+    "Cable",
+    "Concrete",
+    "Dark",
+    "Panel",
+    "PanelAlt",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Rubble pile ~2.2 x 2.2 x 0.8 m (concrete chunks, broken panels, bent struts, a cable). Origin floor centre.",
+   "size_kb": 97.4
+  },
+  "desk": {
+   "file": "models/env/desk.glb",
+   "tris": 472,
+   "dims_m": [
+    1.6,
+    0.76,
+    0.76
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.8,
+     -0.38,
+     0.0
+    ],
+    "max": [
+     0.8,
+     0.38,
+     0.76
+    ]
+   },
+   "materials": [
+    "Metal",
+    "Panel",
+    "PanelAlt",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Office desk 1.6 x 0.76 x 0.76 m, drawers on the left, modesty panel at +Y. Origin base centre, user at -Y.",
+   "size_kb": 30.9
+  },
+  "door_panel": {
+   "file": "models/env/door_panel.glb",
+   "tris": 398,
+   "dims_m": [
+    0.2,
+    0.082,
+    0.3
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.1,
+     -0.082,
+     -0.15
+    ],
+    "max": [
+     0.1,
+     0.0,
+     0.15
+    ]
+   },
+   "materials": [
+    "Dark",
+    "Decal_DoorPanel",
+    "EmitStatus",
+    "Metal",
+    "Screen",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Wall door control 0.2 x 0.3 m, origin = centre of its back face (mount at ~1.3 m), front -Y. Big round EmitStatus button (default red; tint green/amber), small Screen above.",
+   "size_kb": 33.3
+  },
+  "fallen_beam": {
+   "file": "models/env/fallen_beam.glb",
+   "tris": 1572,
+   "dims_m": [
+    5.28,
+    2.25,
+    4.279
+   ],
+   "bounds_blender": {
+    "min": [
+     -2.456,
+     -1.164,
+     -0.268
+    ],
+    "max": [
+     2.824,
+     1.086,
+     4.011
+    ]
+   },
+   "materials": [
+    "Cable",
+    "CableColor",
+    "Concrete",
+    "Dark",
+    "EmitLight",
+    "Panel",
+    "PanelAlt",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Collapsed ceiling I-beam across a 4 m corridor (along X), 4.6 x 1.2 x 4.0 m, origin floor centre. Beam underside rises from 1.43 m (x=-1.5) to 1.63 m (x=+1.5) at y=0: a standing 1.8 m player must crouch; crouch passage is between the debris piles (x -1.4..1.5). Put a crouch-only blocker under the beam. Hanging cables reach down to ~2.7 m. EmitLight = broken light tube on the floor (flicker it).",
+   "size_kb": 122.4
+  },
+  "generator": {
+   "file": "models/env/generator.glb",
+   "tris": 3790,
+   "dims_m": [
+    2.6,
+    1.775,
+    2.68
+   ],
+   "bounds_blender": {
+    "min": [
+     -1.3,
+     -0.735,
+     0.0
+    ],
+    "max": [
+     1.3,
+     1.04,
+     2.68
+    ]
+   },
+   "materials": [
+    "Accent",
+    "Dark",
+    "Decal_Generator",
+    "EmitAmber",
+    "EmitGreen",
+    "EmitLamp",
+    "EmitRed",
+    "Gauge",
+    "Hazard",
+    "Metal",
+    "Panel",
+    "PanelAlt",
+    "Screen",
+    "Trim"
+   ],
+   "children": [
+    {
+     "name": "Fan",
+     "type": "mesh",
+     "parent": "generator",
+     "pivot_blender": [
+      1.0,
+      0.0,
+      1.08
+     ],
+     "tris": 128,
+     "materials": [
+      "Metal",
+      "Trim"
+     ]
+    },
+    {
+     "name": "Lever",
+     "type": "mesh",
+     "parent": "generator",
+     "pivot_blender": [
+      0.62,
+      -0.7,
+      1.51
+     ],
+     "tris": 172,
+     "materials": [
+      "Metal",
+      "EmitAmber",
+      "Trim"
+     ]
+    },
+    {
+     "name": "Needle",
+     "type": "mesh",
+     "parent": "generator",
+     "pivot_blender": [
+      0.45,
+      -0.66,
+      1.56
+     ],
+     "tris": 12,
+     "materials": [
+      "EmitRed"
+     ]
+    }
+   ],
+   "notes": "Aux power generator 2.6 x 1.7 x 2.7 m, origin base centre, front -Y (control panel, gauge, lever, louvred doors), fan on +X side. Children: \"Fan\" (spin about its local X axis), \"Needle\" (gauge needle, rotate about Blender Y / Godot Z, 0 = 12 o'clock), \"Lever\" (rotate about X, ~-60 deg = pulled). EmitLamp = big warning lamp on top; EmitRed/EmitAmber/EmitGreen = status buttons; Screen on the panel. The decal reads AUX GENERATOR; textures/label_generator_{coolant,regulator,main}.png are drop-in replacements for material Decal_Generator.",
+   "size_kb": 320.7
+  },
+  "habitat_module": {
+   "file": "models/env/habitat_module.glb",
+   "tris": 3072,
+   "dims_m": [
+    8.383,
+    21.25,
+    11.192
+   ],
+   "bounds_blender": {
+    "min": [
+     -4.192,
+     -13.2,
+     -0.072
+    ],
+    "max": [
+     4.192,
+     8.05,
+     11.12
+    ]
+   },
+   "materials": [
+    "Concrete",
+    "EmitAmber",
+    "EmitDoor",
+    "EmitLamp",
+    "EmitRed",
+    "Hazard",
+    "Hull",
+    "HullDark",
+    "Insulation",
+    "Metal",
+    "Solar",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Exterior station module: 14 m long, 6 m diameter pressurised habitat on legs (warm EmitLamp window strip on -X), gold Insulation radiator panels on top, and a 5.2 x 4.6 x 4.6 m airlock building at the -Y end with a door (EmitDoor light above, hazard band, EmitAmber beacon). ~6 x 24 x 12 m, origin ground centre. Sells \"the facility exists outside\".",
+   "size_kb": 235.1
+  },
+  "keycard": {
+   "file": "models/env/keycard.glb",
+   "tris": 80,
+   "dims_m": [
+    0.086,
+    0.054,
+    0.004
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.043,
+     -0.027,
+     0.0
+    ],
+    "max": [
+     0.043,
+     0.027,
+     0.004
+    ]
+   },
+   "materials": [
+    "Accent",
+    "Dark",
+    "EmitAmber",
+    "Plastic"
+   ],
+   "children": [],
+   "notes": "Security keycard at real size 0.086 x 0.054 x 0.0036 m lying flat, origin base centre (scale x2-3 for a readable pickup). EmitAmber chip.",
+   "size_kb": 10.4
+  },
+  "keypad_panel": {
+   "file": "models/env/keypad_panel.glb",
+   "tris": 786,
+   "dims_m": [
+    0.28,
+    0.072,
+    0.42
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.14,
+     -0.072,
+     -0.21
+    ],
+    "max": [
+     0.14,
+     0.0,
+     0.21
+    ]
+   },
+   "materials": [
+    "Dark",
+    "Decal_Keypad",
+    "EmitStatus",
+    "Key",
+    "Metal",
+    "Screen",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Wall keypad 0.28 x 0.42 m. Origin = centre of its BACK face (mount it on the wall surface at ~1.3 m height); front -Y. 12 keys with a digit decal (1-9, C, 0, E). Screen = code display; EmitStatus = status bar (default red, tint green when unlocked).",
+   "size_kb": 64.1
+  },
+  "kit_catwalk": {
+   "file": "models/env/kit_catwalk.glb",
+   "tris": 1372,
+   "dims_m": [
+    2.12,
+    4.012,
+    1.58
+   ],
+   "bounds_blender": {
+    "min": [
+     -1.06,
+     -2.006,
+     -0.45
+    ],
+    "max": [
+     1.06,
+     2.006,
+     1.13
+    ]
+   },
+   "materials": [
+    "Accent",
+    "Cable",
+    "CableColor",
+    "Dark",
+    "Grate",
+    "Metal",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Catwalk section 2.12 m wide x 4 m long (along Blender Y = Godot Z), walkable grated deck top at z=0, railings 1.1 m on both sides, a cable tray hanging under it to z=-0.45. Chain sections end to end every 4 m.",
+   "size_kb": 114.2
+  },
+  "kit_ceiling": {
+   "file": "models/env/kit_ceiling.glb",
+   "tris": 856,
+   "dims_m": [
+    4.0,
+    4.0,
+    0.45
+   ],
+   "bounds_blender": {
+    "min": [
+     -2.0,
+     -2.0,
+     4.0
+    ],
+    "max": [
+     2.0,
+     2.0,
+     4.45
+    ]
+   },
+   "materials": [
+    "Dark",
+    "EmitLight",
+    "Panel",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "4x4 m ceiling tile, underside of the beams at z=4.0 (place at the same origin as the floor). Two recessed light strips (EmitLight) and a vent grille. Faces down.",
+   "size_kb": 58.3
+  },
+  "kit_corner": {
+   "file": "models/env/kit_corner.glb",
+   "tris": 464,
+   "dims_m": [
+    0.36,
+    0.36,
+    4.0
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.18,
+     -0.18,
+     0.0
+    ],
+    "max": [
+     0.18,
+     0.18,
+     4.0
+    ]
+   },
+   "materials": [
+    "Accent",
+    "Dark",
+    "EmitLight",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Corner trim column 0.36 x 0.36 x 4 m, origin bottom centre: put it on the grid corner where two walls meet (works for inner and outer corners; covers the wall end ribs). EmitLight strips on all 4 faces.",
+   "size_kb": 32.1
+  },
+  "kit_door_frame": {
+   "file": "models/env/kit_door_frame.glb",
+   "tris": 2072,
+   "dims_m": [
+    4.0,
+    0.524,
+    4.002
+   ],
+   "bounds_blender": {
+    "min": [
+     -2.0,
+     -0.262,
+     -0.002
+    ],
+    "max": [
+     2.0,
+     0.262,
+     4.0
+    ]
+   },
+   "materials": [
+    "Accent",
+    "Dark",
+    "EmitDoor",
+    "EmitLight",
+    "Hazard",
+    "Panel",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "4 m wall section with a 2.4 m wide x 3.0 m tall opening centred on x=0, frame protrudes 0.24 m on both faces. Leaves (kit_door_leaf) sit in the y=0 plane: closed positions x=-0.6 (rotated 180 deg about up) and x=+0.6; open = slide 1.25 m outward into the wall. EmitDoor header bars on both faces (tint red/amber/green for lock state).",
+   "size_kb": 158.3
+  },
+  "kit_door_leaf": {
+   "file": "models/env/kit_door_leaf.glb",
+   "tris": 772,
+   "dims_m": [
+    1.25,
+    0.12,
+    2.99
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.625,
+     -0.06,
+     0.005
+    ],
+    "max": [
+     0.625,
+     0.06,
+     2.995
+    ]
+   },
+   "materials": [
+    "Glass",
+    "Hazard",
+    "Panel",
+    "PanelAlt",
+    "Rubber",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "One sliding leaf 1.25 x 3.0 x 0.08 m, origin bottom centre, meeting edge (hazard band + rubber seal) at local +X. Both faces detailed. For the left leaf rotate 180 deg about up.",
+   "size_kb": 85.8
+  },
+  "kit_floor": {
+   "file": "models/env/kit_floor.glb",
+   "tris": 508,
+   "dims_m": [
+    4.0,
+    4.0,
+    0.254
+   ],
+   "bounds_blender": {
+    "min": [
+     -2.0,
+     -2.0,
+     -0.25
+    ],
+    "max": [
+     2.0,
+     2.0,
+     0.004
+    ]
+   },
+   "materials": [
+    "Dark",
+    "Floor",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "4x4 m floor, top at z=0 (x,y -2..2), 0.25 thick. Four 2 m plates with seams and bolts. UVs: 1 UV unit = 1 m (world-scale box projection) on every kit piece.",
+   "size_kb": 43.5
+  },
+  "kit_floor_grate": {
+   "file": "models/env/kit_floor_grate.glb",
+   "tris": 1612,
+   "dims_m": [
+    4.0,
+    4.0,
+    0.9
+   ],
+   "bounds_blender": {
+    "min": [
+     -2.0,
+     -2.0,
+     -0.9
+    ],
+    "max": [
+     2.0,
+     2.0,
+     0.0
+    ]
+   },
+   "materials": [
+    "Accent",
+    "Dark",
+    "Grate",
+    "Metal",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "4x4 m grated floor (real bar geometry, walkable top at z=0) over a 0.9 m deep pit with pipes. Material Grate can take grate_* textures or stay constant.",
+   "size_kb": 145.7
+  },
+  "kit_pillar": {
+   "file": "models/env/kit_pillar.glb",
+   "tris": 680,
+   "dims_m": [
+    0.773,
+    0.773,
+    4.0
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.386,
+     -0.386,
+     0.0
+    ],
+    "max": [
+     0.386,
+     0.386,
+     4.0
+    ]
+   },
+   "materials": [
+    "Accent",
+    "Dark",
+    "EmitLight",
+    "Metal",
+    "Panel",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Free-standing octagonal column, 0.8 m wide at the base, 4 m tall, origin bottom centre. Four vertical EmitLight strips.",
+   "size_kb": 64.6
+  },
+  "kit_vent_cover": {
+   "file": "models/env/kit_vent_cover.glb",
+   "tris": 220,
+   "dims_m": [
+    1.08,
+    0.055,
+    0.78
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.54,
+     -0.143,
+     0.16
+    ],
+    "max": [
+     0.54,
+     -0.088,
+     0.94
+    ]
+   },
+   "materials": [
+    "Dark",
+    "Metal",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Knock-off vent grille for kit_wall_vent, 1.08 x 0.03 x 0.78 m. Its node origin is at the cover centre (Blender 0,-0.115,0.55), but placed at the same transform as the wall it fits (the node offset is baked into the node translation) - use a RigidBody3D and an impulse toward -Y Blender (= Godot +Z) when the Stalker bursts out.",
+   "size_kb": 22.8
+  },
+  "kit_wall": {
+   "file": "models/env/kit_wall.glb",
+   "tris": 2284,
+   "dims_m": [
+    4.0,
+    0.39,
+    4.0
+   ],
+   "bounds_blender": {
+    "min": [
+     -2.0,
+     -0.24,
+     0.0
+    ],
+    "max": [
+     2.0,
+     0.15,
+     4.0
+    ]
+   },
+   "materials": [
+    "Accent",
+    "Dark",
+    "EmitDoor",
+    "EmitLight",
+    "Panel",
+    "PanelAlt",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "4 m wall. x -2..2, z 0..4, thickness 0.3 (y -0.15..0.15 Blender). Detailed side faces Blender -Y (= Godot +Z). Back side is a plain Panel face. Edge ribs are half-width so neighbours make a full rib.",
+   "size_kb": 133.4
+  },
+  "kit_wall_damaged": {
+   "file": "models/env/kit_wall_damaged.glb",
+   "tris": 4808,
+   "dims_m": [
+    4.0,
+    0.705,
+    4.0
+   ],
+   "bounds_blender": {
+    "min": [
+     -2.0,
+     -0.555,
+     0.0
+    ],
+    "max": [
+     2.0,
+     0.15,
+     4.0
+    ]
+   },
+   "materials": [
+    "Accent",
+    "Dark",
+    "EmitCrystal",
+    "EmitDoor",
+    "EmitLight",
+    "Panel",
+    "PanelAlt",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Damaged 4 m wall (kit_wall variant). Same footprint and edge silhouette as kit_wall: x -2..2, z 0..4, body y -0.15..0.15 (Blender), half-width edge ribs and the same cornice at x=+-2, plain Panel back, so it tiles next to kit_wall. A jagged tear (about 1.7 x 2.2 m, centred x 0.4, z 1.95) with the face plates peeled outward toward the room (-Y Blender = +Z Godot) up to 0.45 m; behind it exposed I-beam ribs (one buckled), quilted Dark insulation, a snapped Accent conduit and hanging cables. A violet crystal cluster (12 faceted shards, 0.2-0.9 m, slot EmitCrystal) bursts out of the tear. Upper-right plate hangs loose. Cornice light strip is broken: only the left 1.45 m is EmitLight (flicker it in code if wanted), the rest is dead (Dark) with one fallen tube. Damage stays in front of the wall plane, within y -0.6..0.15, so a collision box for kit_wall still fits; the bent plates and crystals stick out up to 0.6 m into the room. Same slot names as kit_wall plus EmitCrystal; UVs 1 unit = 1 m.",
+   "size_kb": 310.9
+  },
+  "kit_wall_pipes": {
+   "file": "models/env/kit_wall_pipes.glb",
+   "tris": 2496,
+   "dims_m": [
+    4.0,
+    0.533,
+    4.0
+   ],
+   "bounds_blender": {
+    "min": [
+     -2.0,
+     -0.383,
+     0.0
+    ],
+    "max": [
+     2.0,
+     0.15,
+     4.0
+    ]
+   },
+   "materials": [
+    "Accent",
+    "Cable",
+    "CableColor",
+    "Dark",
+    "EmitLight",
+    "Gauge",
+    "Metal",
+    "Panel",
+    "PanelAlt",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "4 m wall with four horizontal pipes (z 1.6..2.6) on brackets, a valve wheel, a gauge and a vertical cable bundle. Pipes end flush at x=+-2 so neighbouring kit_wall_pipes continue the run.",
+   "size_kb": 163.1
+  },
+  "kit_wall_screen": {
+   "file": "models/env/kit_wall_screen.glb",
+   "tris": 1672,
+   "dims_m": [
+    4.0,
+    0.39,
+    4.0
+   ],
+   "bounds_blender": {
+    "min": [
+     -2.0,
+     -0.24,
+     0.0
+    ],
+    "max": [
+     2.0,
+     0.15,
+     4.0
+    ]
+   },
+   "materials": [
+    "Accent",
+    "Dark",
+    "EmitAmber",
+    "EmitCyan",
+    "EmitGreen",
+    "EmitLight",
+    "EmitRed",
+    "Panel",
+    "PanelAlt",
+    "Screen",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "4 m wall with a 2.24 x 1.21 m wall display: material \"Screen\" (planar 0..1 UVs, z 1.52..2.73) - put a ViewportTexture or emissive UI texture on it.",
+   "size_kb": 104.7
+  },
+  "kit_wall_vent": {
+   "file": "models/env/kit_wall_vent.glb",
+   "tris": 3000,
+   "dims_m": [
+    4.0,
+    1.59,
+    4.0
+   ],
+   "bounds_blender": {
+    "min": [
+     -2.0,
+     -0.24,
+     0.0
+    ],
+    "max": [
+     2.0,
+     1.35,
+     4.0
+    ]
+   },
+   "materials": [
+    "Accent",
+    "Dark",
+    "EmitLight",
+    "Hazard",
+    "Metal",
+    "Panel",
+    "PanelAlt",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "4 m wall with a 1.1 x 0.8 m floor-level vent opening (x -0.55..0.55, z 0.15..0.95) and a 1.35 m dark duct behind it (extends into +Y Blender = Godot -Z behind the wall). Put kit_vent_cover in the opening: its origin matches this wall origin.",
+   "size_kb": 212.9
+  },
+  "kit_wall_window": {
+   "file": "models/env/kit_wall_window.glb",
+   "tris": 2184,
+   "dims_m": [
+    4.0,
+    0.545,
+    4.0
+   ],
+   "bounds_blender": {
+    "min": [
+     -2.0,
+     -0.345,
+     0.0
+    ],
+    "max": [
+     2.0,
+     0.2,
+     4.0
+    ]
+   },
+   "materials": [
+    "Accent",
+    "Dark",
+    "EmitLight",
+    "Glass",
+    "Metal",
+    "Panel",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "4 m wall with a 3.0 x 1.6 m observation window (z 1.0..2.6), double Glass panes and a centre mullion, deep sill with an EmitLight under-strip. Same footprint as kit_wall.",
+   "size_kb": 132.7
+  },
+  "lab_equipment": {
+   "file": "models/env/lab_equipment.glb",
+   "tris": 1140,
+   "dims_m": [
+    1.24,
+    0.801,
+    1.224
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.62,
+     -0.37,
+     0.0
+    ],
+    "max": [
+     0.62,
+     0.431,
+     1.224
+    ]
+   },
+   "materials": [
+    "Cable",
+    "Dark",
+    "EmitGreen",
+    "Glass",
+    "Metal",
+    "PanelAlt",
+    "Plastic",
+    "Screen",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Lab equipment cluster on a cabinet: microscope, centrifuge (glass lid) and an analyser with two Screens. 1.24 x 0.8 x 1.2 m, origin base centre, front -Y.",
+   "size_kb": 74.6
+  },
+  "lab_table": {
+   "file": "models/env/lab_table.glb",
+   "tris": 700,
+   "dims_m": [
+    1.8,
+    0.83,
+    1.25
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.9,
+     -0.41,
+     0.0
+    ],
+    "max": [
+     0.9,
+     0.42,
+     1.25
+    ]
+   },
+   "materials": [
+    "EmitLight",
+    "Metal",
+    "Panel",
+    "PanelAlt",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Lab bench 1.8 x 0.84 x 1.25 m, work surface at 0.92 m, drawers on the left, backsplash on +Y. Origin base centre, front -Y.",
+   "size_kb": 43.5
+  },
+  "lab_table_clutter": {
+   "file": "models/env/lab_table_clutter.glb",
+   "tris": 1668,
+   "dims_m": [
+    1.8,
+    0.83,
+    1.25
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.9,
+     -0.41,
+     0.0
+    ],
+    "max": [
+     0.9,
+     0.42,
+     1.25
+    ]
+   },
+   "materials": [
+    "EmitCrystal",
+    "EmitLight",
+    "Glass",
+    "Liquid",
+    "Metal",
+    "Panel",
+    "PanelAlt",
+    "Plastic",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "lab_table with clutter: beakers (Glass + Liquid), a flask, a tipped beaker with a spill, a sample rack, papers and a glowing Echo crystal sample in a dish (EmitCrystal).",
+   "size_kb": 122.1
+  },
+  "landing_pad": {
+   "file": "models/env/landing_pad.glb",
+   "tris": 3484,
+   "dims_m": [
+    32.1,
+    34.65,
+    5.25
+   ],
+   "bounds_blender": {
+    "min": [
+     -16.05,
+     -17.325,
+     0.0
+    ],
+    "max": [
+     16.05,
+     17.325,
+     5.25
+    ]
+   },
+   "materials": [
+    "Concrete",
+    "Dark",
+    "EmitPad",
+    "EmitRed",
+    "HullDark",
+    "Marking",
+    "MarkingWhite",
+    "Rubber",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Circular landing pad 32 m diameter, deck top at z=0.4 m, Marking (yellow) / MarkingWhite paint, 24 amber EmitPad edge lights, access steps on +-X, a fuel umbilical tower at +Y with an EmitRed beacon. Origin ground centre. Place the shuttle at the centre on the deck (z=0.4).",
+   "size_kb": 257.8
+  },
+  "locker": {
+   "file": "models/env/locker.glb",
+   "tris": 400,
+   "dims_m": [
+    0.62,
+    0.55,
+    1.95
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.31,
+     -0.29,
+     0.0
+    ],
+    "max": [
+     0.31,
+     0.26,
+     1.95
+    ]
+   },
+   "materials": [
+    "Accent",
+    "Dark",
+    "EmitStatus",
+    "Metal",
+    "Panel",
+    "PanelAlt",
+    "Trim"
+   ],
+   "children": [
+    {
+     "name": "Door",
+     "type": "mesh",
+     "parent": "locker",
+     "pivot_blender": [
+      -0.295,
+      -0.26,
+      0.07
+     ],
+     "tris": 160,
+     "materials": [
+      "Panel",
+      "Dark",
+      "Metal",
+      "EmitStatus",
+      "Accent"
+     ]
+    }
+   ],
+   "notes": "Security locker 0.62 x 0.56 x 1.95 m, origin base centre, front -Y. Child \"Door\" hinged on its left edge (pivot x=-0.295): rotate about up axis by about +100 deg (Blender Z+ = Godot rotation.y +) to open. Put the Energy Pistol inside at z~1.0. EmitStatus lock light (red -> green).",
+   "size_kb": 35.7
+  },
+  "med_bed": {
+   "file": "models/env/med_bed.glb",
+   "tris": 1028,
+   "dims_m": [
+    1.275,
+    2.134,
+    1.897
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.513,
+     -1.07,
+     0.0
+    ],
+    "max": [
+     0.762,
+     1.064,
+     1.897
+    ]
+   },
+   "materials": [
+    "Dark",
+    "EmitCyan",
+    "Mattress",
+    "Metal",
+    "Panel",
+    "Rubber",
+    "Screen",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Medical bed 1.1 x 2.1 x 1.95 m (with the vitals monitor), origin base centre, head end +Y. Screen = vitals monitor; EmitCyan base strip.",
+   "size_kb": 67.1
+  },
+  "med_cabinet": {
+   "file": "models/env/med_cabinet.glb",
+   "tris": 1664,
+   "dims_m": [
+    1.0,
+    0.54,
+    1.9
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.5,
+     -0.29,
+     0.0
+    ],
+    "max": [
+     0.5,
+     0.25,
+     1.9
+    ]
+   },
+   "materials": [
+    "Accent",
+    "EmitCross",
+    "Fabric",
+    "Glass",
+    "Metal",
+    "Panel",
+    "PanelAlt",
+    "Plastic",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Medical supply cabinet 1.0 x 0.5 x 1.9 m, glass-front upper shelves with supplies, closed lower doors with a green cross. Origin base centre, front -Y; back against a wall.",
+   "size_kb": 114.2
+  },
+  "medkit": {
+   "file": "models/env/medkit.glb",
+   "tris": 332,
+   "dims_m": [
+    0.37,
+    0.233,
+    0.157
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.185,
+     -0.118,
+     0.0
+    ],
+    "max": [
+     0.185,
+     0.115,
+     0.157
+    ]
+   },
+   "materials": [
+    "EmitCross",
+    "Metal",
+    "Plastic",
+    "Rubber",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Medkit pickup 0.37 x 0.23 x 0.16 m, origin base centre. EmitCross = green cross on top and front (pulse it). Slow spin/bob looks good.",
+   "size_kb": 26.5
+  },
+  "monitor": {
+   "file": "models/env/monitor.glb",
+   "tris": 208,
+   "dims_m": [
+    0.58,
+    0.2,
+    0.57
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.29,
+     -0.1,
+     0.0
+    ],
+    "max": [
+     0.29,
+     0.1,
+     0.57
+    ]
+   },
+   "materials": [
+    "Dark",
+    "Screen",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Desk monitor 0.58 x 0.2 x 0.57 m on a stand, Screen 0.55 x 0.32 m facing -Y. Origin base centre.",
+   "size_kb": 16.4
+  },
+  "pipe_bend": {
+   "file": "models/env/pipe_bend.glb",
+   "tris": 600,
+   "dims_m": [
+    1.69,
+    0.38,
+    1.69
+   ],
+   "bounds_blender": {
+    "min": [
+     -1.5,
+     -0.19,
+     -0.19
+    ],
+    "max": [
+     0.19,
+     0.19,
+     1.5
+    ]
+   },
+   "materials": [
+    "Metal",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "90 deg pipe elbow, 0.3 m diameter, bend radius 1 m: enters along +X at (-1.5,0,0) and leaves along +Z at (0,0,1.5) (Blender). Flanged ends match pipe_straight. Origin = bend centre axis point (0,0,0).",
+   "size_kb": 30.3
+  },
+  "pipe_straight": {
+   "file": "models/env/pipe_straight.glb",
+   "tris": 724,
+   "dims_m": [
+    4.02,
+    0.38,
+    0.38
+   ],
+   "bounds_blender": {
+    "min": [
+     -2.01,
+     -0.19,
+     -0.19
+    ],
+    "max": [
+     2.01,
+     0.19,
+     0.19
+    ]
+   },
+   "materials": [
+    "Metal",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Industrial pipe 4 m long along X (x -2..2), 0.3 m diameter, flanges at both ends and the middle. Origin at the pipe CENTRE (axis), not the base.",
+   "size_kb": 54.5
+  },
+  "reactor_core": {
+   "file": "models/env/reactor_core.glb",
+   "tris": 11230,
+   "dims_m": [
+    7.029,
+    7.029,
+    18.118
+   ],
+   "bounds_blender": {
+    "min": [
+     -3.514,
+     -3.514,
+     -0.077
+    ],
+    "max": [
+     3.514,
+     3.514,
+     18.042
+    ]
+   },
+   "materials": [
+    "Accent",
+    "Dark",
+    "Decal_Reactor",
+    "EmitCore",
+    "Glass",
+    "Hazard",
+    "Metal",
+    "PanelAlt",
+    "Trim"
+   ],
+   "children": [
+    {
+     "name": "Core",
+     "type": "mesh",
+     "parent": "reactor_core",
+     "pivot_blender": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tris": 1244,
+     "materials": [
+      "EmitCore",
+      "Dark"
+     ]
+    },
+    {
+     "name": "Ring1",
+     "type": "mesh",
+     "parent": "reactor_core",
+     "pivot_blender": [
+      0.0,
+      0.0,
+      6.5
+     ],
+     "tris": 1344,
+     "materials": [
+      "Trim",
+      "PanelAlt",
+      "EmitCore"
+     ]
+    },
+    {
+     "name": "Ring2",
+     "type": "mesh",
+     "parent": "reactor_core",
+     "pivot_blender": [
+      0.0,
+      0.0,
+      10.5
+     ],
+     "tris": 1344,
+     "materials": [
+      "Trim",
+      "PanelAlt",
+      "EmitCore"
+     ]
+    }
+   ],
+   "notes": "Reactor column, 6.0 m diameter base, ~18 m to the top of the exhaust pipes (16 m cap), origin base centre. Children: \"Core\" (the EmitCore orange column inside a Glass sleeve: pulse its emission / scale), \"Ring1\" (z 6.5 m) and \"Ring2\" (z 10.5 m): rotate each about the up axis (opposite directions look good). Walkable base rim at 0.9-1.25 m; place catwalks around it at ring height.",
+   "size_kb": 726.6
+  },
+  "satellite_dish": {
+   "file": "models/env/satellite_dish.glb",
+   "tris": 2556,
+   "dims_m": [
+    10.16,
+    7.344,
+    11.482
+   ],
+   "bounds_blender": {
+    "min": [
+     -5.08,
+     -5.144,
+     0.0
+    ],
+    "max": [
+     5.08,
+     2.2,
+     11.482
+    ]
+   },
+   "materials": [
+    "Concrete",
+    "Crystal",
+    "EmitCrystal",
+    "EmitLight",
+    "EmitRed",
+    "Hull",
+    "HullDark",
+    "Trim"
+   ],
+   "children": [
+    {
+     "name": "Dish",
+     "type": "mesh",
+     "parent": "satellite_dish",
+     "pivot_blender": [
+      0.0,
+      0.0,
+      4.4
+     ],
+     "tris": 2128,
+     "materials": [
+      "Hull",
+      "HullDark",
+      "Trim",
+      "EmitRed",
+      "Crystal",
+      "EmitCrystal"
+     ]
+    }
+   ],
+   "notes": "Comms dish station: concrete pad + equipment building (EmitLight over the door), 10 m parabolic dish tilted 35 deg above the horizon toward -Y with a feed horn and EmitRed beacon, a few Echo crystals growing on the dish face. ~10.5 x 9 x 11 m, origin ground centre. Child \"Dish\" (the whole rotating head, pivot on the tower axis at z=4.4): rotate about up for azimuth.",
+   "size_kb": 151.5
+  },
+  "security_gate": {
+   "file": "models/env/security_gate.glb",
+   "tris": 5458,
+   "dims_m": [
+    6.0,
+    1.38,
+    5.01
+   ],
+   "bounds_blender": {
+    "min": [
+     -3.0,
+     -0.69,
+     -0.01
+    ],
+    "max": [
+     3.0,
+     0.69,
+     5.0
+    ]
+   },
+   "materials": [
+    "Dark",
+    "Decal_Gate",
+    "EmitRed",
+    "Hazard",
+    "Metal",
+    "PanelAlt",
+    "Trim"
+   ],
+   "children": [
+    {
+     "name": "LeafL",
+     "type": "mesh",
+     "parent": "security_gate",
+     "pivot_blender": [
+      -1.225,
+      0.0,
+      0.0
+     ],
+     "tris": 1516,
+     "materials": [
+      "PanelAlt",
+      "Trim",
+      "Hazard",
+      "Dark"
+     ]
+    },
+    {
+     "name": "LeafR",
+     "type": "mesh",
+     "parent": "security_gate",
+     "pivot_blender": [
+      1.225,
+      0.0,
+      0.0
+     ],
+     "tris": 1516,
+     "materials": [
+      "PanelAlt",
+      "Trim",
+      "Hazard",
+      "Dark"
+     ]
+    }
+   ],
+   "notes": "Blast door assembly 6.0 x 1.0 x 5.0 m (frame depth 1.0), clear opening 4.4 x 3.8 m, origin base centre. Children \"LeafL\" (pivot at x=-1.225) and \"LeafR\" (pivot x=+1.225), each 2.15 m wide + 0.15 m interlocking teeth, 3.85 m tall, 0.4 m thick (0.52 with ribs). Open = slide LeafL by -2.3 m and LeafR by +2.3 m along X (they slide behind the frame). Hazard fields on both faces, EmitRed beacons on the frame (pulse while moving).",
+   "size_kb": 345.4
+  },
+  "server_rack": {
+   "file": "models/env/server_rack.glb",
+   "tris": 2460,
+   "dims_m": [
+    0.68,
+    1.165,
+    2.122
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.34,
+     -0.52,
+     -0.002
+    ],
+    "max": [
+     0.34,
+     0.645,
+     2.12
+    ]
+   },
+   "materials": [
+    "Cable",
+    "CableColor",
+    "Dark",
+    "EmitAmber",
+    "EmitCyan",
+    "EmitGreen",
+    "Grate",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Server rack 0.66 x 1.02 x 2.12 m, front -Y covered in blade units with tiny status LEDs (EmitGreen/Amber/Cyan; animate by swapping emission energy), cables out the back. Origin base centre.",
+   "size_kb": 200.7
+  },
+  "shuttle": {
+   "file": "models/env/shuttle.glb",
+   "tris": 20928,
+   "dims_m": [
+    9.0,
+    16.7,
+    5.7
+   ],
+   "materials": [
+    "ShuttleHull",
+    "ShuttleHull2",
+    "ShuttleDetail",
+    "GlassCockpit",
+    "GlassSensor",
+    "EmitEngine",
+    "EmitNavRed",
+    "EmitNavGreen",
+    "EmitNavWhite",
+    "EmitFlood",
+    "EmitInterior",
+    "EmitScreen"
+   ],
+   "children": [
+    {
+     "name": "Ramp",
+     "type": "mesh",
+     "parent": "shuttle",
+     "pivot_godot": [
+      0.0,
+      1.76,
+      6.66
+     ],
+     "exported": "open, rotation.x 139 deg; identity = closed"
+    }
+   ],
+   "notes": "OSV-2 PERSEPHONE dropship (helper f77ac026, v2). Nose at Godot -Z, ramp at +Z, origin on the ground under the centre. Two main engines in nacelles (EmitEngine), tripod gear (collision boxes in props.gd CUSTOM). 3 embedded texture sets (2048 albedo/normal + 1024 ORM).",
+   "size_kb": 2873.8
+  },
+  "terminal": {
+   "file": "models/env/terminal.glb",
+   "tris": 484,
+   "dims_m": [
+    0.7,
+    0.65,
+    1.484
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.35,
+     -0.35,
+     0.0
+    ],
+    "max": [
+     0.35,
+     0.3,
+     1.484
+    ]
+   },
+   "materials": [
+    "Dark",
+    "EmitAmber",
+    "EmitCyan",
+    "EmitGreen",
+    "PanelAlt",
+    "Screen",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Standing desk terminal 0.7 x 0.62 x 1.5 m: pedestal, sloped keyboard deck, tilted Screen (planar 0..1, 0.56 x 0.36 m). Origin base centre, operator at -Y.",
+   "size_kb": 37.5
+  },
+  "the_spire": {
+   "file": "models/env/the_spire.glb",
+   "tris": 634,
+   "dims_m": [
+    21.302,
+    24.429,
+    64.177
+   ],
+   "bounds_blender": {
+    "min": [
+     -9.307,
+     -11.325,
+     -5.147
+    ],
+    "max": [
+     11.995,
+     13.104,
+     59.03
+    ]
+   },
+   "materials": [
+    "EmitCrystal",
+    "EmitVein",
+    "Spire"
+   ],
+   "children": [],
+   "notes": "The Spire: black faceted alien monolith ~61 m tall (base ~20 m across, plus base shards to ~27 m), twisted 7-sided form, faint violet EmitVein lines on alternating edges, a few floating fragments near the top (z 40..60). Origin ground centre (base sinks 2 m below z=0). Seen from far away: low poly by design.",
+   "size_kb": 67.5
+  },
+  "turret_broken": {
+   "file": "models/env/turret_broken.glb",
+   "tris": 514,
+   "dims_m": [
+    1.075,
+    1.321,
+    1.17
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.492,
+     -0.871,
+     0.0
+    ],
+    "max": [
+     0.583,
+     0.45,
+     1.17
+    ]
+   },
+   "materials": [
+    "CableColor",
+    "Dark",
+    "EmitRed",
+    "Hazard",
+    "Metal",
+    "PanelAlt",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Destroyed floor sentry turret 1.0 x 1.1 x 1.2 m: base, column, head knocked sideways with twin barrels drooping, a dim EmitRed sensor, torn cables. Origin base centre.",
+   "size_kb": 73.7
+  },
+  "wall_lamp": {
+   "file": "models/env/wall_lamp.glb",
+   "tris": 200,
+   "dims_m": [
+    0.36,
+    0.167,
+    0.2
+   ],
+   "bounds_blender": {
+    "min": [
+     -0.18,
+     -0.167,
+     -0.1
+    ],
+    "max": [
+     0.18,
+     0.0,
+     0.1
+    ]
+   },
+   "materials": [
+    "Dark",
+    "EmitLamp",
+    "Metal",
+    "Trim"
+   ],
+   "children": [],
+   "notes": "Wall work-lamp 0.36 x 0.16 x 0.2 m, origin = back centre (mount on a wall), angled down/forward; EmitLamp lens. Pair with an OmniLight3D/SpotLight3D at the lens (Blender 0,-0.12,-0.06).",
+   "size_kb": 17.8
+  }
+ }
+}

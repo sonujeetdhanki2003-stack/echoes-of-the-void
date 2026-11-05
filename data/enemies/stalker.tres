@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "stalker"
+display_name = "STALKER"
+max_hp = 60.0
+walk_speed = 2.0
+run_speed = 8.5
+turn_speed = 10.0
+sight_range = 26.0
+sight_fov = 140.0
+hearing = 1.2
+melee_damage = 14.0
+melee_range = 3.2
+attack_cooldown = 1.2
+crit_mult = 2.0
+stagger_threshold = 30.0
+model = "res://assets/models/stalker.glb"
+radius = 0.55
+height = 1.1

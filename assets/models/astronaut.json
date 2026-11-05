@@ -1,0 +1,500 @@
+{
+ "file": "astronaut.glb",
+ "character": "Specialist Kabir Rao",
+ "dimensions_m": {
+  "width_x": 1.336,
+  "height": 1.791,
+  "depth": 0.453,
+  "note": "width includes the A-pose arms of the rest pose; height is the helmet top (the new helmet is smaller than the old one, 1.861 m)"
+ },
+ "triangles": 39418,
+ "meshes": {
+  "Astronaut": 39294,
+  "Injector": 124
+ },
+ "materials": [
+  "Decals",
+  "EmitLamp",
+  "EmitSuit",
+  "GlassVisor",
+  "InjectorMetal",
+  "InjectorOrange",
+  "Suit"
+ ],
+ "facing": "Blender -Y = glTF/Godot +Z. In Godot the character faces +Z (rotate the model node 180 deg about Y if your controller treats -Z as forward).",
+ "origin": "between the feet on the ground",
+ "skeleton_node": "Skeleton3D (armature Astronaut_Rig)",
+ "bones": [
+  "root",
+  "hips",
+  "spine",
+  "spine1",
+  "chest",
+  "neck",
+  "head",
+  "shoulder.L",
+  "upper_arm.L",
+  "forearm.L",
+  "hand.L",
+  "fingers.L",
+  "thumb.L",
+  "shoulder.R",
+  "upper_arm.R",
+  "forearm.R",
+  "hand.R",
+  "fingers.R",
+  "thumb.R",
+  "prop.R",
+  "thigh.L",
+  "shin.L",
+  "foot.L",
+  "toe.L",
+  "thigh.R",
+  "shin.R",
+  "foot.R",
+  "toe.R"
+ ],
+ "bone_parents": {
+  "root": null,
+  "hips": "root",
+  "spine": "hips",
+  "spine1": "spine",
+  "chest": "spine1",
+  "neck": "chest",
+  "head": "neck",
+  "shoulder.L": "chest",
+  "upper_arm.L": "shoulder.L",
+  "forearm.L": "upper_arm.L",
+  "hand.L": "forearm.L",
+  "fingers.L": "hand.L",
+  "thumb.L": "hand.L",
+  "shoulder.R": "chest",
+  "upper_arm.R": "shoulder.R",
+  "forearm.R": "upper_arm.R",
+  "hand.R": "forearm.R",
+  "fingers.R": "hand.R",
+  "thumb.R": "hand.R",
+  "prop.R": "hand.R",
+  "thigh.L": "hips",
+  "shin.L": "thigh.L",
+  "foot.L": "shin.L",
+  "toe.L": "foot.L",
+  "thigh.R": "hips",
+  "shin.R": "thigh.R",
+  "foot.R": "shin.R",
+  "toe.R": "foot.R"
+ },
+ "clips": [
+  {
+   "name": "idle",
+   "seconds": 5.0,
+   "frames": 150,
+   "loop": true,
+   "weapon": null,
+   "events": {}
+  },
+  {
+   "name": "walk",
+   "seconds": 0.9333,
+   "frames": 28,
+   "loop": true,
+   "weapon": null,
+   "events": {
+    "footsteps": [
+     0.133,
+     0.6
+    ]
+   },
+   "ground_speed_mps": 1.7
+  },
+  {
+   "name": "run",
+   "seconds": 0.7,
+   "frames": 21,
+   "loop": true,
+   "weapon": null,
+   "events": {
+    "footsteps": [
+     0.033,
+     0.4
+    ]
+   },
+   "ground_speed_mps": 4.0
+  },
+  {
+   "name": "crouch_idle",
+   "seconds": 4.0,
+   "frames": 120,
+   "loop": true,
+   "weapon": null,
+   "events": {}
+  },
+  {
+   "name": "crouch_walk",
+   "seconds": 1.0,
+   "frames": 30,
+   "loop": true,
+   "weapon": null,
+   "events": {
+    "footsteps": [
+     0.0,
+     0.5
+    ]
+   },
+   "ground_speed_mps": 1.5
+  },
+  {
+   "name": "jump_start",
+   "seconds": 0.2667,
+   "frames": 8,
+   "loop": false,
+   "weapon": null,
+   "events": {}
+  },
+  {
+   "name": "fall",
+   "seconds": 1.2,
+   "frames": 36,
+   "loop": true,
+   "weapon": null,
+   "events": {}
+  },
+  {
+   "name": "land",
+   "seconds": 0.3667,
+   "frames": 11,
+   "loop": false,
+   "weapon": null,
+   "events": {}
+  },
+  {
+   "name": "interact",
+   "seconds": 1.0,
+   "frames": 30,
+   "loop": false,
+   "weapon": null,
+   "events": {
+    "press": 0.4
+   }
+  },
+  {
+   "name": "heal",
+   "seconds": 1.2,
+   "frames": 36,
+   "loop": false,
+   "weapon": null,
+   "events": {
+    "inject": 0.56,
+    "injector_visible": [
+     0.15,
+     1.05
+    ]
+   }
+  },
+  {
+   "name": "hit",
+   "seconds": 0.4,
+   "frames": 12,
+   "loop": false,
+   "weapon": null,
+   "events": {}
+  },
+  {
+   "name": "death",
+   "seconds": 2.2,
+   "frames": 66,
+   "loop": false,
+   "weapon": null,
+   "events": {
+    "knees": 0.62,
+    "body_hits_floor": 1.78
+   }
+  },
+  {
+   "name": "wake_up",
+   "seconds": 5.0,
+   "frames": 150,
+   "loop": false,
+   "weapon": null,
+   "events": {
+    "gasp": 1.0,
+    "kneel_to_stand": 2.6,
+    "standing": 4.75
+   }
+  },
+  {
+   "name": "rifle_idle",
+   "seconds": 5.0,
+   "frames": 150,
+   "loop": true,
+   "weapon": "rifle",
+   "events": {}
+  },
+  {
+   "name": "rifle_walk",
+   "seconds": 0.9333,
+   "frames": 28,
+   "loop": true,
+   "weapon": "rifle",
+   "events": {
+    "footsteps": [
+     0.067,
+     0.533
+    ]
+   },
+   "ground_speed_mps": 1.6
+  },
+  {
+   "name": "rifle_walk_back",
+   "seconds": 1.0,
+   "frames": 30,
+   "loop": true,
+   "weapon": "rifle",
+   "events": {
+    "footsteps": [
+     0.067,
+     0.567
+    ]
+   },
+   "ground_speed_mps": 1.3
+  },
+  {
+   "name": "rifle_strafe_l",
+   "seconds": 0.7333,
+   "frames": 22,
+   "loop": true,
+   "weapon": "rifle",
+   "events": {
+    "footsteps": [
+     0.0,
+     0.167
+    ]
+   },
+   "ground_speed_mps": 1.3
+  },
+  {
+   "name": "rifle_strafe_r",
+   "seconds": 0.7333,
+   "frames": 22,
+   "loop": true,
+   "weapon": "rifle",
+   "events": {
+    "footsteps": [
+     0.0,
+     0.633
+    ]
+   },
+   "ground_speed_mps": 1.3
+  },
+  {
+   "name": "rifle_run",
+   "seconds": 0.7,
+   "frames": 21,
+   "loop": true,
+   "weapon": "rifle",
+   "events": {
+    "footsteps": [
+     0.033,
+     0.4
+    ]
+   },
+   "ground_speed_mps": 4.0
+  },
+  {
+   "name": "rifle_sprint",
+   "seconds": 0.6,
+   "frames": 18,
+   "loop": true,
+   "weapon": "rifle",
+   "events": {
+    "footsteps": [
+     0.033,
+     0.333
+    ]
+   },
+   "ground_speed_mps": 6.2
+  },
+  {
+   "name": "rifle_crouch_idle",
+   "seconds": 4.0,
+   "frames": 120,
+   "loop": true,
+   "weapon": "rifle",
+   "events": {}
+  },
+  {
+   "name": "rifle_crouch_walk",
+   "seconds": 1.0,
+   "frames": 30,
+   "loop": true,
+   "weapon": "rifle",
+   "events": {
+    "footsteps": [
+     0.0,
+     0.5
+    ]
+   },
+   "ground_speed_mps": 1.4
+  },
+  {
+   "name": "rifle_aim",
+   "seconds": 4.0,
+   "frames": 120,
+   "loop": true,
+   "weapon": "rifle",
+   "events": {}
+  },
+  {
+   "name": "rifle_fire",
+   "seconds": 0.1333,
+   "frames": 4,
+   "loop": false,
+   "weapon": "rifle",
+   "events": {
+    "shot": 0.0
+   }
+  },
+  {
+   "name": "rifle_reload",
+   "seconds": 2.0,
+   "frames": 60,
+   "loop": false,
+   "weapon": "rifle",
+   "events": {
+    "mag_release": 0.55,
+    "mag_out": 0.7,
+    "new_cell_grabbed": 1.1,
+    "mag_in": 1.45,
+    "slap": 1.55,
+    "ready": 2.0
+   }
+  },
+  {
+   "name": "rifle_equip",
+   "seconds": 0.5,
+   "frames": 15,
+   "loop": false,
+   "weapon": "rifle",
+   "events": {
+    "left_hand_on": 0.33
+   }
+  },
+  {
+   "name": "pistol_idle",
+   "seconds": 5.0,
+   "frames": 150,
+   "loop": true,
+   "weapon": "pistol",
+   "events": {}
+  },
+  {
+   "name": "pistol_aim",
+   "seconds": 4.0,
+   "frames": 120,
+   "loop": true,
+   "weapon": "pistol",
+   "events": {}
+  },
+  {
+   "name": "pistol_fire",
+   "seconds": 0.1667,
+   "frames": 5,
+   "loop": false,
+   "weapon": "pistol",
+   "events": {
+    "shot": 0.0
+   }
+  },
+  {
+   "name": "pistol_reload",
+   "seconds": 1.4,
+   "frames": 42,
+   "loop": false,
+   "weapon": "pistol",
+   "events": {
+    "mag_out": 0.3,
+    "new_cell_grabbed": 0.62,
+    "mag_in": 0.9,
+    "slap": 0.97,
+    "ready": 1.4
+   }
+  },
+  {
+   "name": "pistol_equip",
+   "seconds": 0.4,
+   "frames": 12,
+   "loop": false,
+   "weapon": "pistol",
+   "events": {}
+  }
+ ],
+ "upper_body_blend": {
+  "note": "Upper-body clips (rifle_aim, rifle_fire, rifle_reload, rifle_equip, pistol_*) are authored to be layered from bone \"spine\" upward over any locomotion clip. Use an AnimationTree Blend2 with a filter on spine, spine1, chest, neck, head, shoulder.*, upper_arm.*, forearm.*, hand.*, fingers.*, thumb.*, prop.R.",
+  "filter_bones": [
+   "spine",
+   "spine1",
+   "chest",
+   "neck",
+   "head",
+   "shoulder.L",
+   "upper_arm.L",
+   "forearm.L",
+   "hand.L",
+   "fingers.L",
+   "thumb.L",
+   "shoulder.R",
+   "upper_arm.R",
+   "forearm.R",
+   "hand.R",
+   "fingers.R",
+   "thumb.R",
+   "prop.R"
+  ]
+ },
+ "sockets": {
+  "weapon": "bone prop.R: add a BoneAttachment3D (bone_name \"prop.R\") to the Skeleton3D and add the weapon scene as its child with an IDENTITY transform. Both weapons are built in the prop.R bone frame (verified in Godot 4.7: rifle_aim puts the bore level and straight along the facing; the left hand lands on Grip_L within 0.08 m (wrist-to-grip-point, i.e. the palm is on it).",
+  "helmet_lamps": [
+   {
+    "side": "L",
+    "position_rest_godot": [
+     0.113,
+     1.723,
+     0.008
+    ],
+    "note": "rest pose, model space; for a SpotLight follow bone \"head\" with a BoneAttachment3D and put the light at this offset from the head bone origin; point it along +Z (forward)"
+   },
+   {
+    "side": "R",
+    "position_rest_godot": [
+     -0.113,
+     1.723,
+     0.008
+    ],
+    "note": "rest pose, model space; for a SpotLight follow bone \"head\" with a BoneAttachment3D and put the light at this offset from the head bone origin; point it along +Z (forward)"
+   }
+  ],
+  "injector": "child mesh \"Injector\" is skinned/parented to hand.R. Hide it except during the heal clip (events.injector_visible gives [show_s, hide_s])."
+ },
+ "materials_notes": {
+  "Suit": "single PBR atlas for the whole suit (fabric, hard plates, metal rings, PLSS); roughness/metal from the ORM map",
+  "GlassVisor": "gold reflective wrap-around visor (wraps ~112 deg each side, visible from 3/4 and side), alpha blend",
+  "EmitLamp": "two helmet lamps (one material, both lamps)",
+  "EmitSuit": "cyan chest status strip + small cyan status light on the backpack",
+  "Decals": "RAO name tag, ISA patch, India flag (baked atlas)",
+  "InjectorMetal / InjectorOrange": "the hidden Injector child mesh (heal clip)"
+ },
+ "notes": [
+  "All clips are in place (no root motion); root stays at the origin; hips bob.",
+  "Cycles loop seamlessly (last frame equals first).",
+  "wake_up starts kneeling with hands on the floor and ends standing in the idle pose.",
+  "death ends face down; hold the last frame.",
+  "rifle_reload: the Mag node of the rifle should be reparented to hand.L between events.mag_out and events.mag_in if you want the cell to travel with the hand; otherwise hide Mag between mag_out and new_cell_grabbed and show it from new_cell_grabbed (simplest).",
+  "Realism pass (Nov 3 2026, helper d94fa0a7): new mesh re-skinned to the SAME rig; bones, hierarchy, prop.R, all 31 clips (names, lengths, loops, ground speeds) unchanged. Smaller close-fitting helmet (~1.15x head) with a wrap-around gold visor, compact greebled PLSS (hoses, connectors, vents, louvres, tanks, cyan status light), baked fabric folds/seams and panel lines in the normal map, edge wear, grime and boot/knee dust, roughness variation. Old texture files astronaut_astro_fabric_*/orange_c/panel_* were removed; the suit now uses astronaut_astro_suit_{albedo,normal,orm}.jpg."
+ ],
+ "textures": {
+  "astronaut_astro_suit_albedo.jpg": "2048x2048 base colour (baked atlas: fabric, plates, metal, wear, dirt, stencils)",
+  "astronaut_astro_suit_normal.jpg": "2048x2048 tangent-space normal (folds, seams, stitches, ripstop, panel lines, rivets, tread)",
+  "astronaut_astro_suit_orm.jpg": "2048x2048 R=AO G=roughness B=metallic",
+  "astronaut_decals.jpg": "512x256 name tag / ISA patch / flag (unchanged)"
+ }
+}

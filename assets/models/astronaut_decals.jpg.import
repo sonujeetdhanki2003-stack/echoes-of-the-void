@@ -1,0 +1,45 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://dpwncc0g4b03b"
+path.s3tc="res://.godot/imported/astronaut_decals.jpg-042e98cfdda72d4d9cc66bc4aee8cc01.s3tc.ctex"
+path.etc2="res://.godot/imported/astronaut_decals.jpg-042e98cfdda72d4d9cc66bc4aee8cc01.etc2.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "22c55a8f4aa09b031e581d9b21390d0a"
+}
+
+[deps]
+
+source_file="res://assets/models/astronaut_decals.jpg"
+dest_files=["res://.godot/imported/astronaut_decals.jpg-042e98cfdda72d4d9cc66bc4aee8cc01.s3tc.ctex", "res://.godot/imported/astronaut_decals.jpg-042e98cfdda72d4d9cc66bc4aee8cc01.etc2.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/uastc_level=0
+compress/rdo_quality_loss=0.0
+compress/hdr_compression=1
+compress/normal_map=2
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/channel_remap/red=0
+process/channel_remap/green=1
+process/channel_remap/blue=2
+process/channel_remap/alpha=3
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=1024
+detect_3d/compress_to=0

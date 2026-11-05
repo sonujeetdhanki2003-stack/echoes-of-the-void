@@ -1,0 +1,1 @@
+2026-11-03T17:49:34Z helper f77ac026 done: shuttle.glb (final), 6 dressing models + dressing.json in models/env/, 20 decals + decals.json in textures/decals/. Report: REPORT.md

@@ -1,0 +1,47 @@
+{
+ "file": "models/env/kit_wall_damaged.glb",
+ "tris": 4808,
+ "dims_m": [
+  4.0,
+  0.705,
+  4.0
+ ],
+ "bounds_blender": {
+  "min": [
+   -2.0,
+   -0.555,
+   0.0
+  ],
+  "max": [
+   2.0,
+   0.15,
+   4.0
+  ]
+ },
+ "materials": [
+  "Accent",
+  "Dark",
+  "EmitCrystal",
+  "EmitDoor",
+  "EmitLight",
+  "Panel",
+  "PanelAlt",
+  "Trim"
+ ],
+ "children": [],
+ "notes": "Damaged 4 m wall (kit_wall variant). Same footprint and edge silhouette as kit_wall: x -2..2, z 0..4, body y -0.15..0.15 (Blender), half-width edge ribs and the same cornice at x=+-2, plain Panel back, so it tiles next to kit_wall. A jagged tear (about 1.7 x 2.2 m, centred x 0.4, z 1.95) with the face plates peeled outward toward the room (-Y Blender = +Z Godot) up to 0.45 m; behind it exposed I-beam ribs (one buckled), quilted Dark insulation, a snapped Accent conduit and hanging cables. A violet crystal cluster (12 faceted shards, 0.2-0.9 m, slot EmitCrystal) bursts out of the tear. Upper-right plate hangs loose. Cornice light strip is broken: only the left 1.45 m is EmitLight (flicker it in code if wanted), the rest is dead (Dark) with one fallen tube. Damage stays in front of the wall plane, within y -0.6..0.15, so a collision box for kit_wall still fits; the bent plates and crystals stick out up to 0.6 m into the room. Same slot names as kit_wall plus EmitCrystal; UVs 1 unit = 1 m.",
+ "size_kb": 310.9,
+ "tiles_with": [
+  "kit_wall",
+  "kit_wall_pipes",
+  "kit_wall_vent",
+  "kit_wall_screen",
+  "kit_wall_window"
+ ],
+ "material_notes": {
+  "EmitCrystal": "NEW slot: violet alien crystal, emissive (base 0.13,0.02,0.38; emission 0.40,0.05,1.0 x1.2). Theme it like the other Emit* slots.",
+  "EmitLight": "only the left 1.45 m of the cornice strip is lit; the dead sections are Dark. Flicker the EmitLight surface in code for a failing-light effect.",
+  "Trim": "also used for the torn rim of the bent plates and the exposed I-beam ribs."
+ },
+ "source": "blender_src/environment/kit_wall_damaged.py (+ .blend); uses envlib.py and kit.py from the same folder"
+}

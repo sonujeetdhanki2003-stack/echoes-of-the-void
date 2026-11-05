@@ -1,0 +1,346 @@
+{
+ "note": "Decal textures for Godot Decal nodes. size_m = Decal size (x = width, z = height of the texture; the Decal projects along its -Y). kind: wall/floor/sign. Optional maps: _normal (OpenGL +Y), _orm (R=AO, G=rough, B=metal), _emission.",
+ "decals": [
+  {
+   "file": "sign_cryo_bay_01.png",
+   "size_m": [
+    1.2,
+    0.6
+   ],
+   "kind": "sign",
+   "px": [
+    1024,
+    512
+   ],
+   "notes": "Wall plate sign, screwed on (normal map has the raised plate and screws).",
+   "normal": "sign_cryo_bay_01_normal.png",
+   "zones": [
+    "cryo"
+   ]
+  },
+  {
+   "file": "sign_research_lab_b.png",
+   "size_m": [
+    1.2,
+    0.6
+   ],
+   "kind": "sign",
+   "px": [
+    1024,
+    512
+   ],
+   "notes": "Wall plate sign, screwed on (normal map has the raised plate and screws).",
+   "normal": "sign_research_lab_b_normal.png",
+   "zones": [
+    "research"
+   ]
+  },
+  {
+   "file": "sign_security_checkpoint.png",
+   "size_m": [
+    1.2,
+    0.6
+   ],
+   "kind": "sign",
+   "px": [
+    1024,
+    512
+   ],
+   "notes": "Wall plate with hazard border.",
+   "normal": "sign_security_checkpoint_normal.png",
+   "zones": [
+    "security"
+   ]
+  },
+  {
+   "file": "sign_reactor_core.png",
+   "size_m": [
+    1.2,
+    0.6
+   ],
+   "kind": "sign",
+   "px": [
+    1024,
+    512
+   ],
+   "notes": "Yellow radiation-hazard plate with trefoil.",
+   "normal": "sign_reactor_core_normal.png",
+   "zones": [
+    "reactor"
+   ]
+  },
+  {
+   "file": "sign_deck_3.png",
+   "size_m": [
+    0.6,
+    0.6
+   ],
+   "kind": "sign",
+   "px": [
+    512,
+    512
+   ],
+   "notes": "Deck number plate.",
+   "normal": "sign_deck_3_normal.png",
+   "zones": [
+    "all"
+   ]
+  },
+  {
+   "file": "sign_fire_extinguisher.png",
+   "size_m": [
+    0.3,
+    0.6
+   ],
+   "kind": "sign",
+   "px": [
+    512,
+    1024
+   ],
+   "notes": "Red ISO-style panel; mount above fire_ext_cabinet.glb.",
+   "normal": "sign_fire_extinguisher_normal.png",
+   "zones": [
+    "all"
+   ]
+  },
+  {
+   "file": "label_o2_level.png",
+   "size_m": [
+    0.4,
+    0.2
+   ],
+   "kind": "sign",
+   "px": [
+    512,
+    256
+   ],
+   "notes": "Small warning label next to doors/airlocks.",
+   "normal": "label_o2_level_normal.png",
+   "zones": [
+    "all"
+   ]
+  },
+  {
+   "file": "stencil_authorized_only.png",
+   "size_m": [
+    1.2,
+    0.6
+   ],
+   "kind": "sign",
+   "px": [
+    1024,
+    512
+   ],
+   "notes": "Spray-painted stencil on the wall (no background), worn.",
+   "zones": [
+    "security",
+    "reactor"
+   ]
+  },
+  {
+   "file": "sign_wayfinding_arrows.png",
+   "size_m": [
+    1.0,
+    1.0
+   ],
+   "kind": "sign",
+   "px": [
+    1024,
+    1024
+   ],
+   "notes": "Direction arrow sheet (4 destinations with arrows). For a single arrow use floor_arrow (rotate the Decal).",
+   "normal": "sign_wayfinding_arrows_normal.png",
+   "zones": [
+    "corridors"
+   ]
+  },
+  {
+   "file": "floor_arrow.png",
+   "size_m": [
+    0.8,
+    0.8
+   ],
+   "kind": "floor",
+   "px": [
+    512,
+    512
+   ],
+   "notes": "Painted floor arrow pointing to texture-up (-Z of the Decal); rotate the Decal to aim it.",
+   "zones": [
+    "corridors"
+   ]
+  },
+  {
+   "file": "hazard_tape.png",
+   "size_m": [
+    2.0,
+    0.25
+   ],
+   "kind": "floor",
+   "px": [
+    1024,
+    128
+   ],
+   "notes": "Worn yellow/black hazard tape; repeats seamlessly along its length (place several end to end, floor or wall).",
+   "zones": [
+    "all"
+   ]
+  },
+  {
+   "file": "logo_orpheus.png",
+   "size_m": [
+    1.0,
+    1.0
+   ],
+   "kind": "sign",
+   "px": [
+    1024,
+    1024
+   ],
+   "notes": "ORPHEUS station emblem, painted on a wall (no background).",
+   "zones": [
+    "all",
+    "research"
+   ]
+  },
+  {
+   "file": "grime_leak_a.png",
+   "size_m": [
+    1.0,
+    2.0
+   ],
+   "kind": "wall",
+   "px": [
+    512,
+    1024
+   ],
+   "notes": "Rusty leak streaks running down from a joint; top edge of the decal at the pipe/seam.",
+   "zones": [
+    "all"
+   ]
+  },
+  {
+   "file": "grime_leak_b.png",
+   "size_m": [
+    1.2,
+    2.4
+   ],
+   "kind": "wall",
+   "px": [
+    512,
+    1024
+   ],
+   "notes": "Dark coolant/soot streaks; tall, for under vents and panel seams.",
+   "zones": [
+    "all"
+   ]
+  },
+  {
+   "file": "floor_stain_oil.png",
+   "size_m": [
+    2.0,
+    2.0
+   ],
+   "kind": "floor",
+   "px": [
+    1024,
+    1024
+   ],
+   "notes": "Oil/hydraulic spill; the _orm makes the centre glossy (roughness ~0.1).",
+   "orm": "floor_stain_oil_orm.png",
+   "zones": [
+    "reactor",
+    "security"
+   ]
+  },
+  {
+   "file": "floor_stain_water.png",
+   "size_m": [
+    1.6,
+    1.6
+   ],
+   "kind": "floor",
+   "px": [
+    1024,
+    1024
+   ],
+   "notes": "Dried water/grime stain with a tide-line ring.",
+   "zones": [
+    "all"
+   ]
+  },
+  {
+   "file": "scorch_mark.png",
+   "size_m": [
+    2.0,
+    2.0
+   ],
+   "kind": "floor",
+   "px": [
+    1024,
+    1024
+   ],
+   "notes": "Blast/fire scorch with radial spikes and ash; works on walls too.",
+   "normal": "scorch_mark_normal.png",
+   "zones": [
+    "security",
+    "reactor",
+    "extraction"
+   ]
+  },
+  {
+   "file": "crystal_residue.png",
+   "size_m": [
+    1.6,
+    1.6
+   ],
+   "kind": "floor",
+   "px": [
+    1024,
+    1024
+   ],
+   "notes": "Echo crystal residue: faint violet stain with glittering specks (_emission = glitter, keep the Decal emission_energy low ~0.5-1.5); floors and walls near crystal growth.",
+   "normal": "crystal_residue_normal.png",
+   "orm": "crystal_residue_orm.png",
+   "emission": "crystal_residue_emission.png",
+   "zones": [
+    "research",
+    "reactor",
+    "extraction",
+    "infected"
+   ]
+  },
+  {
+   "file": "footprints_drag.png",
+   "size_m": [
+    1.0,
+    2.0
+   ],
+   "kind": "floor",
+   "px": [
+    512,
+    1024
+   ],
+   "notes": "Boot prints walking along texture-up beside two drag smears (some dried blood); trail continues if repeated end to end.",
+   "zones": [
+    "all"
+   ]
+  },
+  {
+   "file": "corner_ao_dust.png",
+   "size_m": [
+    4.0,
+    1.0
+   ],
+   "kind": "wall",
+   "px": [
+    1024,
+    256
+   ],
+   "notes": "Baseboard AO + dust: the BOTTOM edge of the texture goes into the floor/wall corner. Use on walls (and on floors along the wall, rotated).",
+   "zones": [
+    "all"
+   ]
+  }
+ ]
+}

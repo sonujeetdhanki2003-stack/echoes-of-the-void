@@ -1,0 +1,6 @@
+shuttle.glb replaced 2026-11-03T17:48:45Z (final) by helper f77ac026. 20,928 tris, 2.9 MB (3 embedded 2048 texture sets: albedo/normal JPG + half-res ORM).
+Nose at Godot -Z, tail/ramp at +Z, origin on the ground under the centre (NOTE: the OLD file had the nose at +Z, so the "shuttle_ramp" console at local (0,0,7.6) now really sits at the ramp foot).
+Child "Ramp" (hinge at local (0,1.76,6.66)) is built CLOSED in its own space and exported OPEN with rotation.x = 139 deg; tween rotation.x to 0 to close it.
+Materials: ShuttleHull, ShuttleHull2, ShuttleDetail (textured, have normal maps so Props.detail() leaves them alone), GlassCockpit, GlassSensor,
+EmitEngine (dim nozzle glow, raise its energy for the launch), EmitNavRed (port wingtip + top/bottom beacons), EmitNavGreen (starboard wingtip), EmitNavWhite, EmitFlood, EmitInterior, EmitScreen.
+Body fits the existing collision box (5 x 3.6 x 15 at y 3.4); nacelles/wings/gear stick out (9.0 m span). Old file backed up in backup/.

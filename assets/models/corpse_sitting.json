@@ -1,0 +1,27 @@
+{
+ "file": "corpse_sitting.glb",
+ "triangles": 6122,
+ "materials": [
+  "CrewDark",
+  "CrewOrange",
+  "CrewSuit",
+  "EmitCrystal",
+  "Eyes",
+  "Hair",
+  "Lips",
+  "Skin"
+ ],
+ "dimensions_m": {
+  "x": 0.93,
+  "height": 0.846,
+  "depth": 1.014
+ },
+ "facing": "figure front = Godot +Z (Blender -Y)",
+ "origin": "on the floor under the pelvis, centred in X",
+ "static": true,
+ "wall": "the back leans against a wall behind it: place the wall plane at Godot z = -0.313 (local), i.e. the figure faces away from the wall along +Z",
+ "notes": [
+  "crew member in a slate jumpsuit, slumped, head down and tilted, one hand on the floor, one in the lap; small crystal residue on the shoulder and floor",
+  "static mesh, no skeleton"
+ ]
+}

@@ -1,0 +1,168 @@
+{
+ "note": "Wall/ceiling dressing by helper f77ac026. Godot axes: the wall is the plane z = 0 and the model sits on its +Z side (Blender -Y); ceiling items hang down -Y from y = 0. Each model has its own 1024 texture set (albedo + normal + 512 ORM) with a normal map, so Props.detail() leaves the materials alone. No collision needed (thin wall dressing) except maybe fire_ext_cabinet.",
+ "models": [
+  {
+   "file": "models/env/cable_run_wall.glb",
+   "tris": 4932,
+   "size_m": [
+    4.001,
+    0.26,
+    0.09
+   ],
+   "aabb_godot": {
+    "min": [
+     -0.001,
+     -0.13,
+     -0.0
+    ],
+    "max": [
+     4.001,
+     0.13,
+     0.09
+    ]
+   },
+   "mount": "wall",
+   "mount_point": "Origin = on the wall surface at the START of the run, on the bundle's centre line. Runs along +X for 4.0 m and sits in front of the wall (+Z). Ends are cut flush, so runs can be chained every 4 m. Mount at about 2.6-3.2 m height.",
+   "materials": [
+    "Dress_cable_run_wall"
+   ],
+   "size_kb": 339.6
+  },
+  {
+   "file": "models/env/cable_sag.glb",
+   "tris": 2484,
+   "size_m": [
+    3.724,
+    0.851,
+    0.154
+   ],
+   "aabb_godot": {
+    "min": [
+     -1.862,
+     -0.813,
+     -0.06
+    ],
+    "max": [
+     1.862,
+     0.038,
+     0.094
+    ]
+   },
+   "mount": "ceiling",
+   "mount_point": "Origin = on the ceiling surface, midway between the two hooks (hooks at x = -1.5 and +1.5). Cables hang down to about 0.8 m below the ceiling (-Y). Cable ends rise back into the ceiling at x = +/-1.85.",
+   "materials": [
+    "Dress_cable_sag"
+   ],
+   "size_kb": 194.4
+  },
+  {
+   "file": "models/env/pipe_run_wall.glb",
+   "tris": 4600,
+   "size_m": [
+    4.0,
+    0.695,
+    0.212
+   ],
+   "aabb_godot": {
+    "min": [
+     0.0,
+     -0.27,
+     -0.0
+    ],
+    "max": [
+     4.0,
+     0.425,
+     0.212
+    ]
+   },
+   "mount": "wall",
+   "mount_point": "Origin = on the wall surface at the START of the run, at the height of the pipe group's centre. Runs along +X for 4.0 m, 0.21 m deep (+Z). Three pipes (coolant green with a red gate valve at x = 2.7, N2 yellow, O2 aluminium-clad) on strut-channel brackets at x = 0.5 / 2.0 / 3.5; flanged joints at 1.4 and 3.2. Chain every 4 m.",
+   "materials": [
+    "Dress_pipe_run_wall"
+   ],
+   "size_kb": 437.4
+  },
+  {
+   "file": "models/env/wall_vent.glb",
+   "tris": 1174,
+   "size_m": [
+    0.8,
+    0.5,
+    0.105
+   ],
+   "aabb_godot": {
+    "min": [
+     -0.4,
+     -0.25,
+     -0.0
+    ],
+    "max": [
+     0.4,
+     0.25,
+     0.105
+    ]
+   },
+   "mount": "wall",
+   "mount_point": "Origin = on the wall surface at the centre of the vent. 0.8 x 0.5 m, protrudes 0.105 m (+Z); dark duct interior with a fan behind angled louvres.",
+   "materials": [
+    "Dress_wall_vent"
+   ],
+   "size_kb": 161.7
+  },
+  {
+   "file": "models/env/wall_panel_access.glb",
+   "tris": 1288,
+   "size_m": [
+    1.0,
+    1.2,
+    0.035
+   ],
+   "aabb_godot": {
+    "min": [
+     -0.5,
+     -0.6,
+     -0.0
+    ],
+    "max": [
+     0.5,
+     0.6,
+     0.035
+    ]
+   },
+   "mount": "wall",
+   "mount_point": "Origin = on the wall surface at the centre of the panel. 1.0 x 1.2 m, protrudes 0.035 m. Hazard-striped frame, screwed inset panel, two grab handles, quarter-turn latch and a DANGER HIGH VOLTAGE label.",
+   "materials": [
+    "Dress_wall_panel_access"
+   ],
+   "size_kb": 200.5
+  },
+  {
+   "file": "models/env/fire_ext_cabinet.glb",
+   "tris": 1112,
+   "size_m": [
+    0.432,
+    0.72,
+    0.255
+   ],
+   "aabb_godot": {
+    "min": [
+     -0.222,
+     0.0,
+     -0.0
+    ],
+    "max": [
+     0.21,
+     0.72,
+     0.255
+    ]
+   },
+   "mount": "wall",
+   "mount_point": "Origin = on the wall surface at the BOTTOM centre of the cabinet (mount the origin ~1.0 m above the floor). 0.43 w x 0.72 h x 0.25 d m; red cabinet with a glass door (material GlassCabinet) and a CO2 extinguisher inside. Put sign_fire_extinguisher decal above it.",
+   "materials": [
+    "Dress_fire_ext_cabinet",
+    "GlassCabinet"
+   ],
+   "size_kb": 153.6
+  }
+ ]
+}

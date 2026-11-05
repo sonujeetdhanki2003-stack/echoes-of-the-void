@@ -1,0 +1,218 @@
+{
+ "log01": {
+  "speaker": "DR. SAM ORTEGA",
+  "text": "Medical log, day one hundred twelve. Specialist Rao took a pressure door to the ribs during the storm. Three fractures, internal bleeding. I'm putting him under until the next supply run. Sleep well, Kabir. You're going to miss the most exciting week this station has ever had."
+ },
+ "log02": {
+  "speaker": "TOMASZ WREN",
+  "text": "If you're reading this, the emergency bus tripped again. Listen, because I'm not saying it twice. Coolant pump first. Then the regulator. Main generator last. Coolant, regulator, main. Start the main cold and it throws the breaker, and you'll be standing in the dark wishing you'd listened to Tomasz."
+ },
+ "log03": {
+  "speaker": "DR. SAM ORTEGA",
+  "text": "Day one hundred twenty. Corporal Diaz came back from the Spire with a cut on his hand. The cut is humming. I can hear it through the stethoscope. A tone. It changes when I speak, like it's listening. Like it's trying to answer me."
+ },
+ "log04": {
+  "speaker": "DIRECTOR HALE",
+  "text": "Director's log. Halcyon wants results, not poetry. Dr. Iyer gets everything she asks for. Full access to the Spire, full reactor allocation if she needs it. If that thing is an energy source, it's worth more than every colony we have. Nobody leaves until we know what it is."
+ },
+ "log05": {
+  "speaker": "DR. LEELA IYER",
+  "text": "April seventeenth. Station time oh three twelve. The Spire sang. Not noise, not interference. Structured. Mathematical. It repeated our own transmissions back to us, changed, improved. Mark the date, everyone. April seventeenth is the day we stopped being alone."
+ },
+ "log06": {
+  "speaker": "DR. LEELA IYER",
+  "text": "The samples respond to sound. Play them a voice and they grow toward it. Play them music and they harmonise. I don't think it's one creature. It's a choir, a colony that learns by copying. Every voice it hears becomes part of it. That should frighten me more than it does."
+ },
+ "log07": {
+  "speaker": "NADIA OKOYE",
+  "text": "Security log. The director has ordered the Security Sector locked down. I've set the override to something Iyer will never stop talking about. The day her rock first sang. Month, then day, four digits. If I don't make it, at least she'll be able to get in."
+ },
+ "log08": {
+  "speaker": "NADIA OKOYE",
+  "text": "Diaz's team came back from the Spire. All of them. They don't speak anymore. They hum. Crystal is growing through their armour, and they still remember how to shoot. Weapons free. God forgive me, they were my people."
+ },
+ "log09": {
+  "speaker": "TOMASZ WREN",
+  "text": "The comms array isn't broken. It's busy. Something is pushing a signal out of our dish at full power, on every band. I cut the relay, and now it's drawing straight from the reactor. Whatever is talking doesn't want us to call home. It wants to call someone else."
+ },
+ "log10": {
+  "speaker": "DR. LEELA IYER",
+  "text": "Experiment twelve. Hale approved full reactor output into the Spire. If it learns from what it hears, I want to give it something worth hearing. We pulse the reactor in sequence. A greeting. Prime numbers. Everyone's in the control room. I've never been so happy in my life."
+ },
+ "log11": {
+  "speaker": "DIRECTOR HALE",
+  "text": "This is Director Hale. The experiment... the Spire answered. It's in the reactor. It's in the walls. It's in Leela. All personnel to the extraction pad. MIRA, lock the core. Lock the... why are you using my voice?"
+ },
+ "log12": {
+  "speaker": "DR. LEELA IYER?",
+  "text": "Kabir? Kabir, is that you? You're awake. Come down to us. It doesn't hurt. We're all here, singing. It only wants to be heard. Come down, Kabir. Come to us."
+ },
+ "log13": {
+  "speaker": "TOMASZ WREN",
+  "text": "The extraction shuttle is fuelled and on the pad. Autopilot is set for orbit, then the long jump home. If anyone's left, go. Don't wait for me. And Kabir, if you wake up, I left the lights on for you."
+ },
+ "log14": {
+  "speaker": "DR. SAM ORTEGA",
+  "text": "I can hear it singing through the hull now. Diaz's voice. Leela's. Mine. If it reaches the Earth relay, it will learn eight billion voices. Somebody has to tell them not to answer. Whoever you are, send the warning. Then get off this world."
+ },
+ "log15": {
+  "speaker": "DR. LEELA IYER",
+  "text": "If anyone hears this, it was me. I asked it a question, and it was always going to answer. It isn't evil. It's just hungry to be heard. Don't let it hear you. Don't let it hear anyone. I'm so sorry."
+ },
+ "mira_wake": {
+  "speaker": "MIRA",
+  "text": "Specialist Rao. Please wake up. Your stasis was ended by emergency protocol. You have been asleep for forty-one days. I'm afraid something has happened to the station."
+ },
+ "mira_move": {
+  "speaker": "MIRA",
+  "text": "Your muscles will be weak. Take it slowly. The bay door is ahead."
+ },
+ "mira_crouch": {
+  "speaker": "MIRA",
+  "text": "The ceiling has collapsed. You'll have to crouch to get through."
+ },
+ "mira_jump": {
+  "speaker": "MIRA",
+  "text": "The floor plating is gone here. Jump across."
+ },
+ "mira_door": {
+  "speaker": "MIRA",
+  "text": "Use the panel to open the door."
+ },
+ "mira_log": {
+  "speaker": "MIRA",
+  "text": "That's a crew log. I've added it to your records."
+ },
+ "mira_weapon": {
+  "speaker": "MIRA",
+  "text": "Security keeps a sidearm in the medbay locker. You may need it. I'm sorry to say that."
+ },
+ "mira_contact": {
+  "speaker": "MIRA",
+  "text": "Movement in the vents. Specialist, be careful."
+ },
+ "mira_reload": {
+  "speaker": "MIRA",
+  "text": "Your weapon is empty. Reload."
+ },
+ "mira_medkit": {
+  "speaker": "MIRA",
+  "text": "Your vitals are low. Use a medkit."
+ },
+ "mira_power": {
+  "speaker": "MIRA",
+  "text": "Emergency power is offline. The auxiliary generators are in the room at the end of this corridor."
+ },
+ "mira_gen_wrong": {
+  "speaker": "MIRA",
+  "text": "The breaker tripped. The generators must be started in the right order."
+ },
+ "mira_gen_ok": {
+  "speaker": "MIRA",
+  "text": "Emergency power restored. The bulkhead to the Research Wing is open."
+ },
+ "mira_research": {
+  "speaker": "MIRA",
+  "text": "The comms relay is in the Security Sector. It's under lockdown. I can't open it for you."
+ },
+ "mira_code_hint": {
+  "speaker": "MIRA",
+  "text": "The override uses a date. Month, then day. Dr. Iyer's research logs may help."
+ },
+ "mira_code_ok": {
+  "speaker": "MIRA",
+  "text": "Override accepted. Security Sector unlocked."
+ },
+ "mira_sentinel": {
+  "speaker": "MIRA",
+  "text": "Those were security officers. I don't think they are anymore."
+ },
+ "mira_armory": {
+  "speaker": "MIRA",
+  "text": "The armory is to your left. A pulse rifle would be wise."
+ },
+ "mira_brute": {
+  "speaker": "MIRA",
+  "text": "Large contact ahead. Its back is exposed crystal. Aim there."
+ },
+ "mira_comms": {
+  "speaker": "MIRA",
+  "text": "The comms console is through the vehicle bay."
+ },
+ "mira_signal": {
+  "speaker": "MIRA",
+  "text": "Comms are restored. Specialist, the array has not been silent. It has been broadcasting for forty-one days. Toward Earth. In Dr. Iyer's voice."
+ },
+ "mira_reactor": {
+  "speaker": "MIRA",
+  "text": "The signal is drawing power from the reactor core. If we reroute the core to our uplink, you can send a message of your own."
+ },
+ "mira_conduit": {
+  "speaker": "MIRA",
+  "text": "Rotate the conduits to route power from the core to the uplink. Keep it away from the Spire feed."
+ },
+ "mira_rerouted": {
+  "speaker": "MIRA",
+  "text": "Power rerouted. Uplink online. Specialist... something in the core is moving."
+ },
+ "mira_survive": {
+  "speaker": "MIRA",
+  "text": "The core is sealing. Hold on until I can override the lift."
+ },
+ "mira_lift": {
+  "speaker": "MIRA",
+  "text": "Lift override complete. Go. Now."
+ },
+ "mira_surface": {
+  "speaker": "MIRA",
+  "text": "You're on the surface. The launch pad is past the crystal fields. Follow the beacon."
+ },
+ "mira_pad": {
+  "speaker": "MIRA",
+  "text": "The pad comms console is ready. Tell them what happened, Kabir."
+ },
+ "mira_herald": {
+  "speaker": "MIRA",
+  "text": "Something enormous beneath the pad. It's rising!"
+ },
+ "mira_nodes": {
+  "speaker": "MIRA",
+  "text": "Its resonance nodes are glowing. Destroy them."
+ },
+ "mira_phase3": {
+  "speaker": "MIRA",
+  "text": "Its core is exposed. Now, Kabir!"
+ },
+ "mira_victory": {
+  "speaker": "MIRA",
+  "text": "It's dying. The shuttle is ready. Get aboard."
+ },
+ "mira_checkpoint": {
+  "speaker": "MIRA",
+  "text": "Progress saved."
+ },
+ "mira_goodbye": {
+  "speaker": "MIRA",
+  "text": "I'll keep the lights on, Kabir. Someone should stay and listen. Goodbye."
+ },
+ "kabir_wake": {
+  "speaker": "KABIR",
+  "text": "Where... is everyone?"
+ },
+ "kabir_transmission": {
+  "speaker": "KABIR",
+  "text": "This is Specialist Kabir Rao, ORPHEUS Station, NYX-7. The crew is gone. Whatever lives on this planet learns from every voice it hears. Do not send a rescue. Do not answer its signal. I repeat: do not answer. Rao out."
+ },
+ "kabir_echo": {
+  "speaker": "KABIR?",
+  "text": "...come to us..."
+ },
+ "echo_came": {
+  "speaker": "DR. LEELA IYER?",
+  "text": "Kabir... you came."
+ },
+ "echo_signal": {
+  "speaker": "BROADCAST",
+  "text": "Come to us... come to us..."
+ }
+}

@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "pistol"
+display_name = "ENERGY PISTOL"
+ammo_type = "pistol"
+damage = 26.0
+crit_mult = 2.2
+fire_rate = 3.6
+automatic = false
+mag_size = 12
+reload_time = 1.35
+equip_time = 0.4
+spread_hip = 1.5
+spread_aim = 0.3
+spread_per_shot = 0.6
+spread_max = 3.5
+spread_recover = 7.0
+recoil_pitch = 1.7
+recoil_yaw = 0.35
+range = 110.0
+impulse = 2.0
+noise_radius = 26.0
+aim_fov = 54.0
+tracer_color = Color(1, 0.62, 0.25, 1)
+model = "res://assets/models/energy_pistol.glb"
+sfx_fire = "pistol_fire"
+sfx_reload = "pistol_reload"

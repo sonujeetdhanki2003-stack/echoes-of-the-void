@@ -1,0 +1,7 @@
+# Godot 4 cache / imported data (rebuilt by the editor or `godot --import`)
+.godot/
+*.tmp
+# export output lives outside the project (../build)
+/build/
+# local test saves
+*.translation

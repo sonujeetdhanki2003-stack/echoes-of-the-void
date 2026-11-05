@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "brute"
+display_name = "BRUTE"
+max_hp = 480.0
+walk_speed = 1.5
+run_speed = 8.0
+turn_speed = 3.0
+sight_range = 30.0
+sight_fov = 150.0
+hearing = 0.9
+melee_damage = 38.0
+melee_range = 3.6
+attack_cooldown = 1.4
+crit_mult = 2.0
+stagger_threshold = 160.0
+model = "res://assets/models/brute.glb"
+radius = 0.95
+height = 2.8

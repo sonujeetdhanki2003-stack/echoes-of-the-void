@@ -1,0 +1,26 @@
+{
+ "file": "corpse_prone.glb",
+ "triangles": 6158,
+ "materials": [
+  "CrewDark",
+  "CrewOrange",
+  "CrewSuit",
+  "EmitCrystal",
+  "Eyes",
+  "Hair",
+  "Lips",
+  "Skin"
+ ],
+ "dimensions_m": {
+  "x": 0.87,
+  "height": 0.388,
+  "depth": 1.968
+ },
+ "facing": "figure front = Godot +Z (Blender -Y)",
+ "origin": "floor level, centred on the footprint",
+ "static": true,
+ "notes": [
+  "face down, left arm reaching forward (toward +Z), head turned to its right; crystal residue on the back",
+  "static mesh, no skeleton"
+ ]
+}

@@ -1,0 +1,228 @@
+{
+ "file": "sentinel.glb",
+ "character": "Sentinel: infected security trooper",
+ "dimensions_m": {
+  "width_x": 1.54,
+  "height": 1.836,
+  "depth": 0.862,
+  "note": "rest A-pose incl. crystal spikes"
+ },
+ "triangles": 24896,
+ "materials": [
+  "EchoFlesh",
+  "EmitCannon",
+  "EmitCore",
+  "EmitCrystal",
+  "SentArmor",
+  "SentArmorDark",
+  "SentMetal",
+  "SentStripe",
+  "SentSuit",
+  "VisorCracked"
+ ],
+ "facing": "faces +Z in Godot (Blender -Y), same as the astronaut",
+ "origin": "between the feet on the ground",
+ "bones": [
+  "root",
+  "hips",
+  "spine",
+  "spine1",
+  "chest",
+  "neck",
+  "head",
+  "shoulder.L",
+  "upper_arm.L",
+  "forearm.L",
+  "hand.L",
+  "fingers.L",
+  "thumb.L",
+  "shoulder.R",
+  "upper_arm.R",
+  "forearm.R",
+  "hand.R",
+  "fingers.R",
+  "thumb.R",
+  "prop.R",
+  "muzzle",
+  "core",
+  "thigh.L",
+  "shin.L",
+  "foot.L",
+  "toe.L",
+  "thigh.R",
+  "shin.R",
+  "foot.R",
+  "toe.R"
+ ],
+ "bone_parents": {
+  "root": null,
+  "hips": "root",
+  "spine": "hips",
+  "spine1": "spine",
+  "chest": "spine1",
+  "neck": "chest",
+  "head": "neck",
+  "shoulder.L": "chest",
+  "upper_arm.L": "shoulder.L",
+  "forearm.L": "upper_arm.L",
+  "hand.L": "forearm.L",
+  "fingers.L": "hand.L",
+  "thumb.L": "hand.L",
+  "shoulder.R": "chest",
+  "upper_arm.R": "shoulder.R",
+  "forearm.R": "upper_arm.R",
+  "hand.R": "forearm.R",
+  "fingers.R": "hand.R",
+  "thumb.R": "hand.R",
+  "prop.R": "hand.R",
+  "muzzle": "hand.R",
+  "core": "chest",
+  "thigh.L": "hips",
+  "shin.L": "thigh.L",
+  "foot.L": "shin.L",
+  "toe.L": "foot.L",
+  "thigh.R": "hips",
+  "shin.R": "thigh.R",
+  "foot.R": "shin.R",
+  "toe.R": "foot.R"
+ },
+ "clips": [
+  {
+   "name": "idle",
+   "seconds": 4.0,
+   "frames": 120,
+   "loop": true,
+   "events": {}
+  },
+  {
+   "name": "walk",
+   "seconds": 1.0667,
+   "frames": 32,
+   "loop": true,
+   "events": {
+    "footsteps": [
+     0.167,
+     0.7
+    ]
+   },
+   "ground_speed_mps": 1.6
+  },
+  {
+   "name": "run",
+   "seconds": 0.7,
+   "frames": 21,
+   "loop": true,
+   "events": {
+    "footsteps": [
+     0.033,
+     0.4
+    ]
+   },
+   "ground_speed_mps": 3.6
+  },
+  {
+   "name": "strafe_l",
+   "seconds": 0.8,
+   "frames": 24,
+   "loop": true,
+   "events": {
+    "footsteps": [
+     0.033,
+     0.167
+    ]
+   },
+   "ground_speed_mps": 1.4
+  },
+  {
+   "name": "strafe_r",
+   "seconds": 0.8,
+   "frames": 24,
+   "loop": true,
+   "events": {
+    "footsteps": [
+     0.0,
+     0.7
+    ]
+   },
+   "ground_speed_mps": 1.4
+  },
+  {
+   "name": "aim",
+   "seconds": 2.0,
+   "frames": 60,
+   "loop": true,
+   "events": {}
+  },
+  {
+   "name": "charge",
+   "seconds": 0.6,
+   "frames": 18,
+   "loop": false,
+   "events": {
+    "charge_full": 0.55
+   }
+  },
+  {
+   "name": "fire",
+   "seconds": 0.3,
+   "frames": 9,
+   "loop": false,
+   "events": {
+    "shot": 0.03
+   }
+  },
+  {
+   "name": "alert",
+   "seconds": 1.0,
+   "frames": 30,
+   "loop": false,
+   "events": {
+    "hum_start": 0.4
+   }
+  },
+  {
+   "name": "crouch_cover",
+   "seconds": 3.0,
+   "frames": 90,
+   "loop": true,
+   "events": {}
+  },
+  {
+   "name": "hit",
+   "seconds": 0.4,
+   "frames": 12,
+   "loop": false,
+   "events": {}
+  },
+  {
+   "name": "death",
+   "seconds": 2.0,
+   "frames": 60,
+   "loop": false,
+   "events": {
+    "stiffen": 0.35,
+    "topple_start": 0.95,
+    "impact": 1.44
+   }
+  }
+ ],
+ "sockets": {
+  "muzzle": "bone \"muzzle\" (child of hand.R) at the cannon tip. Bolt origin = its global position; bolt direction = the bone global basis +Y (in aim it points along the facing, 3.7 deg up; verified in Godot: muzzle at about (-0.17, 1.45, 0.80) model space in aim).",
+  "core": "bone \"core\" (child of chest) at the glowing chest crystal: attach an OmniLight3D (magenta) / weak-point hitbox here.",
+  "prop_R": "prop.R exists for skeleton compatibility; unused."
+ },
+ "materials_notes": {
+  "EmitCore": "chest crystal core, magenta/violet, strength 3 (weak point)",
+  "EmitCannon": "cannon coils + emitter, violet, strength 3.5 (pulse it during charge)",
+  "EmitCrystal": "black-violet crystal growths with a faint inner glow (visor, shoulders, back)",
+  "VisorCracked": "cracked smoked visor (texture)",
+  "EchoFlesh": "wet tissue in the armour gaps"
+ },
+ "notes": [
+  "All clips in place, root at origin.",
+  "charge -> fire chain: charge ends in the braced aim pose that fire starts from; fire ends in aim. events.shot = moment to spawn the bolt.",
+  "idle/aim/crouch_cover contain built-in twitches (loops are seamless).",
+  "death: spasm, crystal-stiffen (0.35 s), rigid topple forward (0.95 s), impact 1.44 s; hold the last frame (face down).",
+  "alert: head-jerk then a chest-out \"hum\" pose from 0.4 s (play sentinel_alert sound then)."
+ ]
+}

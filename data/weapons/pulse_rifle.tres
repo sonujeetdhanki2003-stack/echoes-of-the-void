@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "rifle"
+display_name = "PULSE RIFLE"
+ammo_type = "rifle"
+damage = 14.0
+crit_mult = 1.8
+fire_rate = 9.5
+automatic = true
+mag_size = 32
+reload_time = 1.9
+equip_time = 0.5
+spread_hip = 2.4
+spread_aim = 0.7
+spread_per_shot = 0.32
+spread_max = 5.0
+spread_recover = 8.0
+recoil_pitch = 0.8
+recoil_yaw = 0.45
+range = 140.0
+impulse = 1.5
+noise_radius = 34.0
+aim_fov = 50.0
+tracer_color = Color(0.35, 0.85, 1, 1)
+model = "res://assets/models/pulse_rifle.glb"
+sfx_fire = "rifle_fire"
+sfx_reload = "rifle_reload"

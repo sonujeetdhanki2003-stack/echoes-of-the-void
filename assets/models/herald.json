@@ -1,0 +1,288 @@
+{
+ "file": "herald.glb",
+ "creature": "The Herald (boss)",
+ "units": "metres",
+ "facing": "Blender -Y = glTF +Z: in Godot the model faces +Z (use look_at(target, Vector3.UP, true) or rotate 180 deg)",
+ "origin": "ground level where the body emerges from the chasm; the torso continues ~5.5 m below ground (hide/clip below the chasm lip)",
+ "dimensions_m": {
+  "width": 16.97,
+  "depth": 14.18,
+  "height_total": 21.01,
+  "top_above_ground": 15.46,
+  "bottom_below_ground": -5.55
+ },
+ "triangles": 31670,
+ "triangles_main_mesh": 31115,
+ "triangles_nodes": {
+  "node_l": 185,
+  "node_r": 185,
+  "node_c": 185
+ },
+ "bones": [
+  "root",
+  "hips",
+  "spine_01",
+  "spine_02",
+  "chest",
+  "neck",
+  "head",
+  "jaw",
+  "beam",
+  "bone_node_c",
+  "clavicle.L",
+  "upper_arm.L",
+  "forearm.L",
+  "hand.L",
+  "bone_node_l",
+  "clavicle.R",
+  "upper_arm.R",
+  "forearm.R",
+  "hand.R",
+  "bone_node_r"
+ ],
+ "clips": [
+  {
+   "name": "idle",
+   "seconds": 4.0,
+   "frames": 120,
+   "loop": true,
+   "events": {}
+  },
+  {
+   "name": "rise",
+   "seconds": 6.0,
+   "frames": 180,
+   "loop": false,
+   "events": {
+    "left_hand_bursts_out": 1.45,
+    "left_hand_grips": 1.8,
+    "right_hand_grips": 2.65,
+    "head_emerges": 3.4,
+    "roar": 4.55,
+    "settled": 6.0
+   },
+   "notes": "starts fully below ground (crown tip below 0), ends on idle frame 0"
+  },
+  {
+   "name": "slam_l",
+   "seconds": 2.6,
+   "frames": 78,
+   "loop": false,
+   "events": {
+    "telegraph_start": 0.0,
+    "hit": 1.3333,
+    "recover_start": 1.9
+   },
+   "notes": "left hand slams; 1.2 s telegraph (arm raised high), impact at 1.33 s",
+   "impact": {
+    "frame": 40,
+    "time_s": 1.3333,
+    "hand_bone": "hand.L",
+    "palm_mid_godot": [
+     2.79,
+     1.06,
+     11.44
+    ],
+    "wrist_godot": [
+     3.0,
+     1.7,
+     10.4
+    ],
+    "fingertips_godot": [
+     2.58,
+     0.41,
+     12.48
+    ],
+    "palm_mid_blender": [
+     2.79,
+     -11.44,
+     1.06
+    ]
+   }
+  },
+  {
+   "name": "slam_r",
+   "seconds": 2.6,
+   "frames": 78,
+   "loop": false,
+   "events": {
+    "telegraph_start": 0.0,
+    "hit": 1.3333,
+    "recover_start": 1.9
+   },
+   "notes": "right hand slams; 1.2 s telegraph (arm raised high), impact at 1.33 s",
+   "impact": {
+    "frame": 40,
+    "time_s": 1.3333,
+    "hand_bone": "hand.R",
+    "palm_mid_godot": [
+     -2.79,
+     1.06,
+     11.44
+    ],
+    "wrist_godot": [
+     -3.0,
+     1.7,
+     10.4
+    ],
+    "fingertips_godot": [
+     -2.58,
+     0.41,
+     12.48
+    ],
+    "palm_mid_blender": [
+     -2.79,
+     -11.44,
+     1.06
+    ]
+   }
+  },
+  {
+   "name": "sweep",
+   "seconds": 4.8,
+   "frames": 144,
+   "loop": false,
+   "events": {
+    "charge_start": 0.6,
+    "sweep_start": 1.2,
+    "sweep_end": 4.2
+   },
+   "notes": "beam from the 'beam' bone (maw), pointing along the bone (+Y of the bone = forward out of the mouth); head lowers and sweeps from its left to its right"
+  },
+  {
+   "name": "shard",
+   "seconds": 1.5,
+   "frames": 45,
+   "loop": false,
+   "events": {
+    "release": 0.85
+   },
+   "notes": "right-arm flick; spawn the shard volley at the right hand ('hand.R') at release, thrown forward"
+  },
+  {
+   "name": "summon",
+   "seconds": 2.0,
+   "frames": 60,
+   "loop": false,
+   "events": {
+    "summon": 0.9
+   }
+  },
+  {
+   "name": "roar",
+   "seconds": 2.5,
+   "frames": 75,
+   "loop": false,
+   "events": {
+    "roar_start": 0.75,
+    "roar_end": 2.0
+   }
+  },
+  {
+   "name": "stagger",
+   "seconds": 1.5,
+   "frames": 45,
+   "loop": false,
+   "events": {
+    "recoil": 0.12
+   }
+  },
+  {
+   "name": "death",
+   "seconds": 6.0,
+   "frames": 180,
+   "loop": false,
+   "events": {
+    "convulse": [
+     0.0,
+     2.2
+    ],
+    "fall_back": 2.5,
+    "sink": [
+     3.6,
+     6.0
+    ]
+   },
+   "notes": "convulses, collapses backward and sinks fully below ground; last frame holds (hide the model after)"
+  }
+ ],
+ "materials": [
+  "Crystal",
+  "EmitMaw",
+  "EmitNode",
+  "Flesh"
+ ],
+ "nodes": {
+  "node_l": "separate MeshInstance3D 'node_l', skinned 100% to bone 'bone_node_l' (left shoulder front)",
+  "node_r": "separate MeshInstance3D 'node_r', skinned 100% to bone 'bone_node_r' (right shoulder front)",
+  "node_c": "separate MeshInstance3D 'node_c', skinned 100% to bone 'bone_node_c' (centre chest)",
+  "bone_naming": "bones are 'bone_node_*' so they do not collide with the mesh names (Godot renames colliding bones)",
+  "how_to_hide": "set the MeshInstance3D .visible = false (they sit under the Skeleton3D); hit-test with spheres on the node bones (radius ~0.9 m l/r, ~1.05 m c)"
+ },
+ "sockets": {
+  "beam": "beam (maw; beam direction = bone axis, forward out of the mouth)",
+  "hand_l": "hand.L",
+  "hand_r": "hand.R",
+  "head": "head",
+  "node_l": "bone_node_l",
+  "node_r": "bone_node_r",
+  "node_c": "bone_node_c"
+ },
+ "slam_impacts": {
+  "slam_l": {
+   "frame": 40,
+   "time_s": 1.3333,
+   "hand_bone": "hand.L",
+   "palm_mid_godot": [
+    2.79,
+    1.06,
+    11.44
+   ],
+   "wrist_godot": [
+    3.0,
+    1.7,
+    10.4
+   ],
+   "fingertips_godot": [
+    2.58,
+    0.41,
+    12.48
+   ],
+   "palm_mid_blender": [
+    2.79,
+    -11.44,
+    1.06
+   ]
+  },
+  "slam_r": {
+   "frame": 40,
+   "time_s": 1.3333,
+   "hand_bone": "hand.R",
+   "palm_mid_godot": [
+    -2.79,
+    1.06,
+    11.44
+   ],
+   "wrist_godot": [
+    -3.0,
+    1.7,
+    10.4
+   ],
+   "fingertips_godot": [
+    -2.58,
+    0.41,
+    12.48
+   ],
+   "palm_mid_blender": [
+    -2.79,
+    -11.44,
+    1.06
+   ]
+  }
+ },
+ "notes": [
+  "All clips in place; the root never moves. rise starts fully underground, death ends fully underground.",
+  "Loop idle in code (Godot imports clips non-looping).",
+  "EmitMaw = glowing mouth core (pulse it for the beam charge); EmitNode = the three weak points."
+ ]
+}

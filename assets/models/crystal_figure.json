@@ -1,0 +1,54 @@
+{
+ "file": "crystal_figure.glb",
+ "triangles": 7234,
+ "materials": [
+  "CrewDark",
+  "CrewOrange",
+  "CrewSuit",
+  "EmitCrystal",
+  "EmitCrystalCore",
+  "EmitCrystalGlow",
+  "EmitEyes.001",
+  "Hair",
+  "Lips",
+  "Skin"
+ ],
+ "dimensions_m": {
+  "x": 1.668,
+  "height": 1.725,
+  "depth": 1.571
+ },
+ "facing": "figure front = Godot +Z (Blender -Y)",
+ "origin": "floor level at the centre of the crystal growth",
+ "static": false,
+ "character": "Dr. Leela Iyer, fused into a crystal growth up to the chest",
+ "skeleton": "Skeleton3D with the same 28 bone names as the astronaut (legs exist but are hidden inside the crystal)",
+ "nodes": {
+  "LeelaIyer": "skinned body (upper body + head); crystal shards across her eyes and glowing eyes (EmitEyes) turn with the head",
+  "CrystalGrowth": "static crystal mass (EmitCrystal dark glass, EmitCrystalGlow violet, EmitCrystalCore cyan veins)"
+ },
+ "clips": [
+  {
+   "name": "turn_head",
+   "seconds": 2.5,
+   "frames": 75,
+   "loop": false,
+   "events": {
+    "eyes_meet_camera": 2.2
+   },
+   "note": "starts with the head bowed and turned away (to her right), slowly turns with a small hesitation to face +Z (the camera in front of her). Ends exactly in the idle start pose."
+  },
+  {
+   "name": "idle",
+   "seconds": 4.0,
+   "frames": 120,
+   "loop": true,
+   "events": {},
+   "note": "facing +Z, slow breathing, tiny head drift and finger tremor"
+  }
+ ],
+ "notes": [
+  "Play turn_head when the player approaches, then loop idle. Put an OmniLight3D (violet) inside the crystal at about Godot (0, 0.6, 0) for the glow.",
+  "Rest/bind pose = first frame of turn_head (head bowed)."
+ ]
+}

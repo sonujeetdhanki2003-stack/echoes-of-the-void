@@ -1,0 +1,27 @@
+{
+ "file": "energy_pistol.glb",
+ "triangles": 1660,
+ "dimensions_m": {
+  "width": 0.033,
+  "length": 0.265,
+  "height": 0.181
+ },
+ "origin": "grip point",
+ "barrel": "Blender -Y = Godot +Z",
+ "attach_to_prop_R": "identity: BoneAttachment3D(bone_name=\"prop.R\") on the astronaut Skeleton3D, weapon scene as its child with Transform3D.IDENTITY (position 0,0,0, rotation 0,0,0, scale 1)",
+ "children": {
+  "Mag": "energy cell in the grip (pistol_reload); local centre Godot [0, -0.043, -0.018]",
+  "Muzzle": "empty at the emitter tip: local Godot [0, 0.074, 0.223]",
+  "Grip_L": "empty under the grip used for the two-handed support hand"
+ },
+ "materials": [
+  "GunMetal",
+  "GunOrange",
+  "EmitCoil",
+  "GunPolymer",
+  "GunGrip"
+ ],
+ "notes": [
+  "same family as the pulse rifle"
+ ]
+}

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scenes/levels/level_boot.gd" id="1"]
+
+[node name="alien_exterior" type="Node"]
+script = ExtResource("1")
+area_id = "exterior"
+mission = 3
