@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "breach"
+display_name = "BREACH CANNON"
+ammo_type = "rifle"
+damage = 110.0
+crit_mult = 2.0
+fire_rate = 0.8
+automatic = false
+mag_size = 4
+reload_time = 2.6
+equip_time = 0.8
+spread_hip = 2.0
+spread_aim = 0.6
+spread_per_shot = 0.4
+spread_max = 3.0
+spread_recover = 5.0
+recoil_pitch = 6.0
+recoil_yaw = 0.8
+range = 150.0
+impulse = 6.0
+noise_radius = 44.0
+aim_fov = 42.0
+pellets = 1
+tracer_color = Color(1, 0.55, 0.2, 1)
+model = "res://assets/models/breach_cannon.glb"
+sfx_fire = "rifle_fire"
+sfx_reload = "rifle_reload"

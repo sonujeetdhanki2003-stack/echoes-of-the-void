@@ -2,8 +2,8 @@ extends Node
 ## GameInstance (PRD BP_EOT_GameInstance): persistent session data, settings, input map, and the
 ## SaveManager role (PRD BP_EOT_SaveManager): JSON saves keyed by stable IDs. Autoloaded as "Game".
 
-const VERSION := "1.0.1"
-const SAVE_VERSION := 1
+const VERSION := "1.8.0"
+const SAVE_VERSION := 3   # v1.6.0: 3 adds THE HOLLOWS steps in the final mission; 1.0.x to 1.5.x saves still load (objective shift)
 
 # Paths are vars so automated tests use their own files and never touch a player's save.
 var SAVE_PATH := "user://echoes_save.json"
@@ -24,6 +24,7 @@ var settings := {
 	"aim_assist": true, "camera_shake": 1.0, "render_scale": 1.0, "ui_size": "auto",
 	"resolution": "1600x900", "bindings": {}, "cam_distance": 1.0, "show_fps": false,
 	"web_default": false,
+	"reduce_motion": false, "vibration": true, "subtitle_size": "medium", "subtitle_bg": false, "frame_cap": 0,
 }
 
 ## The live game state. Everything that must survive a save lives here, keyed by stable string IDs.
@@ -52,6 +53,7 @@ func _ready() -> void:
 	if is_mobile:
 		settings["quality"] = "mobile"
 		settings["fov"] = 72.0
+		settings["frame_cap"] = 60     # v1.1.0: phones default to 60 fps (less heat); PC and web stay unlimited
 	elif is_web:
 		settings["quality"] = "web"       # v1.0.1: desktop browsers get the "web" look (was "low": flat, no shadows, no grime)
 	_setup_input()
@@ -60,6 +62,10 @@ func _ready() -> void:
 	load_settings()
 	apply_bindings()
 	apply_settings()
+	# v1.1.0 feel: hit-stop and haptics listen to the event bus (see scripts/core/feedback.gd)
+	Events.hit_confirmed.connect(Feedback.on_hit_confirmed)
+	Events.player_damaged.connect(func(amount: float, _from: Vector3) -> void: Feedback.on_player_damaged(amount))
+	Events.player_died.connect(Feedback.on_player_died)
 	new_state()
 
 func arg(name: String, def: String = "") -> String:
@@ -95,6 +101,7 @@ func new_state() -> void:
 		"player": default_player(),
 		"flags": {},                  # stable id -> true/value (doors, puzzles, pickups, dead enemies, triggers)
 		"logs": [],                   # research log ids found, in order
+		"upgrades": {},               # v1.5.0: weapon id -> {damage, reload, magazine, accuracy} levels (0-3)
 		"stats": {"time": 0.0, "kills": 0, "deaths": 0, "shots": 0, "hits": 0},
 		"saved_at": "",
 	}
@@ -104,7 +111,7 @@ func default_player() -> Dictionary:
 		"hp": 100.0, "max_hp": 100.0, "stamina": 100.0, "medkits": 0,
 		"weapons": [], "equipped": "",
 		"mag": {"pistol": 0, "rifle": 0}, "reserve": {"pistol": 0, "rifle": 0},
-		"keycards": [], "lamp": false,
+		"keycards": [], "lamp": false, "parts": 0,
 	}
 
 func flag(id: String) -> bool:
@@ -127,26 +134,69 @@ func add_log(id: int) -> bool:
 	return true
 
 # ---------------------------------------------------------------- save / load
+## v1.5.0: three save slots. Slot 1 is the file every 1.0.x and 1.4.x build wrote (SAVE_PATH), so an old save is
+## slot 1 with nothing to move. Slots 2 and 3 sit beside it (..._s2.json, ..._s3.json), each with its own .bak.
+const SLOT_COUNT := 3
+var active_slot := 1      # the slot the current game reads and writes (chosen in the menu, not saved)
+
+func slot_path(s: int, bak: bool = false) -> String:
+	var p := SAVE_PATH if s <= 1 else SAVE_PATH.trim_suffix(".json") + "_s%d.json" % s
+	return p + ".bak" if bak else p
+
 ## v1.0.1: only a save that load_game() would accept counts (a damaged or too-new file used to show "Continue"
 ## and then fail with "Save could not be loaded").
-func _usable_save() -> Variant:
-	for p in [SAVE_PATH, SAVE_PATH + ".bak"]:
+func _usable_slot(s: int) -> Variant:
+	for p in [slot_path(s), slot_path(s, true)]:
 		var d: Variant = _read_json(p)
 		if d != null and _valid(d):
 			return d
 	return null
 
-func has_save() -> bool:
-	return _usable_save() != null
+func _usable_save() -> Variant:
+	return _usable_slot(active_slot)
 
-func save_info() -> String:
-	var d: Variant = _usable_save()
+func slot_used(s: int) -> bool:
+	return _usable_slot(s) != null
+
+func slot_info(s: int) -> String:
+	var d: Variant = _usable_slot(s)
 	if d == null:
 		return ""
 	var m := int(d.get("mission", 0))
 	var title: String = Missions.mission_title(m)
 	var t := int(float(d.get("stats", {}).get("time", 0.0)))
 	return "%s  ·  %d:%02d played  ·  %s" % [title, t / 60, t % 60, str(d.get("saved_at", ""))]
+
+## The slot whose save is the newest (0 when no slot holds a usable save).
+func latest_slot() -> int:
+	var best := 0
+	var best_at := ""
+	for s in range(1, SLOT_COUNT + 1):
+		var d: Variant = _usable_slot(s)
+		if d != null and str(d.get("saved_at", "")) >= best_at:
+			best = s
+			best_at = str(d.get("saved_at", ""))
+	return best
+
+func first_empty_slot() -> int:
+	for s in range(1, SLOT_COUNT + 1):
+		if not slot_used(s):
+			return s
+	return 1
+
+func has_save() -> bool:
+	return latest_slot() > 0
+
+func used_slot_count() -> int:
+	var n := 0
+	for s in range(1, SLOT_COUNT + 1):
+		if slot_used(s):
+			n += 1
+	return n
+
+func save_info() -> String:
+	var s := latest_slot()
+	return slot_info(s) if s > 0 else ""
 
 ## Atomic save: write a temp file, read it back and parse it, keep the previous save as .bak, then swap.
 ## A crash or power loss mid-write can never leave the player with no usable save.
@@ -156,8 +206,9 @@ func save_game(snapshot: Dictionary = {}) -> bool:
 	data["game_version"] = VERSION
 	data["saved_at"] = Time.get_datetime_string_from_system(false, true)
 	state["saved_at"] = data["saved_at"]
+	var path := slot_path(active_slot)
 	var txt := JSON.stringify(data, "\t")
-	var tmp := SAVE_PATH + ".tmp"
+	var tmp := path + ".tmp"
 	var f := FileAccess.open(tmp, FileAccess.WRITE)
 	if f == null:
 		push_warning("save: cannot open %s (%s)" % [tmp, error_string(FileAccess.get_open_error())])
@@ -168,9 +219,9 @@ func save_game(snapshot: Dictionary = {}) -> bool:
 	if _read_json(tmp) == null:
 		push_warning("save: verification of the temp save failed")
 		return false
-	var abs_save := ProjectSettings.globalize_path(SAVE_PATH)
+	var abs_save := ProjectSettings.globalize_path(path)
 	var abs_tmp := ProjectSettings.globalize_path(tmp)
-	if FileAccess.file_exists(SAVE_PATH):
+	if FileAccess.file_exists(path):
 		DirAccess.remove_absolute(abs_save + ".bak")
 		DirAccess.rename_absolute(abs_save, abs_save + ".bak")
 	var err := DirAccess.rename_absolute(abs_tmp, abs_save)
@@ -180,9 +231,10 @@ func save_game(snapshot: Dictionary = {}) -> bool:
 	return true
 
 func load_game() -> bool:
-	var d: Variant = _read_json(SAVE_PATH)
+	var path := slot_path(active_slot)
+	var d: Variant = _read_json(path)
 	if d == null or not _valid(d):
-		d = _read_json(SAVE_PATH + ".bak")
+		d = _read_json(path + ".bak")
 		if d == null or not _valid(d):
 			return false
 	new_state()
@@ -195,14 +247,24 @@ func load_game() -> bool:
 	state["player"] = p
 	state["mission"] = int(state["mission"])
 	state["objective"] = int(state["objective"])
+	# v1.6.0: THE HOLLOWS adds two steps at the front of the final mission (mission index 3). A save from before
+	# (1.0.x to 1.5.x) keeps its place: its objective index moves past the two new steps.
+	if int(d.get("version", 0)) < 3 and state["mission"] == 3:
+		state["objective"] = int(state["objective"]) + 2
 	var logs: Array = []
 	for l in state["logs"]:
 		logs.append(int(l))
 	state["logs"] = logs
 	return true
 
+## Deletes every slot (tests and a full reset). A new game deletes only its own slot, see delete_slot().
 func delete_save() -> void:
-	for p in [SAVE_PATH, SAVE_PATH + ".bak", SAVE_PATH + ".tmp"]:
+	for s in range(1, SLOT_COUNT + 1):
+		delete_slot(s)
+
+func delete_slot(s: int) -> void:
+	var path := slot_path(s)
+	for p in [path, path + ".bak", path + ".tmp"]:
 		if FileAccess.file_exists(p):
 			DirAccess.remove_absolute(ProjectSettings.globalize_path(p))
 
@@ -252,6 +314,11 @@ func load_settings() -> void:
 			var v: Variant = c.get_value("settings", k)
 			if typeof(v) == typeof(settings[k]) or (settings[k] is float and v is int):
 				settings[k] = v
+	# v1.1.0: a hand-edited or damaged value falls back to its default (the type check above keeps the rest)
+	if not (str(settings["subtitle_size"]) in ["small", "medium", "large"]):
+		settings["subtitle_size"] = "medium"
+	if not ([0, 30, 60, 120] as Array).has(int(settings["frame_cap"])):
+		settings["frame_cap"] = 60 if is_mobile else 0
 	if is_mobile and settings["quality"] in ["high", "ultra"]:
 		settings["quality"] = "mobile"
 	# v1.0.1: a v1.0.0 web player who ever opened Settings has "low" saved: move them to the new web look once
@@ -268,6 +335,7 @@ func save_settings() -> void:
 	c.save(SETTINGS_PATH)
 
 func apply_settings() -> void:
+	Engine.max_fps = int(settings["frame_cap"])     # v1.1.0: 0 = unlimited
 	if not is_mobile and not is_web and DisplayServer.get_name() != "headless":
 		var want := DisplayServer.WINDOW_MODE_FULLSCREEN if settings["fullscreen"] else DisplayServer.WINDOW_MODE_WINDOWED
 		if DisplayServer.window_get_mode() != want and not (want == DisplayServer.WINDOW_MODE_WINDOWED and DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_MAXIMIZED):
@@ -290,6 +358,7 @@ func apply_settings() -> void:
 			rs = minf(rs, 0.8)
 		elif settings["quality"] == "low":
 			rs = minf(rs, 0.85)
+		rs = minf(rs, phone_render_cap)     # v1.1.0 stage 4: the phone guard's session cap (1.0 when not used)
 		vp.scaling_3d_scale = clampf(rs, 0.5, 1.0)
 		vp.scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR if (is_mobile or is_web or rs >= 0.99) else Viewport.SCALING_3D_MODE_FSR
 		# FXAA exists only in Forward+ / Mobile; the Compatibility renderer (web, GL fallback) warns on every set
@@ -343,6 +412,50 @@ func quality_profile() -> Dictionary:
 			p[a[0]] = float(a[1]) if a[1].is_valid_float() else (a[1] == "true")
 	return p
 
+# ---------------------------------------------------------------- phone guard (v1.1.0 stage 4)
+## On an Android phone, if the game holds under PHONE_GUARD_FPS for 6 s (after a warm-up, in the game only), the 3D
+## render scale steps down by 0.1 (never below PHONE_GUARD_MIN_SCALE), once per step, and the player is told once.
+## It is a session cap: it is not saved, so the next launch starts at the player's own setting again.
+const PHONE_GUARD_FPS := 28.0
+const PHONE_GUARD_MIN_SCALE := 0.6
+var phone_render_cap := 1.0
+var phone_steps := 0
+var _phone_t := 0.0
+var _phone_n := 0
+var _phone_warm := 4.0
+
+## the render-scale cap after one guard decision: unchanged when the frame rate is fine, one step down otherwise
+static func phone_guard_next_scale(fps: float, rs: float) -> float:
+	if fps >= PHONE_GUARD_FPS:
+		return rs
+	return maxf(PHONE_GUARD_MIN_SCALE, snappedf(rs - 0.1, 0.01))
+
+func phone_sample(delta: float) -> void:
+	if not is_mobile or is_web or get_tree().paused:
+		return
+	if not get_node("/root/GameMode").in_game or delta > 0.5:
+		return
+	if _phone_warm > 0.0:
+		_phone_warm -= delta
+		return
+	_phone_t += delta
+	_phone_n += 1
+	if _phone_t < 6.0:
+		return
+	var fps := float(_phone_n) / _phone_t
+	var rs := float(settings["render_scale"])
+	var cur := minf(rs, phone_render_cap)
+	var next := phone_guard_next_scale(fps, cur)
+	if next < cur - 0.001:
+		phone_render_cap = next
+		phone_steps += 1
+		apply_settings()
+		var ui = get_node("/root/GameMode").ui
+		if ui:
+			ui.toast("Running slowly - lowered the resolution a little", 3.0)
+	_phone_t = 0.0
+	_phone_n = 0
+
 # ---------------------------------------------------------------- web performance guard (v1.0.1)
 ## The "web" look costs roughly twice the draw calls of "low" (grime overlay). If a browser can't hold ~30 fps on it
 ## the game drops itself to "low" once, tells the player, and remembers it.
@@ -352,6 +465,7 @@ var _perf_warm := 3.0
 var perf_dropped := false
 func _process(delta: float) -> void:
 	perf_sample(delta)
+	phone_sample(delta)
 
 func perf_sample(delta: float) -> void:
 	if not is_web or is_mobile or settings["quality"] != "web" or perf_dropped or get_tree().paused:
@@ -382,8 +496,8 @@ const DEFAULT_KEYS := {
 	"move_left": [KEY_A, KEY_LEFT], "move_right": [KEY_D, KEY_RIGHT],
 	"sprint": [KEY_SHIFT], "jump": [KEY_SPACE], "crouch": [KEY_C, KEY_CTRL],
 	"interact": [KEY_E], "reload": [KEY_R], "medkit": [KEY_Q, KEY_H],
-	"weapon_1": [KEY_1], "weapon_2": [KEY_2], "weapon_next": [], "weapon_prev": [],
-	"lamp": [KEY_F], "journal": [KEY_TAB, KEY_J], "pause": [KEY_ESCAPE, KEY_P],
+	"weapon_1": [KEY_1], "weapon_2": [KEY_2], "weapon_3": [KEY_3], "weapon_4": [KEY_4], "weapon_5": [KEY_5], "weapon_next": [], "weapon_prev": [],
+	"melee": [KEY_G], "lamp": [KEY_F], "journal": [KEY_TAB, KEY_J], "pause": [KEY_ESCAPE, KEY_P],
 	"shoulder_swap": [KEY_V], "fire": [], "aim": [], "skip": [KEY_ENTER],
 	"cam_closer": [KEY_PAGEDOWN], "cam_farther": [KEY_PAGEUP],
 }
@@ -391,8 +505,8 @@ const DEFAULT_KEYS := {
 ## stored in settings["bindings"] (action -> physical keycode) and persists with the other settings.
 const REBINDABLE := [["move_forward", "Move forward"], ["move_back", "Move back"], ["move_left", "Move left"],
 	["move_right", "Move right"], ["sprint", "Sprint"], ["jump", "Jump"], ["crouch", "Crouch"], ["interact", "Use / interact"],
-	["reload", "Reload"], ["medkit", "Use medkit"], ["weapon_1", "Energy pistol"], ["weapon_2", "Pulse rifle"],
-	["lamp", "Suit lamp"], ["journal", "Inventory & logs"], ["shoulder_swap", "Swap shoulder"],
+	["reload", "Reload"], ["medkit", "Use medkit"], ["weapon_1", "Energy pistol"], ["weapon_2", "Pulse rifle"], ["weapon_3", "Scatter shotgun"], ["weapon_4", "Precision rifle"], ["weapon_5", "Breach cannon"],
+	["melee", "Melee strike"], ["lamp", "Suit lamp"], ["journal", "Inventory & logs"], ["shoulder_swap", "Swap shoulder"],
 	["cam_closer", "Camera closer"], ["cam_farther", "Camera farther"]]
 const RESOLUTIONS := ["1280x720", "1366x768", "1600x900", "1920x1080", "2560x1440"]
 
@@ -498,6 +612,7 @@ func _setup_input() -> void:
 	_joy_btn("sprint", JOY_BUTTON_LEFT_STICK)
 	_joy_btn("lamp", JOY_BUTTON_DPAD_UP)
 	_joy_btn("medkit", JOY_BUTTON_LEFT_SHOULDER)
+	_joy_btn("melee", JOY_BUTTON_DPAD_RIGHT)
 	_joy_btn("shoulder_swap", JOY_BUTTON_RIGHT_STICK)
 	_joy_btn("journal", JOY_BUTTON_BACK)
 	_joy_btn("pause", JOY_BUTTON_START)

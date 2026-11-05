@@ -29,6 +29,10 @@ func build() -> void:
 	checkpoint("exterior_start", Vector3(0, 0.3, -2.0), 0.0)
 	checkpoint("exterior_mid", _g(-10, -80), 180.0, Vector3(12, 4, 6))
 	exit_zone("to_extraction", _g(20, -178), Vector3(16, 6, 4), "extraction", "extraction_start")
+	# v1.6.0 (stage D): the valley west of the canyon path leads down into THE HOLLOWS (the signal's source)
+	checkpoint("exterior_hollows", _g(-9, -35), 0.0, Vector3(8, 4, 6))
+	exit_zone("to_hollows", _g(-9, -41), Vector3(4, 5, 4), "hollows", "hollows_start")
+	omni(_g(-9, -44, 1.0), Color(0.6, 0.3, 1.0), 3.0, 14.0)
 
 func _g(x: float, z: float, lift: float = 0.0) -> Vector3:
 	return Vector3(x, terrain.height_at(x, z) + lift, z)
@@ -110,6 +114,8 @@ func _set_pieces() -> void:
 	pickup("ammo_pistol", "ext_a1", _g(-4, -104, 0.1), 24)
 	pickup("ammo_rifle", "ext_r2", _g(16, -134, 0.1), 48)
 	pickup("medkit", "ext_m2", _g(22, -160, 0.1))
+	pickup("part", "ext_p1", _g(-14, -50, 0.3))   # v1.5.0 upgrade parts (exterior: 2 more; 14 in all)
+	pickup("part", "ext_p2", _g(12, -92, 0.3))
 	log_at(13, Vector3(5.0, 0.0, 2.2))   # v1.0.1: was inside the cargo containers
 	log_at(14, _g(-15, -88))
 	prop("corpse_prone", _g(-14, -87), 40.0, true)
@@ -118,6 +124,7 @@ func _story() -> void:
 	trigger("ext_enter", Vector3(0, 0, -6), Vector3(14, 4, 6), func(_p): beat("surface", "mira_surface", 1.5))
 	enemy("stalker", "ext_s1", _g(-4, -50), 0.0, {"patrol": [_g(-4, -50), _g(10, -40)]})
 	enemy("stalker", "ext_s2", _g(-14, -58), 0.0)
+	enemy("experimental", "ext_x1", _g(-9, -63), 180.0)   # v1.1.0 stage 2: unpredictable organism
 	enemy("sentinel", "ext_t1", _g(-20, -96), 90.0)
 	enemy("stalker", "ext_s3", _g(4, -110), 0.0, {"patrol": [_g(4, -110), _g(-6, -98)]})
 	enemy("stalker", "ext_s4", _g(10, -116), 0.0)

@@ -1,8 +1,8 @@
 # ECHOES OF THE VOID — asset specification (shared by all helpers)
 
-Godot project: game  (the parent worker owns it; helpers write
+Godot project: /home/user/tab/tasks/9d8e69c6-b8aa-49e8-9156-1d6e64bae230/game  (the parent worker owns it; helpers write
 ONLY into their own output folders listed in their brief, never into scripts/ or scenes/, and never run Godot on this project).
-Story, areas, enemies, cinematics: DESIGN.md (read it first).
+Story, areas, enemies, cinematics: /home/user/tab/tasks/9d8e69c6-b8aa-49e8-9156-1d6e64bae230/DESIGN.md (read it first).
 
 ## Art direction
 Realistic, cinematic, AAA-inspired hard sci-fi (think Dead Space / Alien Isolation / Prometheus, but original). Believable
@@ -13,7 +13,7 @@ station = off-white / gunmetal / safety orange accents; Echo = black-violet crys
 
 ## Technical conventions (every model)
 - Blender 4.2.3 headless, Python scripts kept in your own task dir so every asset can be regenerated:
-  blender -b --python-exit-code 1 -P script.py   (start it with output to a log file
+  /home/user/opt/blender-4.2.3-linux-x64/blender -b --python-exit-code 1 -P script.py   (start it with output to a log file
   and start_new_session=True; poll the log; `timeout -k 5 N` on everything; one Blender process at a time per helper).
 - Export: glTF 2.0 binary (.glb), +Y up (exporter default), apply modifiers, export only the asset (no cameras/lights),
   `export_animation_mode='ACTIONS'` so every action is its own clip, `export_force_sampling=True`, 30 fps,
@@ -34,7 +34,7 @@ station = off-white / gunmetal / safety orange accents; Echo = black-violet crys
   {name, seconds, loop, ground_speed_mps for locomotion cycles, events: {hit: s, footsteps: [s..], ...}}, sockets
   (bone or node names) and notes. The parent codes against this file.
 - Verify every GLB in a SMALL scratch Godot project inside your own task dir (copy nothing big): headless
-  `godot --headless --path <scratch> --import` then a tiny script that loads the glb, prints the node
+  `/home/user/opt/godot/godot --headless --path <scratch> --import` then a tiny script that loads the glb, prints the node
   tree, skeleton bone names, AnimationPlayer clip names and lengths, and the AABB. Fix anything Godot reads differently.
 - Look at your work: render small EEVEE preview sheets (≤ 800 px wide, a few poses/angles) and LOOK at them (attach_image
   skill) before calling anything done; iterate until it looks genuinely good. Delete preview renders when done.
@@ -42,4 +42,4 @@ station = off-white / gunmetal / safety orange accents; Echo = black-violet crys
   renders, temp .blend backups (`*.blend1`) and caches as you go.
 - Licences: everything you make yourself is original. If you use any third-party file (only CC0: Poly Haven, ambientCG,
   Kenney, Quaternius; NO Mixamo, NO accounts, NO payments), open its licence page, confirm CC0, and add a line to
-  game/docs/credits/<your-area>.md with name, source URL, licence.
+  /home/user/tab/tasks/9d8e69c6-b8aa-49e8-9156-1d6e64bae230/game/docs/credits/<your-area>.md with name, source URL, licence.

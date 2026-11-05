@@ -25,6 +25,14 @@ func _ready() -> void:
 		model = _weapon_model("res://assets/models/energy_pistol.glb", Vector3(0.07, 0.12, 0.28))
 	elif kind == "weapon_rifle":
 		model = _weapon_model("res://assets/models/pulse_rifle.glb", Vector3(0.08, 0.16, 0.85))
+	elif kind == "weapon_shotgun":
+		model = _weapon_model("", Vector3(0.1, 0.16, 0.7))   # v1.1.0 stage 3: box model until the Blender one
+	elif kind == "weapon_precision":
+		model = _weapon_model("", Vector3(0.07, 0.14, 0.95))
+	elif kind == "weapon_breach":
+		model = _weapon_model("", Vector3(0.1, 0.18, 1.05))   # v1.5.0 heavy weapon
+	elif kind == "part":
+		model = _weapon_model("", Vector3(0.14, 0.14, 0.14))   # v1.5.0 upgrade part: a small block
 	else:
 		model = Props.instance(mname)
 		if kind == "keycard":
@@ -75,15 +83,20 @@ func _color() -> Color:
 		"ammo_pistol": return Color(1.0, 0.65, 0.25)
 		"ammo_rifle": return Color(0.35, 0.8, 1.0)
 		"keycard": return Color(1.0, 0.85, 0.3)
+		"part": return Color(1.0, 0.5, 0.2)
 	return Color(0.6, 0.9, 1.0)
 
 func _is_auto() -> bool:
-	return kind in ["medkit", "ammo_pistol", "ammo_rifle"]
+	return kind in ["medkit", "ammo_pistol", "ammo_rifle", "part"]
 
 func get_prompt() -> String:
 	match kind:
 		"weapon_pistol": return "Take Energy Pistol"
 		"weapon_rifle": return "Take Pulse Rifle"
+		"weapon_shotgun": return "Take Scatter Shotgun"
+		"weapon_precision": return "Take Precision Rifle"
+		"weapon_breach": return "Take Breach Cannon"
+		"part": return "Take upgrade part"
 		"keycard": return "Take " + (label if label != "" else "keycard")
 		"medkit": return "Take medkit"
 		"ammo_pistol": return "Take pistol cells"
@@ -125,6 +138,32 @@ func _try_take(p: Player, auto: bool) -> void:
 			ok = true
 			msg = "Pulse Rifle"
 			Game.set_flag("got.rifle")
+			Sfx.play("item_pickup", -2.0)
+		"part":
+			p.inventory.add_parts(amount)
+			ok = true
+			msg = "Upgrade part (%d)" % p.inventory.parts
+			Sfx.play("item_pickup", -6.0)
+		"weapon_breach":
+			p.combat.give("breach")
+			p.inventory.add_ammo("rifle", 16)
+			ok = true
+			msg = "Breach Cannon"
+			Game.set_flag("got.breach")
+			Sfx.play("item_pickup", -2.0)
+		"weapon_precision":
+			p.combat.give("precision")
+			p.inventory.add_ammo("rifle", 24)
+			ok = true
+			msg = "Precision Rifle"
+			Game.set_flag("got.precision")
+			Sfx.play("item_pickup", -2.0)
+		"weapon_shotgun":
+			p.combat.give("shotgun")
+			p.inventory.add_ammo("pistol", 18)
+			ok = true
+			msg = "Scatter Shotgun"
+			Game.set_flag("got.shotgun")
 			Sfx.play("item_pickup", -2.0)
 		"keycard":
 			p.inventory.add_keycard(keycard_id)

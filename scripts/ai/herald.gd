@@ -268,6 +268,10 @@ func _gap() -> float:
 	var base := 2.6 if phase == 1 else (2.2 if phase == 2 else 1.6)
 	return base / difficulty_speed
 
+## v1.6.0 (stage B): the wind-up cues on screen (constants, so a test reads them from the exported build too).
+const CUE_SLAM := "SLAM: get out of the red ring"
+const CUE_SWEEP := "SWEEP: the maw is charging - sidestep or break line of sight"
+
 func _slam() -> void:
 	_busy = true
 	var p: Player = GameMode.player
@@ -295,6 +299,8 @@ func _slam() -> void:
 	if gh:
 		target = gh["position"]
 	Fx.telegraph(target + Vector3.UP * 0.05, 5.0, hit_t)
+	if GameMode.ui and target.distance_to(p.global_position) < 9.0:
+		GameMode.ui.toast(CUE_SLAM, hit_t)
 	Sfx.play_at("herald_windup", global_position + Vector3.UP * 10.0, 0.0, 150.0)
 	await get_tree().create_timer(hit_t, false).timeout
 	if phase > 3:
@@ -389,6 +395,8 @@ func _sweep() -> void:
 	Sfx.play_at("herald_charge", global_position + Vector3.UP * 10.0, 2.0, 150.0)
 	# telegraph: the maw glows for the wind-up
 	beam_light.light_energy = 4.0
+	if GameMode.ui:
+		GameMode.ui.toast(CUE_SWEEP, s0)
 	await get_tree().create_timer(s0, false).timeout
 	if phase > 3:
 		return

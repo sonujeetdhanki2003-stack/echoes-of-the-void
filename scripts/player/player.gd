@@ -128,7 +128,7 @@ func forward() -> Vector3:
 func apply_state(p: Dictionary) -> void:
 	health.setup(float(p.get("max_hp", 100.0)), float(p.get("hp", 100.0)))
 	stamina = float(p.get("stamina", 100.0))
-	inventory.from_dict({"weapons": p.get("weapons", []), "reserve": p.get("reserve", {}), "medkits": p.get("medkits", 0), "keycards": p.get("keycards", [])})
+	inventory.from_dict({"weapons": p.get("weapons", []), "reserve": p.get("reserve", {}), "medkits": p.get("medkits", 0), "keycards": p.get("keycards", []), "parts": p.get("parts", 0)})
 	combat.restore(p.get("mag", {}), str(p.get("equipped", "")))
 	set_lamp(bool(p.get("lamp", false)))
 
@@ -137,11 +137,26 @@ func snapshot() -> Dictionary:
 	return {
 		"hp": health.hp, "max_hp": health.max_hp, "stamina": stamina, "medkits": inv["medkits"],
 		"weapons": inv["weapons"], "equipped": combat.current_id(), "mag": combat.mags(),
-		"reserve": inv["reserve"], "keycards": inv["keycards"], "lamp": lamp_on,
+		"reserve": inv["reserve"], "keycards": inv["keycards"], "lamp": lamp_on, "parts": inv["parts"],
 	}
 
 # ---------------------------------------------------------------- movement
+var melee_cd := 0.0                    # v1.6.0: seconds until the next melee swing
+
+func try_melee() -> bool:
+	if dead or locked or melee_cd > 0.0:
+		return false
+	melee_cd = Melee.COOLDOWN
+	anim.melee()
+	Sfx.play("melee_swing", -4.0, randf_range(0.95, 1.05))
+	var r := Melee.swing(self)
+	if r == "":
+		Sfx.play("brute_swipe", -8.0)
+		return false
+	return true
+
 func _physics_process(delta: float) -> void:
+	melee_cd = maxf(0.0, melee_cd - delta)
 	if dead:
 		velocity.x = move_toward(velocity.x, 0.0, DECEL * delta)
 		velocity.z = move_toward(velocity.z, 0.0, DECEL * delta)

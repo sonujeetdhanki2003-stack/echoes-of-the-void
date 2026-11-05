@@ -1,3 +1,20 @@
+## 1.5.0 (stage 5 of the big update, versionCode 7)
+
+- Three save slots. Slot 1 is your existing save: 1.0.x and 1.4.x saves load as slot 1 with nothing moved.
+  "Continue" continues the newest save; with more than one save, the same button opens the slot picker.
+  New Game asks which slot to write (an occupied slot is replaced, with a warning). Other slots are untouched.
+- Upgrade Bench (Security sector, beside the armory). Spend upgrade parts on each weapon you carry:
+  damage (+15% per level), reload (-10% time per level), magazine (+2 rounds per level), accuracy (-12% spread per level).
+  Three levels per stat. 14 upgrade parts are placed through the game (Security 4, Reactor 2, Research 2, Cryo 2,
+  Extraction 2, Exterior 2); 12 are needed for every upgrade.
+- Breach Cannon, a heavy weapon (key 5): one slow, heavy slug, 110 damage, 4 rounds, long reload. Found in the Reactor.
+  It uses pulse rifle cells. No splash damage yet.
+- Inventory has four categories: WEAPONS (with upgrade levels), SUPPLIES (cells, medkits, upgrade parts),
+  KEY ITEMS, MISSION OBJECTS.
+- Save format version 2 (adds upgrades and parts). Version 1 saves still load; saves from a newer build are refused.
+
+Known limits: the Breach Cannon and the upgrade bench use placeholder shapes; splash damage is not built.
+
 # Changelog — ECHOES OF THE VOID
 
 ## 1.0.1 - 2026-11-04 (bug-fix update)

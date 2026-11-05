@@ -76,7 +76,7 @@ func think(delta: float) -> void:
 				return
 			play_anim("walk", 0.2, 1.0)
 			_steps(delta, 0.75)
-			nav_to(p.global_position, data.walk_speed, delta, data.melee_range * 0.7)
+			nav_to(flank_goal(p.global_position), data.walk_speed, delta, data.melee_range * 0.7)
 		State.ATTACK:
 			_attack_tick(delta, p)
 		State.STAGGER:

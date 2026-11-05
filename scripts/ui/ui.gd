@@ -32,7 +32,9 @@ var prompt_lbl: Label
 var prompt_box: PanelContainer
 var sub_lbl: Label
 var sub_speaker: Label
-var sub_box: VBoxContainer
+var sub_box: PanelContainer
+var sub_inner: VBoxContainer
+var _sub_pad := 0.0
 var toast_lbl: Label
 var crosshair: Control
 var banner: VBoxContainer
@@ -218,7 +220,9 @@ func _build_hud() -> void:
 	prompt_box.visible = false
 	hud.add_child(prompt_box)
 	# subtitles
-	sub_box = K.vbox(2)
+	sub_box = PanelContainer.new()
+	sub_inner = K.vbox(2)
+	sub_box.add_child(sub_inner)
 	sub_box.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
 	sub_box.position = Vector2(-560, -260)
 	sub_box.custom_minimum_size = Vector2(1120, 0)
@@ -226,10 +230,11 @@ func _build_hud() -> void:
 	sub_speaker.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	sub_lbl = K.wrap(K.label("", 30, K.WHITE), 1120)
 	sub_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	sub_box.add_child(sub_speaker)
-	sub_box.add_child(sub_lbl)
+	sub_inner.add_child(sub_speaker)
+	sub_inner.add_child(sub_lbl)
 	sub_box.visible = false
 	add_child(sub_box)
+	_style_sub()
 	# toast
 	toast_lbl = K.label("", 28, K.WHITE)
 	toast_lbl.set_anchors_preset(Control.PRESET_CENTER_TOP)
@@ -360,11 +365,34 @@ func _place_sub() -> void:
 	if _cine_on:     # HUD and touch buttons are hidden: centre it, as wide as the screen allows
 		w = minf(1120.0, get_viewport().get_visible_rect().size.x - 120.0)
 	sub_box.custom_minimum_size = Vector2(w, 0)
-	sub_lbl.custom_minimum_size.x = w
+	sub_lbl.custom_minimum_size.x = w - _sub_pad * 2.0
 	sub_box.offset_left = _sub_x if not _cine_on else -w * 0.5
 	sub_box.offset_right = sub_box.offset_left + w
 	sub_box.offset_bottom = bottom
 	sub_box.offset_top = bottom
+
+const SUB_FONT := {"small": [24, 17], "medium": [30, 20], "large": [38, 26]}   # text size, speaker size
+
+## v1.1.0: subtitle size, and an optional dark backing behind the text (accessibility, PRD 11.5)
+func _style_sub() -> void:
+	if sub_box == null or sub_lbl == null:
+		return
+	var sz: Array = SUB_FONT.get(str(Game.settings.get("subtitle_size", "medium")), SUB_FONT["medium"])
+	sub_lbl.add_theme_font_size_override("font_size", sz[0])
+	sub_speaker.add_theme_font_size_override("font_size", sz[1])
+	if bool(Game.settings.get("subtitle_bg", false)):
+		var f := StyleBoxFlat.new()
+		f.bg_color = Color(0.0, 0.0, 0.0, 0.62)
+		f.set_corner_radius_all(4)
+		f.content_margin_left = 16.0
+		f.content_margin_right = 16.0
+		f.content_margin_top = 8.0
+		f.content_margin_bottom = 8.0
+		sub_box.add_theme_stylebox_override("panel", f)
+		_sub_pad = 16.0
+	else:
+		sub_box.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+		_sub_pad = 0.0
 
 ## anchor `c` to a preset and put its top-left at `off` from that anchor (works before and after layout)
 func _place(c: Control, preset: int, off: Vector2) -> void:
@@ -393,6 +421,7 @@ func _on_subtitle(speaker: String, text: String, secs: float) -> void:
 	if text == "" or not Game.settings["subtitles"]:
 		sub_box.visible = false
 		return
+	_style_sub()
 	sub_speaker.text = speaker
 	sub_lbl.text = text
 	_place_sub()
@@ -613,9 +642,9 @@ func back_pressed() -> void:
 			_close_to_game()
 		"settings_pause", "journal_pause", "confirm_pause", "howto_pause":
 			pause()
-		"journal", "keypad", "conduits":
+		"journal", "keypad", "conduits", "bench":
 			_close_to_game()
-		"settings_menu", "credits", "newgame", "howto":
+		"settings_menu", "credits", "newgame", "howto", "slots":
 			show_menu()
 		"bindings":
 			if _rebind_action == "":
@@ -720,7 +749,9 @@ func show_menu() -> void:
 	v.add_child(K.spacer(14 if compact else 40))
 	var first: Button = null
 	if Game.has_save():
-		first = K.button("Continue", _continue)
+		# v1.5.0: with one save this continues it; with more, the same button opens the three-slot picker
+		var many := Game.used_slot_count() > 1
+		first = K.button("Load game" if many else "Continue", _slots_menu if many else func(): Game.active_slot = Game.latest_slot(); _continue())
 		v.add_child(first)
 		v.add_child(K.mono("    " + Game.save_info(), 18, K.DIM))
 	var ng := K.button("New Game", _new_game_menu)
@@ -762,18 +793,30 @@ func _continue() -> void:
 		toast("Save could not be loaded", 2.0)
 		show_menu()
 
-func _new_game_menu() -> void:
+func _new_game_menu(slot: int = 0) -> void:
 	_open("newgame")
+	if slot <= 0:
+		slot = Game.first_empty_slot()
 	var v := K.vbox(12)
 	v.add_child(K.label("NEW GAME", 56, K.WHITE, "Rajdhani-Bold"))
-	if Game.has_save():
-		v.add_child(K.wrap(K.label("Starting a new game replaces your saved progress.", 24, K.AMBER), 640))
+	# v1.5.0: which save slot the new game goes into
+	v.add_child(K.mono("SAVE TO", 20, K.CYAN))
+	var srow := K.hbox(10)
+	for s in range(1, Game.SLOT_COUNT + 1):
+		var txt := "Slot %d%s" % [s, " · replaces" if Game.slot_used(s) else " · empty"]
+		if s == slot:
+			txt = "[ " + txt + " ]"
+		srow.add_child(K.button(txt, _new_game_menu.bind(s), 20, 240))
+	v.add_child(srow)
+	if Game.slot_used(slot):
+		v.add_child(K.wrap(K.label("Slot %d's saved progress is replaced when you start." % slot, 24, K.AMBER), 640))
 	v.add_child(K.mono("CHOOSE DIFFICULTY", 20, K.CYAN))
 	var first: Button = null
 	for d in [["story", "Story", "Enemies hit softer. For the narrative."], ["normal", "Normal", "The intended experience."], ["hard", "Hard", "Tougher enemies, scarcer cells."]]:
 		var b := K.button(d[1] + "   —   " + d[2], func():
 			Game.settings["difficulty"] = d[0]
 			Game.save_settings()
+			Game.active_slot = slot
 			_start_new(), 26, 640)
 		v.add_child(b)
 		if d[0] == Game.settings["difficulty"]:
@@ -785,6 +828,36 @@ func _new_game_menu() -> void:
 	host.add_child(K.center(p))
 	if first:
 		first.grab_focus()
+
+## v1.5.0: the load picker. Each slot shows its own progress; an empty slot cannot be picked.
+func _slots_menu() -> void:
+	_open("slots")
+	var v := K.vbox(12)
+	v.add_child(K.label("LOAD GAME", 56, K.WHITE, "Rajdhani-Bold"))
+	v.add_child(K.mono("Three save slots, each with its own progress.", 20, K.DIM))
+	var first: Button = null
+	for s in range(1, Game.SLOT_COUNT + 1):
+		var info := Game.slot_info(s)
+		var b: Button
+		if info == "":
+			b = K.button("Slot %d   —   empty" % s, func(): pass, 26, 640)
+			b.disabled = true
+		else:
+			b = K.button("Slot %d   —   %s" % [s, info], _load_slot.bind(s), 22, 800)
+			if first == null:
+				first = b
+		v.add_child(b)
+	v.add_child(K.spacer(10))
+	v.add_child(K.button("Back", show_menu, 26, 200))
+	var p := K.panel()
+	p.add_child(v)
+	host.add_child(K.center(p))
+	if first:
+		first.grab_focus()
+
+func _load_slot(s: int) -> void:
+	Game.active_slot = s
+	_continue()
 
 func _start_new() -> void:
 	_clear_host()
@@ -946,6 +1019,21 @@ func open_settings(name: String) -> void:
 			GameMode.player.health.dmg_mult = Game.diff("dmg_taken"))
 	_toggle(g, "Subtitles", s["subtitles"], func(v):
 		s["subtitles"] = v
+		_apply())
+	_option(g, "Subtitle size", ["small", "medium", "large"], str(s.get("subtitle_size", "medium")), func(v):
+		s["subtitle_size"] = v
+		_apply())
+	_toggle(g, "Subtitle background", bool(s.get("subtitle_bg", false)), func(v):
+		s["subtitle_bg"] = v
+		_apply())
+	_toggle(g, "Reduce motion (less shake, no hit slow-motion)", bool(s.get("reduce_motion", false)), func(v):
+		s["reduce_motion"] = v
+		_apply())
+	_toggle(g, "Vibration (phone and controller)", bool(s.get("vibration", true)), func(v):
+		s["vibration"] = v
+		_apply())
+	_option(g, "Frame rate cap", ["30", "60", "120", "unlimited"], "unlimited" if int(s.get("frame_cap", 0)) == 0 else str(int(s.get("frame_cap", 0))), func(v):
+		s["frame_cap"] = 0 if v == "unlimited" else int(v)
 		_apply())
 	_toggle(g, "Show FPS", bool(s.get("show_fps", false)), func(v):
 		s["show_fps"] = v
@@ -1141,35 +1229,95 @@ func _inventory_block() -> Control:
 	var h := K.hbox(48)
 	var p: Player = GameMode.player
 	var inv: InventoryComponent = p.inventory if p else null
-	var cols := [["RESOURCES", []], ["KEY ITEMS", []], ["MISSION OBJECTS", []]]
+	# v1.5.0: four categories (was three): WEAPONS (with upgrade levels), SUPPLIES (cells, medkits, upgrade parts),
+	# KEY ITEMS, MISSION OBJECTS
+	var cols := [["WEAPONS", []], ["SUPPLIES", []], ["KEY ITEMS", []], ["MISSION OBJECTS", []]]
 	if inv:
-		for w in ["rifle", "pistol"]:
+		var labels := {"rifle": "Pulse rifle", "pistol": "Energy pistol", "shotgun": "Scatter shotgun", "precision": "Precision rifle", "breach": "Breach cannon"}
+		for w in ["rifle", "pistol", "shotgun", "precision", "breach"]:
 			if inv.has_weapon(w):
 				var mag := 0
 				if p.combat.weapons.has(w):
 					mag = int(p.combat.weapons[w].mag)
-				cols[0][1].append("%s cells   %d + %d" % ["Pulse rifle" if w == "rifle" else "Energy pistol", mag, int(inv.reserve.get(w, 0))])
-		cols[0][1].append("Medkits   %d / %d" % [inv.medkits, InventoryComponent.MAX_MEDKITS])
+				var ammo_key: String = {"shotgun": "pistol", "precision": "rifle", "breach": "rifle"}.get(w, w)     # shared cells
+				cols[0][1].append("%s   %d + %d" % [labels[w], mag, int(inv.reserve.get(ammo_key, 0))])
+				var lv := Upgrades.levels(w)
+				cols[0][1].append("   dmg %d/3 · reload %d/3 · mag %d/3 · acc %d/3" % [lv["damage"], lv["reload"], lv["magazine"], lv["accuracy"]])
+		cols[1][1].append("Cells   %d pistol · %d rifle" % [int(inv.reserve.get("pistol", 0)), int(inv.reserve.get("rifle", 0))])
+		cols[1][1].append("Medkits   %d / %d" % [inv.medkits, InventoryComponent.MAX_MEDKITS])
+		cols[1][1].append("Upgrade parts   %d" % inv.parts)
 		for w in inv.weapons:
-			cols[1][1].append("M7 Pulse Rifle" if w == "rifle" else "EP-2 Energy Pistol")
+			if w == "pistol" or w == "rifle":
+				cols[2][1].append("M7 Pulse Rifle" if w == "rifle" else "EP-2 Energy Pistol")
 		for k in inv.keycards:
-			cols[1][1].append("Keycard: " + str(k).capitalize())
-		cols[1][1].append("Suit lamp")
+			cols[2][1].append("Keycard: " + str(k).capitalize())
+		cols[2][1].append("Suit lamp")
 	var objs := [["used.log.5", "Dr. Iyer's research data"], ["puzzle.generators", "Emergency power restored"],
 		["puzzle.security_code", "Security override code 0417"], ["comms.restored", "Comms uplink online"],
 		["puzzle.conduits", "Reactor stabilized"], ["transmission.sent", "Warning transmitted"]]
 	for o in objs:
 		if Game.flag(o[0]):
-			cols[2][1].append(o[1])
+			cols[3][1].append(o[1])
 	for c in cols:
 		var v := K.vbox(4)
 		v.add_child(K.mono(c[0], 18, K.CYAN))
 		if (c[1] as Array).is_empty():
 			v.add_child(K.mono("—", 18, K.DIM))
 		for line in c[1]:
-			v.add_child(K.label(line, 22, K.WHITE))
+			if (line as String).begins_with("   "):
+				v.add_child(K.mono(line, 16, K.DIM))
+			else:
+				v.add_child(K.label(line, 22, K.WHITE))
 		h.add_child(v)
 	return h
+
+# ---------------------------------------------------------------- v1.5.0: upgrade bench
+var _bench_player: Player = null
+const _WEAPON_NAMES := {"rifle": "Pulse rifle", "pistol": "Energy pistol", "shotgun": "Scatter shotgun", "precision": "Precision rifle", "breach": "Breach cannon"}
+
+func open_bench(p: Player) -> void:
+	_bench_player = p
+	_bench_draw()
+
+func _bench_draw() -> void:
+	var p := _bench_player
+	_open("bench")
+	var v := K.vbox(10)
+	v.add_child(K.label("UPGRADE BENCH", 48, K.WHITE, "Rajdhani-Bold"))
+	v.add_child(K.mono("UPGRADE PARTS   %d" % p.inventory.parts, 22, K.AMBER))
+	v.add_child(K.mono("One part per level, three levels per stat.", 18, K.DIM))
+	var first: Button = null
+	for w in ["pistol", "rifle", "shotgun", "precision", "breach"]:
+		if not p.inventory.has_weapon(w):
+			continue
+		v.add_child(K.mono(str(_WEAPON_NAMES[w]), 22, K.CYAN))
+		var row := K.hbox(8)
+		for stat in Upgrades.STATS:
+			var lv := Upgrades.level(w, stat)
+			var b := K.button("%s %d/3%s" % [str(stat).capitalize(), lv, "" if lv >= Upgrades.MAX_LEVEL else "  +1"], _bench_buy.bind(w, stat), 18, 170)
+			b.disabled = lv >= Upgrades.MAX_LEVEL or p.inventory.parts < Upgrades.COST
+			row.add_child(b)
+			if first == null and not b.disabled:
+				first = b
+		v.add_child(row)
+	v.add_child(K.button("Close", _close_to_game, 22, 380))
+	var pnl := K.panel()
+	pnl.add_child(v)
+	host.add_child(K.center(pnl))
+	if first:
+		first.grab_focus()
+
+func _bench_buy(w: String, stat: String) -> void:
+	var p := _bench_player
+	if p == null:
+		return
+	if Upgrades.buy(p.inventory, w, stat):
+		p.combat.refresh_upgrades(w)
+		Sfx.play("item_pickup", -4.0)
+		Events.message.emit("%s upgraded: %s" % [_WEAPON_NAMES[w], stat], 1.6)
+	else:
+		Events.message.emit("Needs an upgrade part", 1.4)
+	_bench_draw()
 
 # ---------------------------------------------------------------- death
 func show_death() -> void:

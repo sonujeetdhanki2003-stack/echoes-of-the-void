@@ -93,6 +93,9 @@ func _props() -> void:
 	pickup("ammo_rifle", "rea_r1", at(0.6, 2.4), 48)
 	pickup("medkit", "rea_m1", at(9.0, 1.2))
 	pickup("ammo_pistol", "rea_a1", at(10.0, 1.2), 24)
+	pickup("weapon_breach", "rea_breach", at(9.0, 2.0) + Vector3(0, 0.3, 0))   # v1.5.0 heavy weapon
+	pickup("part", "rea_p1", at(6.2, 5.0) + Vector3(0, 0.3, 0))              # v1.5.0 upgrade parts
+	pickup("part", "rea_p2", at(10.0, 3.0) + Vector3(0, 0.3, 0))
 	for pos in [at(2.2, 3.0), at(7.8, 3.0)]:
 		var st := AmmoStation.new()
 		st.give_medkit = true

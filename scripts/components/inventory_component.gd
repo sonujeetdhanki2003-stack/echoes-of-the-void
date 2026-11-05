@@ -11,6 +11,7 @@ var weapons: Array[String] = []
 var reserve := {"pistol": 0, "rifle": 0}
 var medkits := 0
 var keycards: Array[String] = []
+var parts := 0            # v1.5.0: upgrade parts for the Upgrade Bench
 
 func has_weapon(id: String) -> bool:
 	return id in weapons
@@ -53,13 +54,25 @@ func use_medkit() -> bool:
 	changed.emit()
 	return true
 
+func add_parts(n: int) -> int:
+	parts += n
+	changed.emit()
+	return parts
+
+func take_parts(n: int) -> bool:
+	if parts < n:
+		return false
+	parts -= n
+	changed.emit()
+	return true
+
 func add_keycard(id: String) -> void:
 	if not id in keycards:
 		keycards.append(id)
 		changed.emit()
 
 func to_dict() -> Dictionary:
-	return {"weapons": weapons.duplicate(), "reserve": reserve.duplicate(), "medkits": medkits, "keycards": keycards.duplicate()}
+	return {"weapons": weapons.duplicate(), "reserve": reserve.duplicate(), "medkits": medkits, "keycards": keycards.duplicate(), "parts": parts}
 
 func from_dict(d: Dictionary) -> void:
 	weapons.clear()
@@ -72,4 +85,5 @@ func from_dict(d: Dictionary) -> void:
 	keycards.clear()
 	for k in d.get("keycards", []):
 		keycards.append(str(k))
+	parts = int(d.get("parts", 0))
 	changed.emit()

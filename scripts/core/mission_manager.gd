@@ -10,6 +10,7 @@ const AREAS := {
 	"reactor": {"name": "REACTOR CORE", "script": "res://scripts/areas/area_reactor.gd"},
 	"exterior": {"name": "ALIEN EXTERIOR", "script": "res://scripts/areas/area_exterior.gd"},
 	"extraction": {"name": "EXTRACTION ZONE", "script": "res://scripts/areas/area_extraction.gd"},
+	"hollows": {"name": "THE HOLLOWS", "script": "res://scripts/areas/area_hollows.gd"},
 }
 
 var data: MissionList
@@ -53,9 +54,19 @@ func is_current(obj_id: String) -> bool:
 
 func _on_flag(f: String) -> void:
 	var o := current_objective()
-	if o.is_empty() or o["flag"] != f:
+	if o.is_empty():
 		return
-	advance()
+	if o["flag"] == f:
+		advance()
+		return
+	# v1.6.0: a LATER objective of this mission whose flag is set early (a route taken out of order) counts as passed,
+	# so the list never waits on a step the player has already done.
+	var objs: Array = current_mission().get("objectives", [])
+	for i in range(Game.state["objective"] + 1, objs.size()):
+		if objs[i]["flag"] == f:
+			Game.state["objective"] = i
+			advance()
+			return
 
 ## Move past every objective whose flag is already set; announce the new one.
 func advance() -> void:

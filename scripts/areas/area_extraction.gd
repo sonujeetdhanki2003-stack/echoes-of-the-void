@@ -99,6 +99,8 @@ func _pad() -> void:
 		st.rotation.y = deg_to_rad(p[1])
 	pickup("ammo_rifle", "exz_r1", Vector3(-2, 0.1, 40), 48)
 	pickup("medkit", "exz_m1", Vector3(3, 0.1, 34))
+	pickup("part", "exz_p1", Vector3(-6, 0.3, 42))   # v1.5.0 upgrade parts
+	pickup("part", "exz_p2", Vector3(6, 0.3, 44))
 	log_at(15, Vector3(-11, 0.42, 10.5))
 	prop("crystal_figure", Vector3(-13.5, 0.4, 9.0), 120.0)
 

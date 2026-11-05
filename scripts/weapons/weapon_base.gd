@@ -17,12 +17,24 @@ var muzzle: Node3D
 var mag_node: Node3D
 var _session := 0
 
+## v1.5.0: data is a copy of the shared table entry with the bench upgrades applied; base_data stays the table entry.
+var base_data: WeaponData
+
 func setup(d: WeaponData, p: Player) -> void:
-	data = d
+	base_data = d
+	data = d.duplicate()
+	Upgrades.apply(data)
 	owner_player = p
 	name = d.id
 	mag = d.mag_size
 	_build_model()
+
+## v1.5.0: re-read the upgrades after a purchase at the bench (the magazine is capped at its new size).
+func refresh_upgrades() -> void:
+	data = base_data.duplicate()
+	Upgrades.apply(data)
+	mag = mini(mag, data.mag_size)
+
 
 func _build_model() -> void:
 	if data.model != "" and ResourceLoader.exists(data.model):
@@ -44,10 +56,12 @@ func _build_model() -> void:
 
 func _placeholder() -> Node3D:
 	var n := Node3D.new()
+	if data.id == "shotgun":
+		return _shotgun_placeholder(n)
 	var body := MeshInstance3D.new()
 	var bm := BoxMesh.new()
-	var l := 0.8 if data.id == "rifle" else 0.26
-	bm.size = Vector3(0.07, 0.12, l)
+	var l := 0.8 if data.id == "rifle" else (0.95 if data.id == "precision" else (1.05 if data.id == "breach" else 0.26))
+	bm.size = Vector3(0.1 if data.id == "breach" else 0.07, 0.12, l)
 	body.mesh = bm
 	body.position = Vector3(0, 0.04, -l * 0.4)
 	var m := StandardMaterial3D.new()
@@ -226,3 +240,29 @@ func cancel_reload() -> void:
 
 func reload_progress() -> float:
 	return 1.0 - clampf(_reload_t / data.reload_time, 0.0, 1.0) if reloading else 0.0
+
+## v1.1.0 stage 3: a scatter shotgun from boxes: wide receiver, two barrels, a short stock and a bright strip
+func _shotgun_placeholder(n: Node3D) -> Node3D:
+	var metal := StandardMaterial3D.new()
+	metal.albedo_color = Color(0.16, 0.17, 0.19)
+	metal.metallic = 0.75
+	metal.roughness = 0.35
+	var wood := StandardMaterial3D.new()
+	wood.albedo_color = Color(0.22, 0.16, 0.11)
+	wood.roughness = 0.7
+	var parts := [
+		[Vector3(0.09, 0.11, 0.3), Vector3(0, 0.02, -0.12), metal],
+		[Vector3(0.05, 0.05, 0.62), Vector3(0, 0.08, -0.5), metal],
+		[Vector3(0.05, 0.05, 0.62), Vector3(0.05, 0.02, -0.5), metal],
+		[Vector3(0.07, 0.13, 0.22), Vector3(0, -0.01, 0.13), wood],
+		[Vector3(0.085, 0.03, 0.12), Vector3(0, 0.1, -0.2), Fx.glow_mat(data.tracer_color, 2.0)],
+	]
+	for pt in parts:
+		var mi := MeshInstance3D.new()
+		var bm := BoxMesh.new()
+		bm.size = pt[0]
+		mi.mesh = bm
+		mi.position = pt[1]
+		mi.material_override = pt[2]
+		n.add_child(mi)
+	return n

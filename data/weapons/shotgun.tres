@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "shotgun"
+display_name = "SCATTER SHOTGUN"
+ammo_type = "pistol"
+damage = 9.0
+crit_mult = 1.6
+fire_rate = 1.1
+automatic = false
+mag_size = 6
+reload_time = 2.2
+equip_time = 0.6
+spread_hip = 5.0
+spread_aim = 3.0
+spread_per_shot = 0.0
+spread_max = 5.0
+spread_recover = 6.0
+recoil_pitch = 3.0
+recoil_yaw = 1.0
+range = 32.0
+impulse = 4.0
+noise_radius = 40.0
+aim_fov = 48.0
+pellets = 7
+tracer_color = Color(1, 0.6, 0.2, 1)
+model = "res://assets/models/shotgun.glb"
+sfx_fire = "rifle_fire"
+sfx_reload = "rifle_reload"

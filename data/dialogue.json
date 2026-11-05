@@ -214,5 +214,13 @@
  "echo_signal": {
   "speaker": "BROADCAST",
   "text": "Come to us... come to us..."
+ },
+ "mira_hollows_enter": {
+  "speaker": "MIRA",
+  "text": "The tone is coming from the basin, west of the path. Steady, like a heartbeat. Don't trust it. Go and find where it starts."
+ },
+ "mira_hollows_shutdown": {
+  "speaker": "MIRA",
+  "text": "Transmitter offline. The Spire's relay can't reach the pad now. But it was calling something. It didn't want us to stop it."
  }
 }

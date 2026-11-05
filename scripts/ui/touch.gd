@@ -31,6 +31,7 @@ func _ready() -> void:
 		["SWAP", "weapon_next", Vector2(-380, -560), false, Vector2(130, 100)],
 		["MED", "medkit", Vector2(-560, -500), false, Vector2(130, 100)],
 		["RUN", "sprint", Vector2(40, -160), false, Vector2(130, 100)],
+		["MELEE", "melee", Vector2(-400, -110), false, Vector2(130, 110)],
 		["LAMP", "lamp", Vector2(-400, 24), false, Vector2(110, 84)],
 		["LOGS", "journal", Vector2(-270, 24), false, Vector2(110, 84)],
 		["II", "pause", Vector2(-140, 24), false, Vector2(110, 84)],

@@ -79,12 +79,23 @@ func _props() -> void:
 	label3d("CARGO LIFT — REACTOR LEVEL", at(11.0, 5.95) + Vector3(0, 4.5, 0), 180.0, 72, Color(1.0, 0.75, 0.3))
 	# pickups
 	pickup("weapon_rifle", "rifle", at(3.0, 4.5) + Vector3(0, 0.8, 0))
+	pickup("weapon_shotgun", "sec_shotgun", at(2.4, 5.0) + Vector3(0, 0.8, 0))   # v1.1.0 stage 3
+	pickup("weapon_precision", "sec_precision", at(1.2, 2.6) + Vector3(0, 0.8, 0))   # v1.1.0 stage 3
 	pickup("ammo_rifle", "sec_r1", at(3.6, 5.2), 32)
 	pickup("ammo_pistol", "sec_a1", at(0.6, 2.6), 18)
 	pickup("medkit", "sec_m1", at(2.5, 5.6))
 	pickup("ammo_rifle", "sec_r2", at(7.6, 1.6), 32)
 	pickup("medkit", "sec_m2", at(9.6, 1.0))
 	pickup("ammo_rifle", "sec_r3", at(12.0, 3.6), 32)
+	# v1.5.0: upgrade parts (14 in all across the game) and the Upgrade Bench
+	pickup("part", "sec_p1", at(6.0, 2.4) + Vector3(0, 0.3, 0))
+	pickup("part", "sec_p2", at(13.0, 2.0) + Vector3(0, 0.3, 0))
+	pickup("part", "sec_p3", at(8.0, 2.0) + Vector3(0, 0.3, 0))
+	pickup("part", "sec_p4", at(3.0, 6.0) + Vector3(0, 0.3, 0))
+	var bench := UpgradeBench.new()
+	add_child(bench)
+	bench.global_position = at(11.0, 3.0)
+	bench.rotation.y = -PI * 0.5
 	var st := AmmoStation.new()
 	add_child(st)
 	st.global_position = at(3.85, 4.6)
@@ -117,6 +128,7 @@ func _story() -> void:
 	enemy("sentinel", "sec_t1", at(5.2, 0.8), 90.0)
 	enemy("sentinel", "sec_t2", at(5.3, 3.4), 90.0, {"patrol": [at(5.3, 3.4), at(4.4, 2.6)]})
 	enemy("stalker", "sec_s1", at(4.6, 3.7), 90.0)
+	enemy("hunter", "sec_h1", at(6.4, 4.6), 90.0)   # v1.1.0 stage 2: persistent pursuer
 	trigger("sec_armory_hint", at(3.0, 3.4), Vector3(4, 3, 2), func(_p):
 		if not Game.flag("got.rifle"):
 			beat("armory", "mira_armory"))

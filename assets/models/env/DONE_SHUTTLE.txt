@@ -3,4 +3,4 @@ Nose at Godot -Z, tail/ramp at +Z, origin on the ground under the centre (NOTE: 
 Child "Ramp" (hinge at local (0,1.76,6.66)) is built CLOSED in its own space and exported OPEN with rotation.x = 139 deg; tween rotation.x to 0 to close it.
 Materials: ShuttleHull, ShuttleHull2, ShuttleDetail (textured, have normal maps so Props.detail() leaves them alone), GlassCockpit, GlassSensor,
 EmitEngine (dim nozzle glow, raise its energy for the launch), EmitNavRed (port wingtip + top/bottom beacons), EmitNavGreen (starboard wingtip), EmitNavWhite, EmitFlood, EmitInterior, EmitScreen.
-Body fits the existing collision box (5 x 3.6 x 15 at y 3.4); nacelles/wings/gear stick out (9.0 m span). Old file backed up in backup/.
+Body fits the existing collision box (5 x 3.6 x 15 at y 3.4); nacelles/wings/gear stick out (9.0 m span). Old file backed up in /home/user/tab/tasks/f77ac026-08db-4b3c-87fc-ca783186940e/backup/.

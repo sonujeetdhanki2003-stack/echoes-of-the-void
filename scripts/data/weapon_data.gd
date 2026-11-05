@@ -27,3 +27,4 @@ extends Resource
 @export var model := ""
 @export var sfx_fire := ""
 @export var sfx_reload := ""
+@export var pellets := 1               # v1.1.0: shotgun pellets per trigger pull (1 = a normal shot)

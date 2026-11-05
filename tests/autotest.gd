@@ -512,16 +512,6 @@ func _extraction() -> void:
 		await skip_cinematics()
 	check("game complete", await until(func(): return Game.flag("game.complete"), 5.0))
 	check("end credits roll", await until(func(): return GameMode.ui.current == "end_credits", 30.0))
-	var all_ids := {}
-	for l in GameData.logs():
-		all_ids[int(l["id"])] = true
-	var missing := []
-	for k in all_ids.keys():
-		if not log_ids.has(k):
-			missing.append(k)
-	if not missing.is_empty():
-		print("  logs never placed in any area: ", missing)
-	check("all logs findable (%d placed of %d)" % [log_ids.size(), all_ids.size()], missing.is_empty() and all_ids.size() > 0)
 	# the ending happens once and completion persists in the save
 	var again := find("Console", "shuttle_ramp")
 	if again and P() and again.can_interact(P()):
@@ -624,3 +614,21 @@ func _checkpoints() -> void:
 		if not same:
 			print("  cp ", cp, ": mission ", Game.state["mission"], " vs ", s["mission"], " | '", Missions.objective_text(), "' vs '", s["objective"], "'")
 		check("load checkpoint %s" % cp, ok and floor_ok and P() and not P().dead and same)
+
+	# v1.6.0: the log check runs last, because THE HOLLOWS (a side valley off the exterior, logs 16 and 17) is not on the
+	# route above and loading it would change the state the checks above read.
+	await GameMode.load_area("hollows", "hollows_start", true)
+	await wait(1.0)
+	for n in get_tree().get_nodes_in_group("interactable"):
+		if n is LogPickup:
+			log_ids[int(n.log_id)] = true
+	var all_ids := {}
+	for l in GameData.logs():
+		all_ids[int(l["id"])] = true
+	var missing := []
+	for k in all_ids.keys():
+		if not log_ids.has(k):
+			missing.append(k)
+	if not missing.is_empty():
+		print("  logs never placed in any area: ", missing)
+	check("all logs findable (%d placed of %d)" % [log_ids.size(), all_ids.size()], missing.is_empty() and all_ids.size() > 0)

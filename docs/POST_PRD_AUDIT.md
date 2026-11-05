@@ -15,7 +15,7 @@ Rule (Sonujeet): *never claim a feature works without a test.* A row is **PASS**
 | 5. Godot 4 Game Development PRD | 57 | 32 | 22 | 1 | 2 |
 | **Total** | **326** | **219** | **96** | **2** | **9** |
 
-### Test runs used as evidence (auditor's own runs unless marked; logs in `runs/`)
+### Test runs used as evidence (auditor's own runs unless marked; logs in `/home/user/tab/tasks/6df4d703-acce-4499-bd30-b6069ab09303/runs/`)
 
 | Run | Command | Result line | Log |
 |---|---|---|---|
@@ -39,7 +39,7 @@ Rule (Sonujeet): *never claim a feature works without a test.* A row is **PASS**
 
 Note: two of my 17:58 runs failed for test-harness reasons, not game reasons. One was a parse error from a script caught mid-edit (r2_autotest.log, 62/68). The other was the shared test save file during a concurrent run (r2_offline.log, 92/97), fixed by the lead at 18:07 with per-process test saves. Clean re-runs pass.
 
-Screenshots referenced are in `shots/`. Name equivalents are in `docs/FOLDER_MAPPING.md` and `docs/ASSUMPTIONS.md`; assets in `docs/ASSET_REGISTER.md`; shared IDs in `docs/INTEGRATION.md`.
+Screenshots referenced are in `/home/user/tab/tasks/9d8e69c6-b8aa-49e8-9156-1d6e64bae230/shots/`. Name equivalents are in `docs/FOLDER_MAPPING.md` and `docs/ASSUMPTIONS.md`; assets in `docs/ASSET_REGISTER.md`; shared IDs in `docs/INTEGRATION.md`.
 
 
 ## 1. Post-PRD Technical Development & Production Roadmap
@@ -126,7 +126,7 @@ Screenshots referenced are in `shots/`. Name equivalents are in `docs/FOLDER_MAP
 | 76 | Windows export configured | **PASS** | export_presets.cfg preset.0 "Windows Desktop" |
 | 77 | Packaged build tested outside the editor; save/load, audio, input verified | **FIXED** | Windows .exe (export 17:18Z) under wine, headless: "AUTOTEST 72/72 passed in 104.2s … EXIT 0" incl. save/continue/corrupt-backup checks (runs/wine_autotest_copy.log). Rendering, audio and real input on Windows hardware still need one run on Sonujeet's PC |
 | 78 | Windows: audio and input verified on real hardware | **OPEN** | headless wine run cannot play audio or take input; needs one run on Sonujeet's PC |
-| 79 | Release folder prepared | **FIXED** | lead 4: echoes-v1.0.0/ holds the Windows zip, signed APK, trailer, 9 screenshots, CHANGELOG, TEST_REPORT, source zip, dated git bundle and test_logs/; web + downloads live (TEST_REPORT.md "Builds") |
+| 79 | Release folder prepared | **FIXED** | lead 4: /home/user/tab/files/echoes-v1.0.0/ holds the Windows zip, signed APK, trailer, 9 screenshots, CHANGELOG, TEST_REPORT, source zip, dated git bundle and test_logs/; web + downloads live (TEST_REPORT.md "Builds") |
 | 80 | Portfolio: trailer, screenshots, character + environment showcases, Blender breakdown, Godot breakdown, architecture overview, dev docs | **FIXED** | echoes-portfolio/: turntables/ (5 MP4 + 6 hero stills), breakdown/ (wire/clay/final for 7 assets + 5 texture sheets, README), environment/ENVIRONMENT_SHOWCASE.md+.pdf (8 area images, 5 cine sheets), docs/GODOT_IMPLEMENTATION_BREAKDOWN + ARCHITECTURE_OVERVIEW (.md + .pdf, diagram), trailer/ (v1.0 cut, 63 s); screenshots in the release folder |
 | 81 | Final deliverables: project, Blender sources, Windows demo, 30–45 min, trailer, screenshots, docs, portfolio | **OPEN** | all delivered (project, blender_src/, Windows zip wine 100/100, trailer, 9 screenshots, docs, portfolio, see #79/#80) except a measured 30–45 min human playthrough (autotest teleports between objectives) — needs Sonujeet |
 | 82 | §3 AI workflow: Godot 4 syntax, GDScript, no invented APIs, no placeholders claimed complete | **PASS** | check.tscn 78/78 compile on 4.7.2; placeholder models found and replaced (PROGRESS 15:57Z); this audit marks nothing pass without evidence |

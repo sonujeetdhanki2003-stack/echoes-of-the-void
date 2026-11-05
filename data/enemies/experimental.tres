@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "experimental"
+display_name = "EXPERIMENTAL"
+max_hp = 260.0
+walk_speed = 1.6
+run_speed = 6.5
+turn_speed = 5.0
+sight_range = 24.0
+sight_fov = 160.0
+hearing = 1.4
+melee_damage = 18.0
+melee_range = 2.4
+attack_cooldown = 1.1
+crit_mult = 2.0
+stagger_threshold = 90.0
+model = "res://assets/models/brute.glb"
+radius = 0.9
+height = 2.4

@@ -343,6 +343,9 @@ func _action(i: int, busy: float) -> void:
 		tree.set("parameters/action_sel/transition_request", ["hit", "interact", "heal", "jump", "land"][i])
 		tree.set("parameters/action/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 
+func melee() -> void:
+	_action(0, 0.0)
+
 func hit() -> void:
 	_action(0, 0.0)
 

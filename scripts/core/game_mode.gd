@@ -40,7 +40,7 @@ func _notification(what: int) -> void:
 
 # ---------------------------------------------------------------- flow
 func new_game() -> void:
-	Game.delete_save()
+	Game.delete_slot(Game.active_slot)   # v1.5.0: only this slot is replaced; the other slots stay
 	Game.new_state()
 	await load_area("cryo", "cryo_start", true)
 

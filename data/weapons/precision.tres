@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "precision"
+display_name = "PRECISION RIFLE"
+ammo_type = "rifle"
+damage = 60.0
+crit_mult = 2.5
+fire_rate = 1.6
+automatic = false
+mag_size = 8
+reload_time = 2.0
+equip_time = 0.6
+spread_hip = 1.2
+spread_aim = 0.2
+spread_per_shot = 0.2
+spread_max = 2.0
+spread_recover = 8.0
+recoil_pitch = 3.5
+recoil_yaw = 0.6
+range = 180.0
+impulse = 3.0
+noise_radius = 36.0
+aim_fov = 40.0
+pellets = 1
+tracer_color = Color(0.95, 0.85, 0.35, 1)
+model = "res://assets/models/precision_rifle.glb"
+sfx_fire = "rifle_fire"
+sfx_reload = "rifle_reload"

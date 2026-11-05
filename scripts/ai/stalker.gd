@@ -84,7 +84,7 @@ func _chase(delta: float) -> void:
 		return
 	# zig-zag on the approach so it's harder to track
 	_zig += delta * 3.2
-	var goal := p.global_position
+	var goal := flank_goal(p.global_position)
 	if d > 7.0 and see:
 		var side := global_transform.basis.x * sin(_zig) * 2.5
 		goal += side

@@ -119,6 +119,8 @@ func _props() -> void:
 	pickup("ammo_pistol", "cryo_a1", Vector3(42.5, 0.82, 9.0), 12)
 	pickup("ammo_pistol", "cryo_a2", Vector3(30.0, 0.0, 14.6), 12)
 	pickup("ammo_pistol", "cryo_a3", Vector3(37.4, 0.0, 26.6), 12)
+	pickup("part", "cryo_p1", Vector3(40.0, 0.3, 12.0))   # v1.5.0 upgrade parts
+	pickup("part", "cryo_p2", Vector3(33.0, 0.3, 20.0))
 	# logs
 	log_at(1, Vector3(40.6, 0.95, 6.8))
 	log_at(2, Vector3(29.2, 0.0, 15.2))

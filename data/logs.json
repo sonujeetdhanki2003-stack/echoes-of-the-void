@@ -1,122 +1,138 @@
 [
- {
-  "id": 1,
-  "area": "A1",
-  "speaker": "ortega",
-  "name": "DR. SAM ORTEGA",
-  "title": "Medical log: Specialist Rao",
-  "text": "Medical log, day one hundred twelve. Specialist Rao took a pressure door to the ribs during the storm. Three fractures, internal bleeding. I'm putting him under until the next supply run. Sleep well, Kabir. You're going to miss the most exciting week this station has ever had."
- },
- {
-  "id": 2,
-  "area": "A1",
-  "speaker": "wren",
-  "name": "TOMASZ WREN",
-  "title": "Note on the generator room door",
-  "text": "If you're reading this, the emergency bus tripped again. Listen, because I'm not saying it twice. Coolant pump first. Then the regulator. Main generator last. Coolant, regulator, main. Start the main cold and it throws the breaker, and you'll be standing in the dark wishing you'd listened to Tomasz."
- },
- {
-  "id": 3,
-  "area": "A1",
-  "speaker": "ortega",
-  "name": "DR. SAM ORTEGA",
-  "title": "Medical log: Corporal Diaz",
-  "text": "Day one hundred twenty. Corporal Diaz came back from the Spire with a cut on his hand. The cut is humming. I can hear it through the stethoscope. A tone. It changes when I speak, like it's listening. Like it's trying to answer me."
- },
- {
-  "id": 4,
-  "area": "A2",
-  "speaker": "hale",
-  "name": "DIRECTOR HALE",
-  "title": "Director's log",
-  "text": "Director's log. Halcyon wants results, not poetry. Dr. Iyer gets everything she asks for. Full access to the Spire, full reactor allocation if she needs it. If that thing is an energy source, it's worth more than every colony we have. Nobody leaves until we know what it is."
- },
- {
-  "id": 5,
-  "area": "A2",
-  "speaker": "iyer",
-  "name": "DR. LEELA IYER",
-  "title": "The day the Spire sang",
-  "text": "April seventeenth. Station time oh three twelve. The Spire sang. Not noise, not interference. Structured. Mathematical. It repeated our own transmissions back to us, changed, improved. Mark the date, everyone. April seventeenth is the day we stopped being alone."
- },
- {
-  "id": 6,
-  "area": "A2",
-  "speaker": "iyer",
-  "name": "DR. LEELA IYER",
-  "title": "It learns",
-  "text": "The samples respond to sound. Play them a voice and they grow toward it. Play them music and they harmonise. I don't think it's one creature. It's a choir, a colony that learns by copying. Every voice it hears becomes part of it. That should frighten me more than it does."
- },
- {
-  "id": 7,
-  "area": "A2",
-  "speaker": "okoye",
-  "name": "NADIA OKOYE",
-  "title": "Lockdown",
-  "text": "Security log. The director has ordered the Security Sector locked down. I've set the override to something Iyer will never stop talking about. The day her rock first sang. Month, then day, four digits. If I don't make it, at least she'll be able to get in."
- },
- {
-  "id": 8,
-  "area": "A3",
-  "speaker": "okoye",
-  "name": "NADIA OKOYE",
-  "title": "They came back",
-  "text": "Diaz's team came back from the Spire. All of them. They don't speak anymore. They hum. Crystal is growing through their armour, and they still remember how to shoot. Weapons free. God forgive me, they were my people."
- },
- {
-  "id": 9,
-  "area": "A3",
-  "speaker": "wren",
-  "name": "TOMASZ WREN",
-  "title": "The dish is busy",
-  "text": "The comms array isn't broken. It's busy. Something is pushing a signal out of our dish at full power, on every band. I cut the relay, and now it's drawing straight from the reactor. Whatever is talking doesn't want us to call home. It wants to call someone else."
- },
- {
-  "id": 10,
-  "area": "A4",
-  "speaker": "iyer",
-  "name": "DR. LEELA IYER",
-  "title": "Experiment twelve",
-  "text": "Experiment twelve. Hale approved full reactor output into the Spire. If it learns from what it hears, I want to give it something worth hearing. We pulse the reactor in sequence. A greeting. Prime numbers. Everyone's in the control room. I've never been so happy in my life."
- },
- {
-  "id": 11,
-  "area": "A4",
-  "speaker": "hale",
-  "name": "DIRECTOR HALE",
-  "title": "Final order",
-  "text": "This is Director Hale. The experiment... the Spire answered. It's in the reactor. It's in the walls. It's in Leela. All personnel to the extraction pad. MIRA, lock the core. Lock the... why are you using my voice?"
- },
- {
-  "id": 12,
-  "area": "A4",
-  "speaker": "echo",
-  "name": "???",
-  "title": "Kabir",
-  "text": "Kabir? Kabir, is that you? You're awake. Come down to us. It doesn't hurt. We're all here, singing. It only wants to be heard. Come down, Kabir. Come to us."
- },
- {
-  "id": 13,
-  "area": "A5",
-  "speaker": "wren",
-  "name": "TOMASZ WREN",
-  "title": "The shuttle",
-  "text": "The extraction shuttle is fuelled and on the pad. Autopilot is set for orbit, then the long jump home. If anyone's left, go. Don't wait for me. And Kabir, if you wake up, I left the lights on for you."
- },
- {
-  "id": 14,
-  "area": "A5",
-  "speaker": "ortega",
-  "name": "DR. SAM ORTEGA",
-  "title": "Last entry",
-  "text": "I can hear it singing through the hull now. Diaz's voice. Leela's. Mine. If it reaches the Earth relay, it will learn eight billion voices. Somebody has to tell them not to answer. Whoever you are, send the warning. Then get off this world."
- },
- {
-  "id": 15,
-  "area": "A6",
-  "speaker": "iyer",
-  "name": "DR. LEELA IYER",
-  "title": "I'm sorry",
-  "text": "If anyone hears this, it was me. I asked it a question, and it was always going to answer. It isn't evil. It's just hungry to be heard. Don't let it hear you. Don't let it hear anyone. I'm so sorry."
- }
+  {
+    "id": 1,
+    "area": "A1",
+    "speaker": "ortega",
+    "name": "DR. SAM ORTEGA",
+    "title": "Medical log: Specialist Rao",
+    "text": "Medical log, day one hundred twelve. Specialist Rao took a pressure door to the ribs during the storm. Three fractures, internal bleeding. I'm putting him under until the next supply run. Sleep well, Kabir. You're going to miss the most exciting week this station has ever had."
+  },
+  {
+    "id": 2,
+    "area": "A1",
+    "speaker": "wren",
+    "name": "TOMASZ WREN",
+    "title": "Note on the generator room door",
+    "text": "If you're reading this, the emergency bus tripped again. Listen, because I'm not saying it twice. Coolant pump first. Then the regulator. Main generator last. Coolant, regulator, main. Start the main cold and it throws the breaker, and you'll be standing in the dark wishing you'd listened to Tomasz."
+  },
+  {
+    "id": 3,
+    "area": "A1",
+    "speaker": "ortega",
+    "name": "DR. SAM ORTEGA",
+    "title": "Medical log: Corporal Diaz",
+    "text": "Day one hundred twenty. Corporal Diaz came back from the Spire with a cut on his hand. The cut is humming. I can hear it through the stethoscope. A tone. It changes when I speak, like it's listening. Like it's trying to answer me."
+  },
+  {
+    "id": 4,
+    "area": "A2",
+    "speaker": "hale",
+    "name": "DIRECTOR HALE",
+    "title": "Director's log",
+    "text": "Director's log. Halcyon wants results, not poetry. Dr. Iyer gets everything she asks for. Full access to the Spire, full reactor allocation if she needs it. If that thing is an energy source, it's worth more than every colony we have. Nobody leaves until we know what it is."
+  },
+  {
+    "id": 5,
+    "area": "A2",
+    "speaker": "iyer",
+    "name": "DR. LEELA IYER",
+    "title": "The day the Spire sang",
+    "text": "April seventeenth. Station time oh three twelve. The Spire sang. Not noise, not interference. Structured. Mathematical. It repeated our own transmissions back to us, changed, improved. Mark the date, everyone. April seventeenth is the day we stopped being alone."
+  },
+  {
+    "id": 6,
+    "area": "A2",
+    "speaker": "iyer",
+    "name": "DR. LEELA IYER",
+    "title": "It learns",
+    "text": "The samples respond to sound. Play them a voice and they grow toward it. Play them music and they harmonise. I don't think it's one creature. It's a choir, a colony that learns by copying. Every voice it hears becomes part of it. That should frighten me more than it does."
+  },
+  {
+    "id": 7,
+    "area": "A2",
+    "speaker": "okoye",
+    "name": "NADIA OKOYE",
+    "title": "Lockdown",
+    "text": "Security log. The director has ordered the Security Sector locked down. I've set the override to something Iyer will never stop talking about. The day her rock first sang. Month, then day, four digits. If I don't make it, at least she'll be able to get in."
+  },
+  {
+    "id": 8,
+    "area": "A3",
+    "speaker": "okoye",
+    "name": "NADIA OKOYE",
+    "title": "They came back",
+    "text": "Diaz's team came back from the Spire. All of them. They don't speak anymore. They hum. Crystal is growing through their armour, and they still remember how to shoot. Weapons free. God forgive me, they were my people."
+  },
+  {
+    "id": 9,
+    "area": "A3",
+    "speaker": "wren",
+    "name": "TOMASZ WREN",
+    "title": "The dish is busy",
+    "text": "The comms array isn't broken. It's busy. Something is pushing a signal out of our dish at full power, on every band. I cut the relay, and now it's drawing straight from the reactor. Whatever is talking doesn't want us to call home. It wants to call someone else."
+  },
+  {
+    "id": 10,
+    "area": "A4",
+    "speaker": "iyer",
+    "name": "DR. LEELA IYER",
+    "title": "Experiment twelve",
+    "text": "Experiment twelve. Hale approved full reactor output into the Spire. If it learns from what it hears, I want to give it something worth hearing. We pulse the reactor in sequence. A greeting. Prime numbers. Everyone's in the control room. I've never been so happy in my life."
+  },
+  {
+    "id": 11,
+    "area": "A4",
+    "speaker": "hale",
+    "name": "DIRECTOR HALE",
+    "title": "Final order",
+    "text": "This is Director Hale. The experiment... the Spire answered. It's in the reactor. It's in the walls. It's in Leela. All personnel to the extraction pad. MIRA, lock the core. Lock the... why are you using my voice?"
+  },
+  {
+    "id": 12,
+    "area": "A4",
+    "speaker": "echo",
+    "name": "???",
+    "title": "Kabir",
+    "text": "Kabir? Kabir, is that you? You're awake. Come down to us. It doesn't hurt. We're all here, singing. It only wants to be heard. Come down, Kabir. Come to us."
+  },
+  {
+    "id": 13,
+    "area": "A5",
+    "speaker": "wren",
+    "name": "TOMASZ WREN",
+    "title": "The shuttle",
+    "text": "The extraction shuttle is fuelled and on the pad. Autopilot is set for orbit, then the long jump home. If anyone's left, go. Don't wait for me. And Kabir, if you wake up, I left the lights on for you."
+  },
+  {
+    "id": 14,
+    "area": "A5",
+    "speaker": "ortega",
+    "name": "DR. SAM ORTEGA",
+    "title": "Last entry",
+    "text": "I can hear it singing through the hull now. Diaz's voice. Leela's. Mine. If it reaches the Earth relay, it will learn eight billion voices. Somebody has to tell them not to answer. Whoever you are, send the warning. Then get off this world."
+  },
+  {
+    "id": 15,
+    "area": "A6",
+    "speaker": "iyer",
+    "name": "DR. LEELA IYER",
+    "title": "I'm sorry",
+    "text": "If anyone hears this, it was me. I asked it a question, and it was always going to answer. It isn't evil. It's just hungry to be heard. Don't let it hear you. Don't let it hear anyone. I'm so sorry."
+  },
+  {
+    "id": 16,
+    "area": "A6",
+    "speaker": "DR. LEELA IYER",
+    "name": "DR. LEELA IYER",
+    "title": "Field note, the valley floor",
+    "text": "The crystals here grow toward the basin, all of them, in rings. Whatever built the relay did not build it on a flat floor. It built it where the ground remembers the signal. I have stopped calling it a transmitter in my notes. I call it a listener now."
+  },
+  {
+    "id": 17,
+    "area": "A6",
+    "speaker": "MIRA",
+    "name": "MIRA",
+    "title": "Relay plate, scratched by hand",
+    "text": "Crew of ORPHEUS: if you can read this, the signal is an invitation, not an ID. Do not answer it. We answered it once and lost four people to the answer. The Herald is only what it sends to talk to us."
+  }
 ]

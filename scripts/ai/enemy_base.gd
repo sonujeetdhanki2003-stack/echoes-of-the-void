@@ -448,6 +448,61 @@ func take_hit(dmg: float, info: Dictionary) -> bool:
 	on_hurt(applied, info)
 	return dead
 
+## v1.6.0 (stage B): a melee strike. Always staggers the enemy for MELEE_STAGGER seconds (the finishing window).
+const MELEE_STAGGER := 1.8
+func melee_hit(dmg: float, info: Dictionary) -> bool:
+	var killed := take_hit(dmg, info)
+	if not dead and _stagger_t < MELEE_STAGGER:
+		_stagger_acc = 0.0
+		_stagger_t = MELEE_STAGGER
+		on_stagger()
+	return killed
+
+## True while an enemy is staggered: a melee hit now is a finishing move.
+func is_staggered() -> bool:
+	return not dead and _stagger_t > 0.0
+
+## v1.6.0 (stage B): flanking. Alerted melee-capable enemies that are close to the player spread around it on
+## two rings instead of stacking on one side. Computed once per physics frame for the whole group.
+const FLANK_KINDS := ["brute", "stalker", "hunter", "experimental"]
+const FLANK_RANGE := 16.0
+static var _flank_frame := -1
+static var _flank_goals := {}
+
+static func _flank_compute(pp: Vector3, tree: SceneTree) -> void:
+	_flank_frame = Engine.get_physics_frames()
+	_flank_goals.clear()
+	var members: Array = []
+	for e in tree.get_nodes_in_group("enemy"):
+		if not (e is EnemyBase) or not is_instance_valid(e):
+			continue
+		var en := e as EnemyBase
+		if en.dead or not en.alerted or not (en.kind in FLANK_KINDS):
+			continue
+		if en.state != State.CHASE and en.state != State.ATTACK:
+			continue
+		var d := Vector2(en.global_position.x - pp.x, en.global_position.z - pp.z)
+		if d.length() > FLANK_RANGE:
+			continue
+		members.append([atan2(d.y, d.x), en])
+	if members.size() < 2:
+		return
+	members.sort_custom(func(a, b): return a[0] < b[0])
+	var n := members.size()
+	var a0: float = members[0][0]
+	for i in n:
+		var a := a0 + float(i) * TAU / float(n)
+		var r := 1.6 + 0.6 * float(i % 2)
+		_flank_goals[members[i][1].get_instance_id()] = pp + Vector3(cos(a), 0.0, sin(a)) * r
+
+## Where this enemy should walk to reach the player. Alone (or outside a group) it is the player's position.
+func flank_goal(pp: Vector3) -> Vector3:
+	if not alerted or dead or not (kind in FLANK_KINDS):
+		return pp
+	if _flank_frame != Engine.get_physics_frames():
+		_flank_compute(pp, get_tree())
+	return _flank_goals.get(get_instance_id(), pp)
+
 func damage_mult(_info: Dictionary) -> float:
 	return 1.0
 

@@ -96,6 +96,8 @@ func _props() -> void:
 	pickup("ammo_pistol", "res_a3", at(12.0, 1.0) + Vector3(0, 0.8, 0), 18)
 	pickup("medkit", "res_m1", at(6.0, 1.2))
 	pickup("medkit", "res_m2", at(9.2, 2.8))
+	pickup("part", "res_p1", at(3.0, 4.0) + Vector3(0, 0.3, 0))   # v1.5.0 upgrade parts
+	pickup("part", "res_p2", at(7.0, 5.0) + Vector3(0, 0.3, 0))
 	var st := AmmoStation.new()
 	add_child(st)
 	st.global_position = at(11.15, 3.0)

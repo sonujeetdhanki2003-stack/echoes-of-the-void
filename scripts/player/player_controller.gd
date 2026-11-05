@@ -144,8 +144,16 @@ func _unhandled_input(event: InputEvent) -> void:
 		player.combat.equip("pistol")
 	elif event.is_action_pressed("weapon_2"):
 		player.combat.equip("rifle")
+	elif event.is_action_pressed("weapon_3") and player.inventory.has_weapon("shotgun"):
+		player.combat.equip("shotgun")
+	elif event.is_action_pressed("weapon_4") and player.inventory.has_weapon("precision"):
+		player.combat.equip("precision")
+	elif event.is_action_pressed("weapon_5") and player.inventory.has_weapon("breach"):
+		player.combat.equip("breach")
 	elif event.is_action_pressed("weapon_next") or event.is_action_pressed("weapon_prev"):
 		player.combat.cycle()
+	elif event.is_action_pressed("melee"):
+		player.try_melee()
 	elif event.is_action_pressed("medkit"):
 		player.use_medkit()
 	elif event.is_action_pressed("lamp"):
@@ -206,7 +214,7 @@ func _process(delta: float) -> void:
 	var shake_off := Vector2.ZERO
 	if _shake_t > 0.0:
 		_shake_t -= delta
-		var amt := _trauma * _trauma * float(Game.settings["camera_shake"])
+		var amt := _trauma * _trauma * float(Game.settings["camera_shake"]) * (0.25 if Feedback.reduce_motion() else 1.0)
 		var tt := Time.get_ticks_msec() * 0.001
 		shake_off = Vector2(_noise.get_noise_2d(tt * 40.0, 0.0), _noise.get_noise_2d(0.0, tt * 40.0)) * 3.5 * amt
 		if _shake_t <= 0.0:

@@ -7,10 +7,16 @@ signal weapon_changed(id: String)
 const WEAPON_DATA := {
 	"pistol": "res://data/weapons/energy_pistol.tres",
 	"rifle": "res://data/weapons/pulse_rifle.tres",
+	"shotgun": "res://data/weapons/shotgun.tres",     # v1.1.0 stage 3
+	"precision": "res://data/weapons/precision.tres",
+	"breach": "res://data/weapons/breach.tres",     # v1.5.0 heavy weapon
 }
 const WEAPON_SCRIPT := {
 	"pistol": "res://scripts/weapons/energy_pistol.gd",
 	"rifle": "res://scripts/weapons/pulse_rifle.gd",
+	"shotgun": "res://scripts/weapons/scatter_shotgun.gd",
+	"precision": "res://scripts/weapons/precision_rifle.gd",
+	"breach": "res://scripts/weapons/breach_cannon.gd",
 }
 
 var player: Player
@@ -47,6 +53,12 @@ func mags() -> Dictionary:
 	for id in weapons.keys():
 		m[id] = (weapons[id] as WeaponBase).mag
 	return m
+
+## v1.5.0: a bench purchase re-reads the weapon's upgraded numbers.
+func refresh_upgrades(id: String) -> void:
+	if weapons.has(id):
+		(weapons[id] as WeaponBase).refresh_upgrades()
+		_emit_ammo()
 
 func _make(id: String) -> WeaponBase:
 	var d: WeaponData = load(WEAPON_DATA[id])
