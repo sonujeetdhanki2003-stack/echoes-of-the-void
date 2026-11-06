@@ -35,7 +35,7 @@ func _ready() -> void:
 	get_tree().quit(0 if failed == 0 else 1)
 
 func _data() -> void:
-	check("save version is 3 and the build is 1.8.0", Game.SAVE_VERSION == 3 and Game.VERSION == "1.8.0")
+	check("save version is 3 and the build is 1.8.0", Game.SAVE_VERSION == 3 and Game.VERSION == "1.9.1")
 	check("hollows is a registered area", Missions.area_exists("hollows") and load(Missions.AREAS["hollows"]["script"]) != null)
 	var txt := FileAccess.get_file_as_string("res://data/dialogue.json")
 	check("hollows dialogue lines exist", txt.find("\"mira_hollows_enter\"") > 0 and txt.find("\"mira_hollows_shutdown\"") > 0)
@@ -58,7 +58,7 @@ func _missions() -> void:
 	var m: Dictionary = Missions.data.missions[3]
 	var objs: Array = m["objectives"]
 	check("final mission opens with the hollows steps", objs[0]["id"] == "hollows_enter" and objs[1]["id"] == "hollows_shutdown")
-	check("the original final steps follow in order", objs[2]["id"] == "cross" and objs[5]["id"] == "board" and objs.size() == 6)
+	check("the original final steps follow in order (v1.9.1 adds the answer step before the boss)", objs[2]["id"] == "cross" and objs[6]["id"] == "board" and objs[4]["id"] == "answer" and objs.size() == 7)
 	Game.delete_save()
 	Game.new_state()
 	Game.state["mission"] = 3
@@ -110,7 +110,7 @@ func _hollows() -> void:
 	await get_tree().create_timer(0.3).timeout
 	# the cinematic runs to its end on its own; wait it out (bounded)
 	var t := 0.0
-	while GameMode.cinematic_playing and t < 14.0:
+	while GameMode.cinematic_playing and t < 25.0:  # v1.9.0: the echo cinematic follows the shutdown one
 		await get_tree().create_timer(0.25).timeout
 		t += 0.25
 	check("the shutdown cinematic ends", not GameMode.cinematic_playing, "after %.1f s" % t)

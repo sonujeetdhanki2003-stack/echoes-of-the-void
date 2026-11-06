@@ -269,6 +269,9 @@ func _gap() -> float:
 	return base / difficulty_speed
 
 ## v1.6.0 (stage B): the wind-up cues on screen (constants, so a test reads them from the exported build too).
+## v1.9.0 (stage G): readable wind-ups. The slam never lands sooner than this after its cue (phase 3 used to cut it to about 1.16 s), and the shard rain waits longer before it lands.
+const SLAM_MIN_WINDUP := 1.3
+const SHARD_BASE_DELAY := 1.1
 const CUE_SLAM := "SLAM: get out of the red ring"
 const CUE_SWEEP := "SWEEP: the maw is charging - sidestep or break line of sight"
 
@@ -278,7 +281,7 @@ func _slam() -> void:
 	_slam_side = 1 - _slam_side
 	var clip := "slam_l" if _slam_side == 0 else "slam_r"
 	var len := play(clip, 0.2)
-	var hit_t := clip_event(clip, "hit", 1.33) / (1.15 if phase == 3 else 1.0)
+	var hit_t := maxf(SLAM_MIN_WINDUP, clip_event(clip, "hit", 1.33) / (1.15 if phase == 3 else 1.0))
 	if ap and phase == 3:
 		ap.speed_scale = 1.15
 	# target: where the player is now, pulled into reach
@@ -333,7 +336,7 @@ func _shards(count: int) -> void:
 			break
 		var off := Vector3(randf_range(-5, 5), 0, randf_range(-5, 5)) if i > 0 else Vector3.ZERO
 		var spot := p.global_position + off + p.velocity * 0.6 * (1.0 if i == 0 else 0.0)
-		_drop_shard(spot, 0.9 + i * 0.12)
+		_drop_shard(spot, SHARD_BASE_DELAY + i * 0.12)
 	await get_tree().create_timer(maxf(0.2, len - rel), false).timeout
 	play("idle", 0.4)
 	_busy = false

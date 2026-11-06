@@ -222,5 +222,13 @@
  "mira_hollows_shutdown": {
   "speaker": "MIRA",
   "text": "Transmitter offline. The Spire's relay can't reach the pad now. But it was calling something. It didn't want us to stop it."
+ },
+ "mira_hollows_echo_1": {
+  "speaker": "MIRA",
+  "text": "Wait. The pulse hasn't stopped. It's just coming from somewhere else now."
+ },
+ "mira_hollows_echo_2": {
+  "speaker": "MIRA",
+  "text": "Kabir, something up there is answering it. Whatever sent this signal is still listening."
  }
 }

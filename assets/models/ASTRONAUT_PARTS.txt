@@ -1,0 +1,9 @@
+assets/models/astronaut.glb (5,698,460 bytes) is not stored whole in this repository. The GitHub API route used to publish
+this source caps each request at about 4 MB, so the file is split into three parts that are stored as they are.
+
+To rebuild the file, from the repository root run:
+
+  cat assets/models/astronaut.glb.part-aa assets/models/astronaut.glb.part-ab assets/models/astronaut.glb.part-ac > assets/models/astronaut.glb
+
+The rebuilt file must be 5698460 bytes with sha256 3b50c6394921275835288a8a37ea2ad78c9d48754b071f4b5871389da2c39de4
+(check with: sha256sum assets/models/astronaut.glb). Until it is rebuilt the game cannot load the astronaut model.

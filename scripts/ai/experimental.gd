@@ -2,7 +2,7 @@ class_name Experimental
 extends Hunter
 ## v1.1.0 stage 2 (big update PRD 2.3, type D): an unpredictable organism. In a chase it jukes sideways at random,
 ## sometimes stops to sniff, and at close range releases a spore cloud: the cloud hurts whoever stands in it for
-## SPORE_SECS. Its model is the brute's, scaled down, until its own model exists (stage 4).
+## SPORE_SECS. Its model is its own (v1.9.0), on the brute's rig and clips.
 
 const SPORE_RANGE := 9.0
 const SPORE_RADIUS := 3.2
@@ -24,7 +24,8 @@ var _cloud: MeshInstance3D
 func _init() -> void:
 	super._init()
 	kind = "experimental"
-	data = load("res://data/enemies/experimental.tres")
+	data = load("res://data/enemies/experimental.tres").duplicate()
+	data.model = "res://assets/models/experimental.glb"   # v1.9.0: own mesh (hunched, spore sacs) on the brute rig and clips
 
 func eye_height() -> float:
 	return 1.4

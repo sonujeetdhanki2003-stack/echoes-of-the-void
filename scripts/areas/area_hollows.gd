@@ -131,6 +131,24 @@ func _shutdown_cinematic() -> void:
 			GameMode.ui.toast("Signal lost. Transmitter offline.", 3.0))
 	c.say(2.2, "mira_hollows_shutdown")
 	c.at(5.5, func(): Game.set_flag("hollows.cleared"))
+	c.finished.connect(_after_shutdown)
+	c.play()
+
+## v1.9.0 (stage G): the signal answers back once the transmitter is down. A slow pull up into the sky with two subtitled lines from Mira.
+func _after_shutdown() -> void:
+	GameMode.player.locked = false
+	_echo_cinematic()
+
+func _echo_cinematic() -> void:
+	GameMode.player.locked = true
+	var c := Cinematic.new()
+	c.hide_player = false
+	add_child(c)
+	var m := _g(14, -100, 3.0)
+	c.shot(m + Vector3(0, 1.2, 3.0), m + Vector3(0, 2.0, 0), m + Vector3(0, 6.0, 9.0), m + Vector3(0, 14.0, -10.0), 8.0, 50.0, 62.0)
+	c.say(0.6, "mira_hollows_echo_1")
+	c.say(6.2, "mira_hollows_echo_2")
+	c.at(9.0, func(): Game.set_flag("hollows.echo"))
 	c.finished.connect(func(): GameMode.player.locked = false)
 	c.play()
 

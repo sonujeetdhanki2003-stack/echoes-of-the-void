@@ -3,7 +3,7 @@ extends EnemyBase
 ## v1.1.0 stage 2 (big update PRD 2.3, type B): an aggressive pursuer. It does not zig-zag or hop back: it keeps
 ## closing, telegraphs one heavy overhead smash, and stays on the player. When it loses sight it follows the last
 ## known position for LOST_SECS and then searches around it (persistent tracking). Until its own Blender model
-## exists (stage 4), it uses the stalker's skeleton and animations, scaled up.
+## (v1.9.0) it has its own mesh (hunter.glb): the stalker's rig and clips, reshaped taller with a longer head and a spine crest.
 
 const LOST_SECS := 12.0       # stalker gives up after 10 s and only far away; the hunter keeps tracking
 const SEARCH_SECS := 6.0
@@ -20,7 +20,8 @@ var _search_at := 0.0
 func _init() -> void:
 	super._init()
 	kind = "hunter"
-	data = load("res://data/enemies/hunter.tres")
+	data = load("res://data/enemies/hunter.tres").duplicate()
+	data.model = "res://assets/models/hunter.glb"   # v1.9.0: own mesh on the stalker rig and clips
 
 func eye_height() -> float:
 	return 0.95
