@@ -149,7 +149,8 @@ func _process(delta: float) -> void:
 			var fwd := player.forward()
 			var cam_f: Vector3 = -player.controller.cam.global_transform.basis.z
 			cam_f.y = 0.0
-			if fwd.angle_to(cam_f.normalized()) < deg_to_rad(50.0) or player.aiming:
+			# 1.9.2 (bug 3): never fire while the body still faces away from the aim, aiming or not
+			if fwd.angle_to(cam_f.normalized()) < deg_to_rad(50.0):
 				if current.fire():
 					player.anim.fire(current.data.id)
 					_semi_ready = false

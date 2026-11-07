@@ -90,6 +90,8 @@ func load_area(area_id: String, checkpoint_id: String, fresh: bool = false) -> v
 	area.apply_visibility_ranges()
 	apply_quality()
 	await get_tree().physics_frame
+	if is_instance_valid(my_area) and session == _session:
+		my_area.snap_items()
 	if session != _session:       # the player went back to the menu (or started another load) while this area was building
 		if is_instance_valid(my_area):
 			my_area.queue_free()

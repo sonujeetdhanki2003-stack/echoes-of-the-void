@@ -6,6 +6,7 @@ signal solved
 var board: ConduitBoard
 var _solved := false
 var _flash := 0.0
+var _last_rot_frame := -1
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
@@ -27,9 +28,15 @@ func _gui_input(event: InputEvent) -> void:
 		pos = (event as InputEventScreenTouch).position
 	if pos == Vector2.INF:
 		return
+	# 1.9.2 (bug 7): a touch can arrive as a screen touch and as an emulated mouse press in the same frame; rotate once
+	var fr := Engine.get_process_frames()
+	if fr == _last_rot_frame:
+		accept_event()
+		return
 	for y in board.h:
 		for x in board.w:
 			if _tile_rect(x, y).has_point(pos):
+				_last_rot_frame = fr
 				rotate_tile(x, y)
 				accept_event()
 				return

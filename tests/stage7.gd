@@ -35,7 +35,7 @@ func _ready() -> void:
 	get_tree().quit(0 if failed == 0 else 1)
 
 func _data() -> void:
-	check("save version is 3 and the build is 1.8.0", Game.SAVE_VERSION == 3 and Game.VERSION == "1.9.1")
+	check("save version is 3 and the build is 1.8.0", Game.SAVE_VERSION == 3 and Game.VERSION == "1.9.2")
 	check("hollows is a registered area", Missions.area_exists("hollows") and load(Missions.AREAS["hollows"]["script"]) != null)
 	var txt := FileAccess.get_file_as_string("res://data/dialogue.json")
 	check("hollows dialogue lines exist", txt.find("\"mira_hollows_enter\"") > 0 and txt.find("\"mira_hollows_shutdown\"") > 0)

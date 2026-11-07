@@ -303,7 +303,7 @@ func relayout_hud() -> void:
 		_center_top(boss_box, 70.0, bw)
 		_center_top(toast_lbl, 24.0, 1000.0)
 		_place(save_icon, Control.PRESET_TOP_LEFT, Vector2(56, 124))
-		_prompt_y = 10.0
+		_prompt_y = -40.0   # 1.9.2: lifted clear of the subtitle box that sits low on touch screens
 	else:
 		_center_top(boss_box, 165.0, minf(900.0, vw - 160.0))
 		_center_top(toast_lbl, 225.0, 1000.0)

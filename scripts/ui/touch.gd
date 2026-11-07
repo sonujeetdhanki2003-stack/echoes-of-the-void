@@ -21,20 +21,25 @@ var _btn_last := {}              # touch index -> last position (for FIRE look-d
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var big := Vector2(150, 124)
+	# 1.9.2 (bugs 3, 15): a clear layout for a ~6.7 inch phone in landscape. Right thumb: FIRE is the big round
+	# button; JUMP sits above it; AIM, RELOAD and USE stand in a row to its left. Left thumb: the move stick
+	# (floating, left 40 %), with RUN just beside it. Top right: LAMP, LOGS, pause. Top left: MED, SWAP, MELEE.
+	# Every rectangle below is kept apart by at least 16 px (tests/input_flows.gd checks it).
 	var defs := [
-		["FIRE", "fire", Vector2(-230, -330), true, Vector2(190, 190)],
-		["AIM", "aim", Vector2(-430, -250), false, big],
-		["JUMP", "jump", Vector2(-200, -470), false, Vector2(130, 110)],
-		["RELOAD", "reload", Vector2(-430, -400), false, big],
-		["CROUCH", "crouch", Vector2(-600, -180), false, Vector2(140, 110)],
-		["USE", "interact", Vector2(-620, -330), false, big],
-		["SWAP", "weapon_next", Vector2(-380, -560), false, Vector2(130, 100)],
-		["MED", "medkit", Vector2(-560, -500), false, Vector2(130, 100)],
-		["RUN", "sprint", Vector2(40, -160), false, Vector2(130, 100)],
-		["MELEE", "melee", Vector2(-400, -110), false, Vector2(130, 110)],
-		["LAMP", "lamp", Vector2(-400, 24), false, Vector2(110, 84)],
-		["LOGS", "journal", Vector2(-270, 24), false, Vector2(110, 84)],
-		["II", "pause", Vector2(-140, 24), false, Vector2(110, 84)],
+		["FIRE", "fire", Vector2(-250, -270), true, Vector2(200, 200)],
+		["JUMP", "jump", Vector2(-150, -420), false, Vector2(130, 110)],
+		["AIM", "aim", Vector2(-420, -230), false, Vector2(140, 110)],
+		["RELOAD", "reload", Vector2(-420, -370), false, Vector2(140, 110)],
+		["USE", "interact", Vector2(-620, -330), false, Vector2(150, 120)],
+		["CROUCH", "crouch", Vector2(-600, -180), false, Vector2(150, 110)],
+		["RUN", "sprint", Vector2(150, -150), false, Vector2(130, 110)],
+		["MELEE", "melee", Vector2(-420, -520), false, Vector2(140, 100)],
+		["SWAP", "weapon_next", Vector2(-600, -520), false, Vector2(150, 100)],
+		["MED", "medkit", Vector2(-470, -95), false, Vector2(120, 85)],
+		["VIEW", "view", Vector2(300, -150), false, Vector2(110, 90)],
+		["LAMP", "lamp", Vector2(-400, 24), false, Vector2(120, 90)],
+		["LOGS", "journal", Vector2(-260, 24), false, Vector2(120, 90)],
+		["II", "pause", Vector2(-120, 24), false, Vector2(100, 90)],
 	]
 	for d in defs:
 		var b := Button.new()
@@ -42,9 +47,14 @@ func _ready() -> void:
 		b.add_theme_font_override("font", UIKit.font("Rajdhani-Bold"))
 		b.add_theme_font_size_override("font_size", 28)
 		var top: bool = d[1] in ["pause", "journal", "lamp"]
-		var left: bool = d[1] == "sprint"
+		var left: bool = d[1] in ["sprint", "view"]
 		b.custom_minimum_size = d[4]
-		b.set_anchors_preset(Control.PRESET_TOP_RIGHT if top else (Control.PRESET_BOTTOM_LEFT if left else Control.PRESET_BOTTOM_RIGHT))
+		var corner := Control.PRESET_BOTTOM_RIGHT
+		if top:
+			corner = Control.PRESET_TOP_RIGHT
+		elif left:
+			corner = Control.PRESET_BOTTOM_LEFT
+		b.set_anchors_preset(corner)
 		var off: Vector2 = d[2]
 		b.offset_left = off.x
 		b.offset_top = off.y
@@ -101,9 +111,19 @@ func _press(i: int, on: bool) -> void:
 		"aim":
 			if on and p:
 				p.controller.aim_toggle = not p.controller.aim_toggle
+		"view":
+			if on and p:
+				p.controller.reset_view()
 		"sprint":
 			if on and p:
 				p.controller.sprint_toggle = not p.controller.sprint_toggle
+		"interact":
+			# 1.9.2 (bug 7/15): USE is held like a key, so hold-to-use props (manual cranks) work by touch;
+			# a quick tap is still one press, which the interact event consumes.
+			var ev := InputEventAction.new()
+			ev.action = "interact"
+			ev.pressed = on
+			Input.parse_input_event(ev)
 		_:
 			if on:
 				_tap(id)
@@ -166,7 +186,7 @@ func _input(event: InputEvent) -> void:
 		else:
 			if _btn_touch.has(e.index):
 				var i: int = _btn_touch[e.index]
-				if buttons[i][1] == "fire":
+				if buttons[i][1] == "fire" or buttons[i][1] == "interact":
 					_press(i, false)
 				else:
 					(buttons[i][0] as Button).set_pressed_no_signal(false)
@@ -227,8 +247,9 @@ func _process(_d: float) -> void:
 				b.visible = p.combat.weapons.size() > 1
 			"fire", "aim", "reload":
 				b.visible = p.combat.current != null
-	var use_btn: Button = buttons[5][0]
-	use_btn.modulate.a = 0.95 if p.interaction.focus != null else 0.45
+	for e in buttons:
+		if e[1] == "interact":
+			(e[0] as Button).modulate.a = 0.95 if p.interaction.focus != null else 0.45
 
 func _draw() -> void:
 	if stick_idx != -1:

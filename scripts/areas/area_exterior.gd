@@ -89,7 +89,7 @@ func _set_pieces() -> void:
 		var side := 1.0 if rng.randf() < 0.5 else -1.0
 		var p := c + Vector3(side * rng.randf_range(16.0, 40.0), 0, rng.randf_range(-8, 8))
 		var k: String = ["alien_rock_a", "alien_rock_b", "alien_rock_c", "alien_rock_d"][rng.randi() % 4]
-		prop(k, _g(p.x, p.z, -1.0), rng.randf() * 360.0, absf(p.x - c.x) < 24.0, rng.randf_range(1.0, 2.4))
+		prop(k, _g(p.x, p.z, -1.0), rng.randf() * 360.0, true, rng.randf_range(1.0, 2.4))   # 1.9.2: every rock is solid (bug 11)
 	# crystal glow
 	for i in 10:
 		var c: Vector3 = PATH[1 + i % (PATH.size() - 2)]

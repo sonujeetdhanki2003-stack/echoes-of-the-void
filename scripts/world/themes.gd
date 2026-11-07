@@ -60,7 +60,8 @@ static func emit(c: Color, energy: float = 3.0) -> StandardMaterial3D:
 
 static func glass(c: Color = Color(0.6, 0.75, 0.85, 0.18)) -> StandardMaterial3D:
 	var m := StandardMaterial3D.new()
-	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	# 1.9.2 (bug 4, 14): a depth pre-pass stops the front and back faces of one pane from fighting (the flicker)
+	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_DEPTH_PRE_PASS
 	m.albedo_color = c
 	m.metallic = 0.2
 	m.roughness = 0.06

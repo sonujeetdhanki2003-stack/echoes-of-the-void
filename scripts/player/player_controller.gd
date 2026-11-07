@@ -65,10 +65,18 @@ func setup(p: Player) -> void:
 	Events.camera_shake.connect(shake)
 
 func _ready() -> void:
+	# 1.9.2 (bug 18): every start is in third person. A close-in distance kept from an earlier session (pinch, or
+	# the camera pushed into a tight spot) read as first person with no way back; the default is restored here.
+	if float(Game.settings.get("cam_distance", 1.0)) < 0.95:
+		Game.settings["cam_distance"] = 1.0
 	await get_tree().process_frame
 	if is_instance_valid(player):
 		arm.add_excluded_object(player.get_rid())
 		rig.global_position = player.global_position + Vector3.UP * PIVOT_H
+
+## 1.9.2 (bug 18): one touch/key step back to the third-person distance (the VIEW button).
+func reset_view() -> void:
+	zoom_camera(1.0 - float(Game.settings.get("cam_distance", 1.0)))
 
 func yaw_basis() -> Basis:
 	return Basis(Vector3.UP, deg_to_rad(yaw))

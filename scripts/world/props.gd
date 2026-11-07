@@ -98,9 +98,23 @@ static func stand_in(name: String) -> Node3D:
 static func make(name: String, collide: bool = true) -> Node3D:
 	var root := Node3D.new()
 	root.name = name
+	root.set_meta("prop", name)
+	root.set_meta("prop_collide", collide)
 	var inst := instance(name)
 	root.add_child(inst)
 	detail(inst)
+	# 1.9.2 (bugs 4, 14): transparent surfaces from the models (glass, capsule windows, container panes) take a depth
+	# pre-pass, so overlapping faces of one piece no longer swap order frame to frame (the flicker).
+	for mi0 in inst.find_children("*", "MeshInstance3D", true, false):
+		var mi1 := mi0 as MeshInstance3D
+		if mi1.mesh == null:
+			continue
+		for s in mi1.mesh.get_surface_count():
+			var mat := mi1.get_active_material(s)
+			if mat is BaseMaterial3D and (mat as BaseMaterial3D).transparency == BaseMaterial3D.TRANSPARENCY_ALPHA:
+				var dm := (mat as BaseMaterial3D).duplicate() as BaseMaterial3D
+				dm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_DEPTH_PRE_PASS
+				mi1.set_surface_override_material(s, dm)
 	# small clutter (under ~0.9 m across) casts no shadow: dozens of tiny casters per room were drawn again in
 	# every shadow pass of every light (Post-PRD Phase 10 draw-call pass); big props still ground themselves.
 	var small := bounds(inst).size.length() < 0.9
@@ -138,6 +152,19 @@ static func make(name: String, collide: bool = true) -> Node3D:
 			sb.add_child(cs)
 			root.add_child(sb)
 	return root
+
+## 1.9.2 (bug 6): a walkable slab under a model that was placed without collision (the cargo lift's platform).
+## animatable = the body rides with a moving parent (the lift's Platform moves on its way down).
+static func add_slab(parent: Node3D, size: Vector3, centre: Vector3, animatable: bool) -> void:
+	var body: PhysicsBody3D = AnimatableBody3D.new() if animatable else StaticBody3D.new()
+	body.collision_layer = 1
+	var cs := CollisionShape3D.new()
+	var bx := BoxShape3D.new()
+	bx.size = size
+	cs.shape = bx
+	cs.position = centre
+	body.add_child(cs)
+	parent.add_child(body)
 
 static func bounds(n: Node3D) -> AABB:
 	var out := AABB()

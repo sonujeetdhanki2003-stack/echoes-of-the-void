@@ -155,6 +155,23 @@ func apply_grime() -> void:
 		print("grime overlay on ", n, " meshes in ", area_id)
 
 ## Called once the player is placed. fresh = arriving for the first time this playthrough.
+## 1.9.2 (bugs 5, 8): items rest on the surface below them. A pickup or log placed in mid air drops onto the
+## floor, a table top or a shelf that is within a metre under it; nothing is lifted up.
+func snap_items() -> void:
+	var space: PhysicsDirectSpaceState3D = get_world_3d().direct_space_state
+	for n in find_children("*", "Node3D", true, false):
+		var is_item := n is Pickup or (n is LogPickup and not (n as LogPickup).terminal)
+		if not is_item:
+			continue
+		var p := (n as Node3D).global_position
+		var q: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.create(p + Vector3.UP * 1.5, p + Vector3.DOWN * 3.0, 1)
+		var hit: Dictionary = space.intersect_ray(q)
+		if hit.is_empty():
+			continue
+		var hy: float = (hit["position"] as Vector3).y
+		if absf(hy - p.y) <= 1.0:
+			(n as Node3D).global_position = Vector3(p.x, hy, p.z)
+
 func on_enter(_fresh: bool) -> void:
 	Sfx.area_music = theme.get("music", "music_explore")
 	Sfx.music_mode = ""

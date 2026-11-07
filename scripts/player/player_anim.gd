@@ -431,10 +431,23 @@ func _process(delta: float) -> void:
 		tree.set("parameters/crouch_u/blend_position", spd)
 		tree.set("parameters/crouch_a/blend_position", spd)
 		# keep feet honest: play cycles a bit faster/slower when the speed is between blend points
+		# 1.9.2 (bug 9): the feet keep pace with the ground at every speed. The cycles are blended by speed, and each
+		# one covers its own ground speed (walk 1.9, run 4.1, sprint 6.3 m/s): the playback rate is the speed over the
+		# blended cycle speed. Below walk speed the walk cycle used to play at full rate (feet slid at a slow stick).
+		var w_ref := _spd("walk", 1.9)
+		var r_ref := _spd("run", 4.1)
+		var s_ref := _spd("sprint", 6.3)
+		var ref := w_ref
+		if spd >= s_ref:
+			ref = s_ref
+		elif spd >= r_ref:
+			ref = lerpf(r_ref, s_ref, (spd - r_ref) / maxf(0.01, s_ref - r_ref))
+		elif spd >= w_ref:
+			ref = lerpf(w_ref, r_ref, (spd - w_ref) / maxf(0.01, r_ref - w_ref))
 		var scale := 1.0
-		if state == "unarmed" and spd > _spd("run", 4.1) + 0.2:
-			scale = spd / _spd("run", 4.1)
-		tree.set("parameters/loco_speed/scale", clampf(scale, 0.8, 1.6))
+		if spd > 0.2 and ref > 0.01 and not state.begins_with("crouch"):
+			scale = spd / ref
+		tree.set("parameters/loco_speed/scale", clampf(scale, 0.35, 1.8))
 		var upper := 0.0
 		if armed:
 			if weapon_id == "pistol":

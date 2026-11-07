@@ -134,6 +134,12 @@ func _touch() -> void:
 	check("releasing the stick leaves FIRE and look running", p.combat.touch_fire and t.look_idx == 1 and p.touch_move.length() < 0.01)
 	await tup(4, center(fb))
 	check("releasing FIRE stops firing", not p.combat.touch_fire)
+	# 1.9.2 (bug 7/15): USE is held by touch, so hold-to-use props work by touch
+	var uh := btn("interact")
+	await tdown(7, center(uh))
+	check("hold USE -> interact action held", Input.is_action_pressed("interact"))
+	await tup(7, center(uh))
+	check("release USE -> interact action released", not Input.is_action_pressed("interact"))
 	await tup(1, Vector2(1060, 300))
 	# toggles
 	var ab := btn("aim")

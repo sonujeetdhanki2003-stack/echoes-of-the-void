@@ -258,7 +258,7 @@ func _menu_and_settings() -> void:
 		if bc.name.begins_with("Touch_") and bc.size.x > 20.0 and bc.get_global_rect().intersects(srect):
 			clash += bc.name + " "
 	if clash != "":
-		print("  subtitle overlaps touch controls: ", clash, " sub=", srect)
+		print("  subtitle overlaps touch controls: ", clash, " sub=", srect, " vrect=", vrect, " touch=", uix.touch.get_global_rect(), " interact=", uix.touch.find_child("Touch_interact", true, false).get_global_rect())
 	check("touch: subtitles clear the buttons and sticks", clash == "" and srect.end.y <= vrect.size.y)
 	Game.settings["touch"] = keep_touch
 	Game.apply_settings()

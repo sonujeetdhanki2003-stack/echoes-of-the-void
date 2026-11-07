@@ -88,6 +88,7 @@ func _props() -> void:
 	var lift := Props.instance("cargo_lift")
 	add_child(lift)
 	lift.global_position = at(9.0, 5.0)
+	Props.add_slab(lift, Vector3(6.1, 0.3, 6.1), Vector3(0, -0.15, 0), false)   # 1.9.2 bug 6: the lift floor is solid
 	label3d("SURFACE LIFT", at(9.0, 5.95) + Vector3(0, 4.2, 0), 180.0, 72, Color(1.0, 0.75, 0.3))
 	# pickups and stations (no softlocks in the survival fight)
 	pickup("ammo_rifle", "rea_r1", at(0.6, 2.4), 48)

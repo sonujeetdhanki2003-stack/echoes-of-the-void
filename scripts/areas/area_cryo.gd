@@ -54,7 +54,7 @@ func _decon_floor() -> void:
 	var t := trigger("decon_fall", Vector3(19.9, -3.0, 6.0), Vector3(1.8, 1.4, 4.0), func(p: Player):
 		p.place(Transform3D(Basis(Vector3.UP, deg_to_rad(-90.0)), Vector3(17.6, 0.1, 6.0)))
 		p.controller.snap_to(p.rotation.y)
-		Events.message.emit("Sprint and jump across the gap" if not Game.touch_enabled() else "RUN, then JUMP across the gap", 2.5), false)
+		Events.message.emit("You fell into the trench. Back on the ledge. Sprint and jump the gap" if not Game.touch_enabled() else "You fell into the trench. Back on the ledge. RUN, then JUMP the gap", 3.0), false)
 	t.once = false
 	# collapsed beam: a 0.6 m slab with its underside at 1.3 m — crouch height clears it, standing doesn't
 	var beam := prop("fallen_beam", Vector3(16.0, 1.3, 6.0), 90.0, false)
@@ -192,9 +192,9 @@ func _story() -> void:
 		gen_puzzle.register(gen)
 	gen_puzzle.solved_signal.connect(_on_power)
 	# the wall schematic (second source of the order besides Wren's note)
-	label3d("AUX POWER — COLD START", Vector3(32.0, 2.9, 16.3), 0.0, 56, Color(1.0, 0.8, 0.4))
-	label3d("COOLANT (B)  ▸  REGULATOR (C)  ▸  MAIN (A)", Vector3(32.0, 2.45, 16.3), 0.0, 44)
-	label3d("Never start MAIN cold.  — T.W.", Vector3(32.0, 2.05, 16.3), 0.0, 32, Color(0.7, 0.8, 0.9))
+	label3d("AUX POWER — COLD START", Vector3(36.0, 2.9, 16.2), 0.0, 56, Color(1.0, 0.8, 0.4))
+	label3d("COOLANT (B)  ▸  REGULATOR (C)  ▸  MAIN (A)", Vector3(36.0, 2.45, 16.2), 0.0, 44)
+	label3d("Never start MAIN cold.  — T.W.", Vector3(36.0, 2.05, 16.2), 0.0, 32, Color(0.7, 0.8, 0.9))
 	trigger("aux_enter", Vector3(32.0, 0.0, 18.0), Vector3(8.0, 3.0, 3.0), func(_p):
 		if not Game.flag("puzzle.generators"):
 			Events.message.emit("Start the generators in the right order", 3.0))
