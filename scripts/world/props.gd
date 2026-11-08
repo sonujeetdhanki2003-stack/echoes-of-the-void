@@ -120,7 +120,9 @@ static func make(name: String, collide: bool = true) -> Node3D:
 	var small := bounds(inst).size.length() < 0.9
 	for mi in inst.find_children("*", "MeshInstance3D", true, false):
 		(mi as MeshInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF if small else GeometryInstance3D.SHADOW_CASTING_SETTING_ON
-	if collide and CUSTOM.has(name):
+	if collide and name in TRIMESH:
+		_add_trimesh(root, inst, name == "antenna_mast")
+	elif collide and CUSTOM.has(name):
 		var sb2 := StaticBody3D.new()
 		sb2.collision_layer = 1
 		sb2.add_to_group("nav_source")
@@ -152,6 +154,83 @@ static func make(name: String, collide: bool = true) -> Node3D:
 			sb.add_child(cs)
 			root.add_child(sb)
 	return root
+
+## 1.9.3 (bugs 12, 20, 21-23): organic props take their collision from their real triangles. A box around a
+## model's bounds made a 12.7 x 19 m wall around the 1 m transmitter mast in the hollows (the console sat inside
+## it), and boxes over rocks and plants left empty corners the player could stand on in mid air.
+const TRIMESH := ["alien_rock_a", "alien_rock_b", "alien_rock_c", "alien_rock_d", "alien_plant_a", "alien_plant_b",
+	"alien_plant_c", "crystal_cluster_a", "crystal_cluster_b", "crystal_cluster_c", "antenna_mast"]
+static var _tri_cache := {}
+
+## pad_flat: the mast's low concrete pad (20 cm, 12 m across) is walkable ground, not a curb; its triangles
+## that lie flat at the foot and beyond 1.2 m of the pole are left out of the collider (the pole stays solid).
+static func _add_trimesh(root: Node3D, inst: Node3D, pad_flat: bool = false) -> void:
+	# convex hull of each part's real vertices: no empty corners (the old box), and no spiky triangle edges for the
+	# capsule to snag on (the first attempt used the exact triangles; the research crystals then stopped the walk route)
+	var sb := StaticBody3D.new()
+	sb.collision_layer = 1
+	sb.add_to_group("nav_source")
+	for mi_node in inst.find_children("*", "MeshInstance3D", true, false):
+		var mi := mi_node as MeshInstance3D
+		if mi.mesh == null:
+			continue
+		var xf := Transform3D.IDENTITY
+		var cur: Node = mi
+		while cur != null and cur != root:
+			if cur is Node3D:
+				xf = (cur as Node3D).transform * xf
+			cur = cur.get_parent()
+		var faces := mi.mesh.get_faces()
+		var pts := PackedVector3Array()
+		for i in range(0, faces.size(), 3):
+			var a := faces[i]
+			var b := faces[i + 1]
+			var c := faces[i + 2]
+			if pad_flat:
+				var cen := (a + b + c) / 3.0
+				if maxf(a.y, maxf(b.y, c.y)) < 0.25 and Vector2(cen.x, cen.z).length() > 1.2:
+					continue   # the mast's flat concrete pad: walkable ground, not a curb
+			pts.append(a)
+			pts.append(b)
+			pts.append(c)
+		if pts.size() < 4:
+			continue
+		var hull := ConvexPolygonShape3D.new()
+		hull.points = pts
+		var cs := CollisionShape3D.new()
+		cs.shape = hull
+		cs.transform = xf
+		sb.add_child(cs)
+	root.add_child(sb)
+
+## 1.9.3 (bug 6): the static frame of a model (the lift's rails and posts) takes triangle collision, except the
+## part named `skip` (the moving platform, which has its own slab). The rails had no collider: he walked through them.
+static func frame_trimesh(root: Node3D, skip: Node) -> void:
+	var sb := StaticBody3D.new()
+	sb.collision_layer = 1
+	sb.name = "FrameCollision"
+	for mi_node in root.find_children("*", "MeshInstance3D", true, false):
+		var mi := mi_node as MeshInstance3D
+		if mi.mesh == null or (skip != null and (skip == mi or skip.is_ancestor_of(mi))):
+			continue
+		var xf := Transform3D.IDENTITY
+		var cur: Node = mi
+		while cur != null and cur != root:
+			if cur is Node3D:
+				xf = (cur as Node3D).transform * xf
+			cur = cur.get_parent()
+		var key := mi.mesh.get_instance_id()
+		if not _tri_cache.has(key):
+			var sh := mi.mesh.create_trimesh_shape()
+			if sh == null:
+				continue
+			sh.backface_collision = true
+			_tri_cache[key] = sh
+		var cs := CollisionShape3D.new()
+		cs.shape = _tri_cache[key]
+		cs.transform = xf
+		sb.add_child(cs)
+	root.add_child(sb)
 
 ## 1.9.2 (bug 6): a walkable slab under a model that was placed without collision (the cargo lift's platform).
 ## animatable = the body rides with a moving parent (the lift's Platform moves on its way down).

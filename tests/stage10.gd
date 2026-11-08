@@ -24,7 +24,7 @@ func _ready() -> void:
 	var src := FileAccess.get_file_as_string("res://scripts/ui/ui.gd")
 	check("how-to fills the melee key name", src.find('"melee": Game.key_name("melee")') >= 0)
 	check("how-to goal page lists save slots and the bench", str(how.get("GOAL", "")).find("SAVE SLOTS") >= 0 and str(how.get("GOAL", "")).find("UPGRADE BENCH") >= 0)
-	check("build is 1.9.2", Game.VERSION == "1.9.2", Game.VERSION)
+	check("build is 1.9.3", Game.VERSION == "1.9.3", Game.VERSION)
 	var dlg: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/dialogue.json"))
 	check("echo cinematic lines exist in the dialogue data", dlg.has("mira_hollows_echo_1") and dlg.has("mira_hollows_echo_2"))
 	check("echo cinematic script is in the hollows area", FileAccess.get_file_as_string("res://scripts/areas/area_hollows.gd").find("func _echo_cinematic") >= 0)

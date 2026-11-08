@@ -78,6 +78,7 @@ func _props() -> void:
 	lift_platform = Props.part(lift, "Platform")
 	if lift_platform:
 		Props.add_slab(lift_platform, Vector3(6.1, 0.3, 6.1), Vector3(0, -0.15, 0), true)   # 1.9.2 bug 6: solid floor of the lift, rides it
+	Props.frame_trimesh(lift, lift_platform)   # 1.9.3 bug 6: the rails and posts are solid too
 	label3d("CARGO LIFT — REACTOR LEVEL", at(11.0, 5.95) + Vector3(0, 4.5, 0), 180.0, 72, Color(1.0, 0.75, 0.3))
 	# pickups
 	pickup("weapon_rifle", "rifle", at(3.0, 4.5) + Vector3(0, 0.8, 0))

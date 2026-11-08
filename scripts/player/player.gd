@@ -56,6 +56,9 @@ var _safe_pos := Vector3.ZERO         # last place the player stood on solid gro
 var _safe_t := 0.0
 var _has_safe := false
 const FALL_LIMIT := 40.0
+const FALL_RETURN := 3.5         # 1.9.3 (bug 17): a drop this long from the last ledge returns the player to it
+var ledge_returns := 0
+var _air_top := 0.0
 signal recovered_from_fall
 
 func _init() -> void:
@@ -221,7 +224,15 @@ func _physics_process(delta: float) -> void:
 		Sfx.play("jump", -10.0)
 	move_and_slide()
 	var now_floor := is_on_floor()
+	if not now_floor and _was_on_floor:
+		_air_top = global_position.y
 	if now_floor and not _was_on_floor:
+		# 1.9.3 (bug 17): a drop of more than FALL_RETURN metres from the ledge the player last stood on puts them
+		# back on that ledge, so a cliff never leaves them at the bottom with no way up.
+		if _has_safe and not locked and _air_top - global_position.y > FALL_RETURN and _safe_pos.y - global_position.y >= FALL_RETURN - 0.5:
+			return_to_ledge()
+			_was_on_floor = true
+			return
 		if _fall_speed > 3.0:
 			anim.land(_fall_speed)
 			Sfx.play_at("land", global_position, -6.0 + minf(6.0, _fall_speed))
@@ -358,6 +369,15 @@ func _on_died(_info: Dictionary) -> void:
 	Sfx.play("player_death", -2.0)
 	Events.player_died.emit()
 	died.emit()
+
+## 1.9.3 (bug 17): a long drop from a ledge puts the player back on the ledge, with a short line saying why.
+func return_to_ledge() -> void:
+	global_position = _safe_pos + Vector3.UP * 0.15
+	velocity = Vector3.ZERO
+	_fall_speed = 0.0
+	ledge_returns += 1
+	recovered_from_fall.emit()
+	Events.message.emit("Too far down to climb back. Back on the ledge.", 2.2)
 
 ## Put the player back on the last solid ground they stood on (or the checkpoint) and take no fall damage.
 func recover_from_fall() -> void:

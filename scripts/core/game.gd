@@ -2,7 +2,7 @@ extends Node
 ## GameInstance (PRD BP_EOT_GameInstance): persistent session data, settings, input map, and the
 ## SaveManager role (PRD BP_EOT_SaveManager): JSON saves keyed by stable IDs. Autoloaded as "Game".
 
-const VERSION := "1.9.2"
+const VERSION := "1.9.3"
 const SAVE_VERSION := 3   # v1.6.0: 3 adds THE HOLLOWS steps in the final mission; 1.0.x to 1.5.x saves still load (objective shift)
 
 # Paths are vars so automated tests use their own files and never touch a player's save.
