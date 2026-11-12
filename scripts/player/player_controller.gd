@@ -33,6 +33,7 @@ var _aim_blend := 0.0
 var _pivot_h := PIVOT_H
 var enabled := true
 var sprint_toggle := false
+var first_person := false     # 1.9.5 (owner): VIEW toggles first / third person; session only, every start is third person
 
 func setup(p: Player) -> void:
 	player = p
@@ -74,9 +75,17 @@ func _ready() -> void:
 		arm.add_excluded_object(player.get_rid())
 		rig.global_position = player.global_position + Vector3.UP * PIVOT_H
 
-## 1.9.2 (bug 18): one touch/key step back to the third-person distance (the VIEW button).
+## 1.9.2 (bug 18): one touch/key step back to the third-person distance (kept for callers that want it).
 func reset_view() -> void:
 	zoom_camera(1.0 - float(Game.settings.get("cam_distance", 1.0)))
+
+## 1.9.5 (owner): the VIEW button and the view key. First person puts the camera at the head with no arm, and the
+## astronaut model (with the weapon) is hidden; third person returns to the arm at the chosen distance.
+func toggle_first_person() -> void:
+	first_person = not first_person
+	if is_instance_valid(player) and player.model_root:
+		player.model_root.visible = not first_person
+	Events.message.emit("First person" if first_person else "Third person", 1.2)
 
 func yaw_basis() -> Basis:
 	return Basis(Vector3.UP, deg_to_rad(yaw))
@@ -168,6 +177,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		player.toggle_lamp()
 	elif event.is_action_pressed("shoulder_swap"):
 		shoulder_side = -shoulder_side
+	elif event.is_action_pressed("view"):
+		toggle_first_person()
 
 func _process(delta: float) -> void:
 	if not is_instance_valid(player) or rig == null:
@@ -210,6 +221,10 @@ func _process(delta: float) -> void:
 	var len_base := (ARM_CROUCH if player.crouching else ARM_LEN) * float(Game.settings.get("cam_distance", 1.0))
 	arm.spring_length = lerpf(len_base, ARM_AIM, _aim_blend)
 	var side_x := SHOULDER * _shoulder * lerpf(0.85, 1.0, _aim_blend)
+	if first_person:
+		# 1.9.5: the camera sits at the head: no arm, no shoulder offset (the model is hidden in toggle_first_person)
+		arm.spring_length = 0.02
+		side_x = 0.0
 	# v1.0.1: the over-the-shoulder offset is checked against the walls too. Standing within ~0.85 m of a wall on the
 	# camera side used to put the arm's start point inside the wall: the spring arm then found nothing to hit and the
 	# camera ended up outside the room.

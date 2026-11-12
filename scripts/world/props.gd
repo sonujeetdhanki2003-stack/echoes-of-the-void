@@ -74,7 +74,9 @@ static func instance(name: String) -> Node3D:
 			_scenes[path] = load(path)
 		var ps: PackedScene = _scenes[path]
 		if ps:
-			return ps.instantiate()
+			var inst := ps.instantiate()
+			_split_transparent(inst)   # 1.9.4 (bugs 4, 14): glass surfaces cast no shadow, for scripted props too
+			return inst
 	return stand_in(name)
 
 static func stand_in(name: String) -> Node3D:
@@ -103,6 +105,8 @@ static func make(name: String, collide: bool = true) -> Node3D:
 	var inst := instance(name)
 	root.add_child(inst)
 	detail(inst)
+	# 1.9.5 (bug 8): the fallen beam's EmitLight strip sat 0.4 m past the beam's end, 1.4 m above the floor, with nothing
+	# under it (measured by tests/bug8probe_b.gd). The strip is hidden on the prop; the beam itself is unchanged.
 	# 1.9.2 (bugs 4, 14): transparent surfaces from the models (glass, capsule windows, container panes) take a depth
 	# pre-pass, so overlapping faces of one piece no longer swap order frame to frame (the flicker).
 	for mi0 in inst.find_children("*", "MeshInstance3D", true, false):
@@ -153,6 +157,9 @@ static func make(name: String, collide: bool = true) -> Node3D:
 			cs.position = aabb.get_center()
 			sb.add_child(cs)
 			root.add_child(sb)
+	_split_transparent(inst)
+	if name == "fallen_beam":
+		_hide_strip(inst)     # after the split: the strip's own material (named EmitLight) is found wherever it sits
 	return root
 
 ## 1.9.3 (bugs 12, 20, 21-23): organic props take their collision from their real triangles. A box around a
@@ -161,6 +168,69 @@ static func make(name: String, collide: bool = true) -> Node3D:
 const TRIMESH := ["alien_rock_a", "alien_rock_b", "alien_rock_c", "alien_rock_d", "alien_plant_a", "alien_plant_b",
 	"alien_plant_c", "crystal_cluster_a", "crystal_cluster_b", "crystal_cluster_c", "antenna_mast"]
 static var _tri_cache := {}
+
+## 1.9.4 (bugs 4, 14): a transparent surface must not cast a shadow. The shadow pass drew glass, liquid and visor
+## surfaces as solid double-sided casters (cull off), so their self-shadow acne and the shadow they threw on the room
+## changed with every flicker of the lights and read as the glass and capsules flickering. The transparent surfaces of
+## a mesh move to their own MeshInstance3D (or MultiMesh, see level_builder) with shadows off; the opaque surfaces keep
+## theirs. Runs after the collider is built, so the glass adds no collision of its own.
+## Skinned meshes (the player's visor) are left alone: their surfaces are bound to a skeleton.
+static func split_mesh(am: ArrayMesh, mats: Array) -> Array:
+	# returns [opaque ArrayMesh or null, transparent ArrayMesh or null]; mats[s] is surface s's material
+	var trans: Array = []
+	var opaque: Array = []
+	for s in am.get_surface_count():
+		var mat: Material = mats[s]
+		if mat is BaseMaterial3D and (mat as BaseMaterial3D).transparency != BaseMaterial3D.TRANSPARENCY_DISABLED:
+			trans.append(s)
+		else:
+			opaque.append(s)
+	if trans.is_empty():
+		return [am, null]
+	var tm: ArrayMesh = null
+	var om: ArrayMesh = null
+	if not trans.is_empty():
+		tm = ArrayMesh.new()
+		for s in trans:
+			tm.add_surface_from_arrays(am.surface_get_primitive_type(s), am.surface_get_arrays(s))
+			tm.surface_set_material(tm.get_surface_count() - 1, mats[s])
+	if not opaque.is_empty():
+		om = ArrayMesh.new()
+		for s in opaque:
+			om.add_surface_from_arrays(am.surface_get_primitive_type(s), am.surface_get_arrays(s))
+			om.surface_set_material(om.get_surface_count() - 1, mats[s])
+	return [om, tm]
+
+static func _has_bones(am: ArrayMesh) -> bool:
+	for s in am.get_surface_count():
+		if am.surface_get_format(s) & Mesh.ARRAY_FORMAT_BONES:
+			return true
+	return false
+
+static func _split_transparent(inst: Node3D) -> void:
+	for mi0 in inst.find_children("*", "MeshInstance3D", true, false):
+		var mi := mi0 as MeshInstance3D
+		var am := mi.mesh as ArrayMesh
+		if am == null or am.get_blend_shape_count() > 0 or mi.skin != null or not mi.skeleton.is_empty() or mi.get_parent() is Skeleton3D or _has_bones(am):
+			continue
+		var mats: Array = []
+		for s in am.get_surface_count():
+			mats.append(mi.get_active_material(s))
+		var parts := split_mesh(am, mats)
+		if parts[1] == null:
+			continue
+		if parts[0] == null:
+			mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+			continue
+		var glass := MeshInstance3D.new()
+		glass.name = mi.name + "_Transparent"
+		glass.mesh = parts[1]
+		glass.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		mi.get_parent().add_child(glass)
+		glass.transform = mi.transform
+		mi.mesh = parts[0]
+		for s in mi.get_surface_override_material_count():
+			mi.set_surface_override_material(s, null)   # the materials now live on the new mesh's surfaces
 
 ## pad_flat: the mast's low concrete pad (20 cm, 12 m across) is walkable ground, not a curb; its triangles
 ## that lie flat at the foot and beyond 1.2 m of the pole are left out of the collider (the pole stays solid).
@@ -229,6 +299,44 @@ static func frame_trimesh(root: Node3D, skip: Node) -> void:
 		var cs := CollisionShape3D.new()
 		cs.shape = _tri_cache[key]
 		cs.transform = xf
+		sb.add_child(cs)
+	root.add_child(sb)
+
+## 1.9.4 (bug 6, reactor lift): the frame's triangles are solid except the ones inside the entrance gap, so the
+## rails stop the player and the entrance stays open. keep_fn(local_centroid) -> bool decides each triangle.
+static func frame_trimesh_gap(root: Node3D, skip: Node, keep_fn: Callable) -> void:
+	var sb := StaticBody3D.new()
+	sb.collision_layer = 1
+	sb.name = "FrameCollisionGap"
+	for mi_node in root.find_children("*", "MeshInstance3D", true, false):
+		var mi := mi_node as MeshInstance3D
+		if mi.mesh == null or (skip != null and (skip == mi or skip.is_ancestor_of(mi))):
+			continue
+		var xf := Transform3D.IDENTITY
+		var cur: Node = mi
+		while cur != null and cur != root:
+			if cur is Node3D:
+				xf = (cur as Node3D).transform * xf
+			cur = cur.get_parent()
+		var faces := mi.mesh.get_faces()
+		var kept := PackedVector3Array()
+		var i := 0
+		while i + 2 < faces.size():
+			var a := xf * faces[i]
+			var b := xf * faces[i + 1]
+			var c := xf * faces[i + 2]
+			if keep_fn.call((a + b + c) / 3.0):
+				kept.append(a)
+				kept.append(b)
+				kept.append(c)
+			i += 3
+		if kept.is_empty():
+			continue
+		var cs := CollisionShape3D.new()
+		var cc := ConcavePolygonShape3D.new()
+		cc.set_faces(kept)
+		cc.backface_collision = true
+		cs.shape = cc
 		sb.add_child(cs)
 	root.add_child(sb)
 
@@ -340,3 +448,18 @@ static func _detailed(src: StandardMaterial3D) -> Material:
 	m.uv1_scale = Vector3(uv, uv, uv)
 	m.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 	return m
+
+## 1.9.5 (bug 8): draws nothing for the fallen beam's EmitLight strip (an invisible surface override, no shadow).
+static func _hide_strip(inst: Node3D) -> void:
+	for mi in inst.find_children("*", "MeshInstance3D", true, false):
+		var m := mi as MeshInstance3D
+		if m.mesh == null:
+			continue
+		for s in m.mesh.get_surface_count():
+			var mt := m.get_active_material(s)
+			if mt and mt.resource_name == "EmitLight":
+				var hid := StandardMaterial3D.new()
+				hid.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+				hid.albedo_color = Color(0, 0, 0, 0)
+				hid.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+				m.set_surface_override_material(s, hid)

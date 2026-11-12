@@ -20,46 +20,51 @@ var _btn_last := {}              # touch index -> last position (for FIRE look-d
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var big := Vector2(150, 124)
-	# 1.9.2 (bugs 3, 15): a clear layout for a ~6.7 inch phone in landscape. Right thumb: FIRE is the big round
-	# button; JUMP sits above it; AIM, RELOAD and USE stand in a row to its left. Left thumb: the move stick
-	# (floating, left 40 %), with RUN just beside it. Top right: LAMP, LOGS, pause. Top left: MED, SWAP, MELEE.
-	# Every rectangle below is kept apart by at least 16 px (tests/input_flows.gd checks it).
+	# 1.9.4 (bugs 3, 15): every touch button is at least 1.0 cm square on a 6.7 inch 2400x1080 phone. At the touch UI
+	# scale (1.35) one unit is 1.35 device px and 1 cm is about 155 px, so 1.0 cm is about 116 units; every button
+	# below is 120 units (FIRE 200). Positions are in the 1778 x 800 unit reference canvas (2400x1080 at 1.35) and are
+	# converted to offsets from the anchored corner, so the cluster keeps its place when the aspect changes.
+	# Layout: FIRE bottom right; JUMP above it; AIM, RELOAD, MELEE in the column to its left; USE, CROUCH, SWAP next
+	# to them; MED on the bottom row beside USE; VIEW bottom left; LAMP, LOGS, II on the top row. The ammo readout
+	# moved to the top left under the objective (ui.gd). tests/ui_layout2.gd checks no overlap with the HUD.
+	const REF_W := 1778.0
+	const REF_H := 800.0
 	var defs := [
-		["FIRE", "fire", Vector2(-250, -270), true, Vector2(200, 200)],
-		["JUMP", "jump", Vector2(-150, -420), false, Vector2(130, 110)],
-		["AIM", "aim", Vector2(-420, -230), false, Vector2(140, 110)],
-		["RELOAD", "reload", Vector2(-420, -370), false, Vector2(140, 110)],
-		["USE", "interact", Vector2(-620, -330), false, Vector2(150, 120)],
-		["CROUCH", "crouch", Vector2(-600, -180), false, Vector2(150, 110)],
-		["RUN", "sprint", Vector2(150, -150), false, Vector2(130, 110)],
-		["MELEE", "melee", Vector2(-420, -520), false, Vector2(140, 100)],
-		["SWAP", "weapon_next", Vector2(-600, -520), false, Vector2(150, 100)],
-		["MED", "medkit", Vector2(-470, -95), false, Vector2(120, 85)],
-		["VIEW", "view", Vector2(300, -150), false, Vector2(110, 90)],
-		["LAMP", "lamp", Vector2(-400, 24), false, Vector2(120, 90)],
-		["LOGS", "journal", Vector2(-260, 24), false, Vector2(120, 90)],
-		["II", "pause", Vector2(-120, 24), false, Vector2(100, 90)],
+		# name, id, reference (x, y) of the top-left corner, hold, size, corner
+		["FIRE", "fire", Vector2(1554, 576), true, Vector2(200, 200), Control.PRESET_BOTTOM_RIGHT],
+		["JUMP", "jump", Vector2(1634, 442), false, Vector2(120, 120), Control.PRESET_BOTTOM_RIGHT],
+		["AIM", "aim", Vector2(1420, 656), false, Vector2(120, 120), Control.PRESET_BOTTOM_RIGHT],
+		["RELOAD", "reload", Vector2(1420, 522), false, Vector2(120, 120), Control.PRESET_BOTTOM_RIGHT],
+		["USE", "interact", Vector2(1286, 656), false, Vector2(120, 120), Control.PRESET_BOTTOM_RIGHT],
+		["CROUCH", "crouch", Vector2(1286, 522), false, Vector2(120, 120), Control.PRESET_BOTTOM_RIGHT],
+		["MELEE", "melee", Vector2(1420, 388), false, Vector2(120, 120), Control.PRESET_BOTTOM_RIGHT],
+		["SWAP", "weapon_next", Vector2(1286, 388), false, Vector2(120, 120), Control.PRESET_BOTTOM_RIGHT],
+		["MED", "medkit", Vector2(1152, 656), false, Vector2(120, 120), Control.PRESET_BOTTOM_RIGHT],
+		# 1.9.5 (owner): RUN sits just above the move wheel (wheel top at 500 units from the bottom; RUN bottom at 510),
+		# and VIEW (first / third person toggle) sits beside LAMP and LOGS on the top row.
+		["RUN", "sprint", Vector2(200, 170), false, Vector2(120, 120), Control.PRESET_BOTTOM_LEFT],
+		["VIEW", "view", Vector2(1232, 14), false, Vector2(120, 120), Control.PRESET_TOP_RIGHT],
+		["LAMP", "lamp", Vector2(1366, 14), false, Vector2(120, 120), Control.PRESET_TOP_RIGHT],
+		["LOGS", "journal", Vector2(1500, 14), false, Vector2(120, 120), Control.PRESET_TOP_RIGHT],
+		["II", "pause", Vector2(1634, 14), false, Vector2(120, 120), Control.PRESET_TOP_RIGHT],
 	]
 	for d in defs:
 		var b := Button.new()
 		b.text = d[0]
 		b.add_theme_font_override("font", UIKit.font("Rajdhani-Bold"))
 		b.add_theme_font_size_override("font_size", 28)
-		var top: bool = d[1] in ["pause", "journal", "lamp"]
-		var left: bool = d[1] in ["sprint", "view"]
 		b.custom_minimum_size = d[4]
-		var corner := Control.PRESET_BOTTOM_RIGHT
-		if top:
-			corner = Control.PRESET_TOP_RIGHT
-		elif left:
-			corner = Control.PRESET_BOTTOM_LEFT
+		var corner: int = d[5]
 		b.set_anchors_preset(corner)
-		var off: Vector2 = d[2]
-		b.offset_left = off.x
-		b.offset_top = off.y
-		b.offset_right = off.x + b.custom_minimum_size.x
-		b.offset_bottom = off.y + b.custom_minimum_size.y
+		var ref: Vector2 = d[2]
+		var sz: Vector2 = d[4]
+		# offsets from the anchored corner: right/bottom anchors count back from the reference canvas edge
+		var ox := ref.x if corner == Control.PRESET_BOTTOM_LEFT or corner == Control.PRESET_TOP_LEFT else ref.x - REF_W
+		var oy := ref.y if corner == Control.PRESET_TOP_RIGHT or corner == Control.PRESET_TOP_LEFT else ref.y - REF_H
+		b.offset_left = ox
+		b.offset_top = oy
+		b.offset_right = ox + sz.x
+		b.offset_bottom = oy + sz.y
 		b.modulate.a = 0.72
 		b.focus_mode = Control.FOCUS_NONE
 		b.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -112,8 +117,9 @@ func _press(i: int, on: bool) -> void:
 			if on and p:
 				p.controller.aim_toggle = not p.controller.aim_toggle
 		"view":
+			# 1.9.5 (owner): a real toggle, first person <-> third person (was a one-step zoom back to the default)
 			if on and p:
-				p.controller.reset_view()
+				p.controller.toggle_first_person()
 		"sprint":
 			if on and p:
 				p.controller.sprint_toggle = not p.controller.sprint_toggle

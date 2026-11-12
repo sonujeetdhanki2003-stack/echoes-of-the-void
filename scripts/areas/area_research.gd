@@ -55,7 +55,7 @@ func _props() -> void:
 	cover_point(at(3.6, 3.6))
 	# lab A: Iyer's office
 	prop("desk", at(6.0, 0.4), 0.0)
-	prop("monitor", at(6.0, 0.4) + Vector3(0, 0.8, 0), 0.0, false)
+	prop("monitor", at(6.0, 0.4) + Vector3(0, 0.8, 0), 0.0, true)
 	prop("chair", at(6.0, 0.8), 160.0)
 	prop("lab_equipment", at(7.6, 0.5), -90.0)
 	prop("containment_tube", at(7.5, 1.5), 0.0)
@@ -69,7 +69,7 @@ func _props() -> void:
 	prop("corpse_sitting", at(5.4, 3.3), 90.0, true)
 	# link corridor / hall
 	prop("crate_small", at(6.1, 2.2), 10.0)
-	prop("pipe_straight", at(9.5, 2.1) + Vector3(0, 3.3, 0), 90.0, false)
+	prop("pipe_straight", at(9.5, 2.1) + Vector3(0, 3.3, 0), 90.0, true)
 	prop("barrel", at(10.6, 2.8), 0.0)
 	# gate hall: guard post
 	prop("desk", at(12.0, 1.4), 90.0)

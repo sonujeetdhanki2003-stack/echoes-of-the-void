@@ -46,6 +46,8 @@ func _decon_floor() -> void:
 	# floor slabs with a 1.8 m gap (x 19.0 .. 20.8); the trench below is shallow and resets the player
 	B.box(Vector3(15.5, y - 0.25, 6.0), Vector3(7.0, 0.5, 4.0), "Floor")
 	B.box(Vector3(24.4, y - 0.25, 6.0), Vector3(7.2, 0.5, 4.0), "Floor")
+	# 1.9.4 (bug 1): the gap is a walkable bridge at floor height now (the old 1.8 m jump and the respawn are gone)
+	B.box(Vector3(19.9, y - 0.25, 6.0), Vector3(1.9, 0.5, 4.0), "Floor")
 	B.box(Vector3(19.9, y - 3.25, 6.0), Vector3(1.8, 0.5, 4.0), "Dark")
 	for side in [-1.0, 1.0]:
 		B.box(Vector3(19.9 + side * 0.9, y - 1.6, 6.0), Vector3(0.05, 3.0, 4.0), "Dark", false)
@@ -54,7 +56,7 @@ func _decon_floor() -> void:
 	var t := trigger("decon_fall", Vector3(19.9, -3.0, 6.0), Vector3(1.8, 1.4, 4.0), func(p: Player):
 		p.place(Transform3D(Basis(Vector3.UP, deg_to_rad(-90.0)), Vector3(17.6, 0.1, 6.0)))
 		p.controller.snap_to(p.rotation.y)
-		Events.message.emit("You fell into the trench. Back on the ledge. Sprint and jump the gap" if not Game.touch_enabled() else "You fell into the trench. Back on the ledge. RUN, then JUMP the gap", 3.0), false)
+		Events.message.emit("You fell into the trench. Back on the ledge. Sprint and jump the gap" if not Game.touch_enabled() else "You fell into the trench. Back on the ledge. JUMP the gap", 3.0), false)
 	t.once = false
 	# collapsed beam: a 0.6 m slab with its underside at 1.3 m — crouch height clears it, standing doesn't
 	var beam := prop("fallen_beam", Vector3(16.0, 1.3, 6.0), 90.0, false)
@@ -79,6 +81,7 @@ func _props() -> void:
 	prop("server_rack", Vector3(11.4, 0.0, 10.9), -90.0)
 	prop("corpse_sitting", Vector3(10.6, 0.0, 9.8), -120.0, true)
 	prop("crate_small", Vector3(10.8, 0.0, 2.6), 15.0)
+	# overhead pipe at 7 m: out of reach of a standing or jumping player, so no walk collider (see PROGRESS, v101 camera)
 	prop("pipe_straight", Vector3(0.4, 7.0, 6.0), 0.0, false)
 	# decon
 	prop("locker", Vector3(13.0, 0.0, 4.4), 0.0)
@@ -87,7 +90,7 @@ func _props() -> void:
 	prop("crate_large", Vector3(34.6, 0.0, 14.4), 10.0)
 	prop("crate_small", Vector3(33.4, 0.0, 14.9), -20.0)
 	prop("terminal", Vector3(29.0, 0.0, 9.0), 90.0)
-	prop("kit_vent_cover", Vector3(35.75, 2.4, 6.0), -90.0, false)
+	prop("kit_vent_cover", Vector3(35.75, 2.4, 6.0), -90.0, true)
 	prop("chair", Vector3(30.2, 0.0, 9.6), 140.0)
 	# medbay
 	for x in [39.0, 43.0]:
@@ -100,13 +103,13 @@ func _props() -> void:
 	prop("corpse_prone", Vector3(44.6, 0.0, 4.6), 70.0, true)
 	# quarters
 	prop("desk", Vector3(42.4, 0.0, 9.0), 180.0)
-	prop("monitor", Vector3(42.4, 0.8, 9.0), 180.0, false)
+	prop("monitor", Vector3(42.4, 0.8, 9.0), 180.0, true)
 	prop("chair", Vector3(42.2, 0.0, 10.0), 10.0)
 	prop("locker", Vector3(43.5, 0.0, 15.4), 180.0)
 	prop("crate_small", Vector3(37.0, 0.0, 15.0), 0.0)
 	# aux power
-	prop("pipe_straight", Vector3(24.5, 3.4, 22.0), 0.0, false)
-	prop("pipe_straight", Vector3(39.5, 3.4, 22.0), 0.0, false)
+	prop("pipe_straight", Vector3(24.5, 3.4, 22.0), 0.0, true)
+	prop("pipe_straight", Vector3(39.5, 3.4, 22.0), 0.0, true)
 	prop("server_rack", Vector3(25.0, 0.0, 17.0), 90.0)
 	prop("barrel", Vector3(38.9, 0.0, 17.2), 0.0)
 	prop("barrel", Vector3(38.2, 0.0, 17.6), 0.0)
@@ -155,7 +158,7 @@ func _story() -> void:
 		_hint("Hold %s to crouch" % Game.key_name("crouch"), "Tap CROUCH to duck under"))
 	trigger("tut_jump", Vector3(17.8, 0.0, 6.0), Vector3(1.5, 3.0, 4.0), func(_p):
 		Sfx.say("mira_jump")
-		_hint("%s to sprint, %s to jump" % [Game.key_name("sprint"), Game.key_name("jump")], "RUN, then JUMP"))
+		_hint("%s to sprint, %s to jump" % [Game.key_name("sprint"), Game.key_name("jump")], "JUMP"))
 	trigger("tut_door", Vector3(25.5, 0.0, 6.0), Vector3(3.0, 3.0, 4.0), func(_p):
 		Sfx.say("mira_door")
 		_hint("Look at the panel and press %s" % Game.key_name("interact"), "Look at the panel and tap USE"))

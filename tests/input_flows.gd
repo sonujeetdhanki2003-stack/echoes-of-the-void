@@ -77,6 +77,32 @@ func _touch() -> void:
 	var p: Player = GameMode.player
 	var t = ui.touch
 	check("touch controls visible in game", t.visible)
+	# 1.9.5 (owner): RUN is back in the touch HUD, just above the move wheel (wheel: centre (260, h-380), radius 120)
+	var run_names := []
+	for e in t.buttons:
+		run_names.append((e[0] as Button).text)
+	var rb: Button = btn("sprint")
+	var vp_h: float = t.get_viewport_rect().size.y
+	var wheel_top: float = vp_h - 380.0 - 120.0
+	var rr: Rect2 = rb.get_global_rect() if rb else Rect2()
+	check("RUN button sits just above the move wheel", rb != null and rr.end.y <= wheel_top and rr.end.y >= wheel_top - 24.0 and rr.position.x < 380.0 and rr.end.x > 140.0, str(rr) + " wheel_top " + str(wheel_top))
+	# 1.9.5 (owner): VIEW toggles first and third person (touch button and the view key)
+	var vi := -1
+	for i in t.buttons.size():
+		if t.buttons[i][1] == "view":
+			vi = i
+	var fp0: bool = p.controller.first_person
+	if vi != -1:
+		t._press(vi, true)
+		var fp1: bool = p.controller.first_person
+		t._press(vi, false)
+		t._press(vi, true)
+		var fp2: bool = p.controller.first_person
+		t._press(vi, false)
+		check("VIEW button toggles first and third person", fp1 != fp0 and fp2 == fp0, "%s %s %s" % [fp0, fp1, fp2])
+	else:
+		check("VIEW button toggles first and third person", false, "no view button")
+	check("fire, jump, aim, use, reload stay in the touch HUD", btn("fire") != null and btn("jump") != null and btn("aim") != null and btn("interact") != null and btn("reload") != null)
 	p.combat.give("pistol")
 	await frames(10)
 	# stick

@@ -17,6 +17,7 @@ var cells := {}            # Vector2i -> room id
 var rooms := {}            # id -> room dict
 var openings := {}         # edge key -> kind
 var _mm := {}              # piece key -> Array[Transform3D]
+var placed: Array = []      # 1.9.4: every kit piece as [piece, transform] (a MultiMesh cannot be read back; the scene audits use this)
 var _mesh_cache := {}
 var geo: Node3D            # visual root
 var col: StaticBody3D      # collision root
@@ -317,6 +318,7 @@ func _add(piece: String, xf: Transform3D) -> void:
 	if not _mm.has(piece):
 		_mm[piece] = []
 	_mm[piece].append(xf)
+	placed.append([piece, xf])
 
 ## Kit pieces are batched per piece type AND per 12 m chunk (Post-PRD Phase 10 draw-call/culling pass): one
 ## area-wide MultiMesh can't be frustum-, occlusion- or shadow-culled, so every light's shadow pass drew the
@@ -329,27 +331,52 @@ func _flush() -> void:
 		var mesh := piece_mesh(piece)
 		if mesh == null:
 			continue
-		var chunks := {}
-		for xf in all:
-			var o: Vector3 = (xf as Transform3D).origin
-			var key := Vector3i(floori(o.x / CHUNK), floori(o.y / 6.0), floori(o.z / CHUNK))
-			if not chunks.has(key):
-				chunks[key] = []
-			chunks[key].append(xf)
-		for key in chunks.keys():
-			var xfs: Array = chunks[key]
-			var mm := MultiMesh.new()
-			mm.transform_format = MultiMesh.TRANSFORM_3D
-			mm.mesh = mesh
-			mm.instance_count = xfs.size()
-			for i in xfs.size():
-				mm.set_instance_transform(i, xfs[i])
-			var mmi := MultiMeshInstance3D.new()
-			mmi.name = "MM_%s_%d_%d_%d" % [piece, key.x, key.y, key.z]
-			mmi.multimesh = mm
-			mmi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF if piece in NO_SHADOW else GeometryInstance3D.SHADOW_CASTING_SETTING_ON
-			geo.add_child(mmi)
+		# 1.9.4 (bugs 4, 14): a piece's transparent surfaces (window panes) go in their own batch and cast no shadow
+		var parts := _piece_parts(piece, mesh)
+		for part in parts:
+			var pm: Mesh = part[0]
+			var glass: bool = part[1]
+			var chunks := {}
+			for xf in all:
+				var o: Vector3 = (xf as Transform3D).origin
+				var key := Vector3i(floori(o.x / CHUNK), floori(o.y / 6.0), floori(o.z / CHUNK))
+				if not chunks.has(key):
+					chunks[key] = []
+				chunks[key].append(xf)
+			for key in chunks.keys():
+				var xfs: Array = chunks[key]
+				var mm := MultiMesh.new()
+				mm.transform_format = MultiMesh.TRANSFORM_3D
+				mm.mesh = pm
+				mm.instance_count = xfs.size()
+				for i in xfs.size():
+					mm.set_instance_transform(i, xfs[i])
+				var mmi := MultiMeshInstance3D.new()
+				mmi.name = "MM_%s%s_%d_%d_%d" % [piece, "_glass" if glass else "", key.x, key.y, key.z]
+				mmi.multimesh = mm
+				mmi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF if (glass or piece in NO_SHADOW) else GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+				geo.add_child(mmi)
 	_mm.clear()
+
+var _part_cache := {}
+## [[mesh, is_glass], ...]: the opaque part of a piece and, when it has one, its transparent part.
+func _piece_parts(piece: String, mesh: Mesh) -> Array:
+	if _part_cache.has(piece):
+		return _part_cache[piece]
+	var out := [[mesh, false]]
+	var am := mesh as ArrayMesh
+	if am != null and am.get_blend_shape_count() == 0:
+		var mats: Array = []
+		for s in am.get_surface_count():
+			mats.append(am.surface_get_material(s))
+		var parts := Props.split_mesh(am, mats)
+		if parts[1] != null:
+			out = []
+			if parts[0] != null:
+				out.append([parts[0], false])
+			out.append([parts[1], true])
+	_part_cache[piece] = out
+	return out
 
 ## The mesh for a kit piece: the GLB's mesh with the area theme's materials applied by slot name, or a stand-in.
 func piece_mesh(piece: String) -> Mesh:

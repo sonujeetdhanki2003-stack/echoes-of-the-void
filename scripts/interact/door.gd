@@ -46,6 +46,7 @@ func _build() -> void:
 		var path := Props.model_path("kit_door_leaf")
 		if path != "":
 			leaf = (load(path) as PackedScene).instantiate()
+			Props._split_transparent(leaf)   # 1.9.4 (bugs 4, 14): the door window does not cast a shadow
 		else:
 			leaf = Node3D.new()
 			var mi := MeshInstance3D.new()

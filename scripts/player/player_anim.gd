@@ -18,7 +18,9 @@ var placeholder := false
 var _busy_full := 0.0
 var _dead := false
 var _speeds := {"walk": 1.9, "run": 4.1, "sprint": 6.3, "crouch": 1.6}
+const STANCE_MPS := {"walk": 1.31, "run": 3.5}   # measured planted-foot speed per unarmed cycle (1.9.5); rifle cycles unchanged
 var _lamp_mats: Array = []
+var _walk_mix := 0.0     # 1.9.5 (bug 9): 0 = idle pose, 1 = walk cycle alone, eased (see _process)
 var _ph_body: Node3D
 var _t := 0.0
 var _loco_scale := 1.0
@@ -71,6 +73,11 @@ func _read_manifest() -> void:
 			var sp := float(c["ground_speed_mps"])
 			if sp > 0.1:
 				_speeds[n] = sp
+	# 1.9.5 (bug 9): the authored ground speeds do not match the feet. Played in place at scale 1 (tests/walkclip.gd),
+	# the planted walk foot moves 1.31 m/s (authored 1.9) and the planted run foot 3.5 m/s (authored 4.1); the
+	# playback rate and the blend points use the measured stance speeds, so the feet keep pace with the body.
+	for k in STANCE_MPS:
+		_speeds[k] = STANCE_MPS[k]
 
 func _spd(clip: String, def: float) -> float:
 	return float(_speeds.get(clip, def))
@@ -426,16 +433,29 @@ func _process(delta: float) -> void:
 		else:
 			state = "armed" if armed else "unarmed"
 		tree.set("parameters/state/transition_request", state)
-		tree.set("parameters/loco_u/blend_position", spd)
-		tree.set("parameters/loco_a/blend_position", lv)
+		# 1.9.5 (bug 9): below walk speed the blend was idle..walk, and the idle share carries no foot travel, so the
+		# planted feet slid (0.5-0.7 m/s under a 0.89 m/s body at stick 0.35). Standing and moving below walk speed,
+		# the walk cycle now plays alone (blend weight 1) at the body speed over the walk speed; _walk_mix eases the
+		# idle pose out and back in, so the start and stop still blend.
+		var stand := state == "unarmed"     # 1.9.5: the walk-alone path is the unarmed standing one; armed keeps 1.9.2
+		_walk_mix = lerpf(_walk_mix, 1.0 if (stand and spd > 0.12) else 0.0, 1.0 - exp(-18.0 * delta))
+		var w_lo := _spd("walk", 1.9)
+		var u_pos := spd
+		var a_pos := lv
+		if stand and spd < w_lo:
+			u_pos = lerpf(0.0, w_lo, _walk_mix)
+			var dir := lv.normalized() * w_lo if spd > 0.0001 else Vector2.ZERO
+			a_pos = Vector2.ZERO.lerp(dir, _walk_mix)
+		tree.set("parameters/loco_u/blend_position", u_pos)
+		tree.set("parameters/loco_a/blend_position", a_pos)
 		tree.set("parameters/crouch_u/blend_position", spd)
 		tree.set("parameters/crouch_a/blend_position", spd)
 		# keep feet honest: play cycles a bit faster/slower when the speed is between blend points
 		# 1.9.2 (bug 9): the feet keep pace with the ground at every speed. The cycles are blended by speed, and each
 		# one covers its own ground speed (walk 1.9, run 4.1, sprint 6.3 m/s): the playback rate is the speed over the
 		# blended cycle speed. Below walk speed the walk cycle used to play at full rate (feet slid at a slow stick).
-		var w_ref := _spd("walk", 1.9)
-		var r_ref := _spd("run", 4.1)
+		var w_ref := 1.9 if armed else _spd("walk", 1.9)
+		var r_ref := 4.1 if armed else _spd("run", 4.1)
 		var s_ref := _spd("sprint", 6.3)
 		var ref := w_ref
 		if spd >= s_ref:
@@ -445,9 +465,13 @@ func _process(delta: float) -> void:
 		elif spd >= w_ref:
 			ref = lerpf(w_ref, r_ref, (spd - w_ref) / maxf(0.01, r_ref - w_ref))
 		var scale := 1.0
-		if spd > 0.2 and ref > 0.01 and not state.begins_with("crouch"):
-			scale = spd / ref
-		tree.set("parameters/loco_speed/scale", clampf(scale, 0.35, 1.8))
+		if stand:
+			if ref > 0.01:
+				var k := _walk_mix if spd < w_lo else 1.0
+				scale = clampf(lerpf(1.0, spd / ref, k), 0.05, 1.8)
+		elif spd > 0.2 and ref > 0.01 and not state.begins_with("crouch"):
+			scale = clampf(spd / ref, 0.35, 1.8)     # 1.9.2 behaviour for the rifle cycles, crouch and air
+		tree.set("parameters/loco_speed/scale", scale)
 		var upper := 0.0
 		if armed:
 			if weapon_id == "pistol":

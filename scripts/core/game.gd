@@ -2,7 +2,7 @@ extends Node
 ## GameInstance (PRD BP_EOT_GameInstance): persistent session data, settings, input map, and the
 ## SaveManager role (PRD BP_EOT_SaveManager): JSON saves keyed by stable IDs. Autoloaded as "Game".
 
-const VERSION := "1.9.3"
+const VERSION := "1.9.4"
 const SAVE_VERSION := 3   # v1.6.0: 3 adds THE HOLLOWS steps in the final mission; 1.0.x to 1.5.x saves still load (objective shift)
 
 # Paths are vars so automated tests use their own files and never touch a player's save.
@@ -499,7 +499,7 @@ const DEFAULT_KEYS := {
 	"weapon_1": [KEY_1], "weapon_2": [KEY_2], "weapon_3": [KEY_3], "weapon_4": [KEY_4], "weapon_5": [KEY_5], "weapon_next": [], "weapon_prev": [],
 	"melee": [KEY_G], "lamp": [KEY_F], "journal": [KEY_TAB, KEY_J], "pause": [KEY_ESCAPE, KEY_P],
 	"shoulder_swap": [KEY_V], "fire": [], "aim": [], "skip": [KEY_ENTER],
-	"cam_closer": [KEY_PAGEDOWN], "cam_farther": [KEY_PAGEUP],
+	"cam_closer": [KEY_PAGEDOWN], "cam_farther": [KEY_PAGEUP], "view": [KEY_T],
 }
 ## Key rebinding (Post-PRD Phase 9): the primary key of these actions can be changed in Settings; the choice is
 ## stored in settings["bindings"] (action -> physical keycode) and persists with the other settings.

@@ -55,7 +55,7 @@ func _props() -> void:
 	prop("server_rack", at(3.85, 5.6), -90.0)
 	prop("desk", at(3.0, 4.4), 0.0)
 	# corridor
-	prop("pipe_straight", at(7.5, 1.1) + Vector3(0, 3.3, 0), 90.0, false)
+	prop("pipe_straight", at(7.5, 1.1) + Vector3(0, 3.3, 0), 90.0, true)
 	prop("barrel", at(7.0, 1.8), 0.0)
 	# vehicle bay
 	prop("cargo_containers", at(10.0, 0.6), 0.0)

@@ -281,13 +281,14 @@ func relayout_hud() -> void:
 	var vw := get_viewport().get_visible_rect().size.x
 	if t:
 		_place(hud_vit, Control.PRESET_TOP_LEFT, Vector2(56, 30))
-		_place(hud_ob, Control.PRESET_TOP_LEFT, Vector2(56, 150))
-		_place(hud_am, Control.PRESET_TOP_RIGHT, Vector2(-330, 120))
-		# subtitles: left of the button cluster, right of the RUN button
-		# between the RUN button (left) and the button cluster (right)
-		_sub_w = clampf(vw - 560.0, 420.0, 880.0)
+		# 1.9.5 (owner: RUN sits above the move wheel, in the top-left column): the objective and ammo move right of it
+		_place(hud_ob, Control.PRESET_TOP_LEFT, Vector2(400, 150))
+		_place(hud_am, Control.PRESET_TOP_RIGHT, Vector2(-274, 150))   # 1.9.5: top right, under the VIEW / LAMP / LOGS row (ui_layout2)
+		# subtitles: left of the button cluster and above its bottom row (1.9.4: the bottom row is at 656 units, the cluster
+		# runs from x 796 at the narrowest aspect; the box ends at x 920 and its bottom edge sits at 640 units)
+		_sub_w = clampf(vw - 640.0, 420.0, 780.0)
 		_sub_x = 140.0 - vw * 0.5
-		_sub_bottom = -95.0
+		_sub_bottom = -160.0
 	else:
 		_place(hud_ob, Control.PRESET_TOP_LEFT, Vector2(64, 50))
 		_place(hud_vit, Control.PRESET_BOTTOM_LEFT, Vector2(64, -150))
@@ -299,11 +300,16 @@ func relayout_hud() -> void:
 	# v1.0.1 layout audit: the transient widgets (prompt, toast, boss bar, saving icon) are placed per mode so they never
 	# land on the always-visible HUD or the touch buttons (measured by tests/ui_layout2.gd at 20:9, 16:9 and 4:3)
 	if t:
-		var bw := clampf(vw - 880.0, 420.0, 900.0)       # between the vitals (left) and the LAMP/LOGS/pause buttons (right)
+		# 1.9.5: between x 400 and the VIEW button (its left edge is 546 units from the right; 14 units of air)
+		var bl := 400.0
+		var bw := clampf(vw - 560.0 - bl, 300.0, 900.0)
 		_center_top(boss_box, 70.0, bw)
+		var shift := (bl + bw * 0.5) - vw * 0.5
+		boss_box.offset_left += shift
+		boss_box.offset_right += shift
 		_center_top(toast_lbl, 24.0, 1000.0)
 		_place(save_icon, Control.PRESET_TOP_LEFT, Vector2(56, 124))
-		_prompt_y = -40.0   # 1.9.2: lifted clear of the subtitle box that sits low on touch screens
+		_prompt_y = -120.0  # 1.9.4: above the subtitle box (which now ends 160 units from the bottom), clear of the touch buttons
 	else:
 		_center_top(boss_box, 165.0, minf(900.0, vw - 160.0))
 		_center_top(toast_lbl, 225.0, 1000.0)
@@ -886,7 +892,7 @@ func _credits() -> void:
 # ---------------------------------------------------------------- how to play
 const HOWTO := {
 	"GOAL": "You are Specialist Kabir Rao. You wake from cryosleep on ORPHEUS Research Station, on the alien world NYX-7. The crew is gone and something is broadcasting from the black Spire outside.\n\n• Follow the OBJECTIVE at the top left. It always tells you what to do next.\n• Explore 6 areas: Cryo Chamber, Research Wing, Security Sector, Reactor Core, the Alien Exterior and the Extraction Zone.\n• Solve 3 puzzles: restart the generators in the right order, find the security code, and rotate the conduits to route power.\n• Explore The Hollows, a crystal basin west of the canyon, where the signal leads.\n• Survive the Echo, reach the shuttle and defeat the Herald to escape.\n\nUPGRADE BENCH: spend the parts you find to improve your weapons and suit.\nSAVE SLOTS: there are three. Pick one from the main menu to start or continue.\nThe game saves at every checkpoint (you will see the save icon). You can also save from the pause menu.",
-	"TOUCH": "LEFT SIDE: drag anywhere to move (a stick appears under your thumb). Push it far to walk faster.\nRIGHT SIDE: drag to look around.\n\nFIRE (big button): shoot. MELEE (button): a short strike at close range, and a finishing move on a staggered enemy. Hold for the rifle's automatic fire, and slide your thumb on it to keep aiming while you shoot.\nAIM: tap to aim over the shoulder (tap again to lower). Aiming is more accurate.\nRELOAD · JUMP · CROUCH: as named. Crouch to sneak past enemies and under low beams.\nUSE: open doors, press panels, read logs, pick things up (shown when you are close).\nSWAP: switch between the Pulse Rifle and the Energy Pistol.\nMED: use a medkit.  RUN: toggle sprint.\nTop right: LAMP (helmet lights), LOGS (objectives and research logs), II (pause).\n\nAndroid back button = pause. Aim assist helps on touch and can be changed in Settings.",
+	"TOUCH": "LEFT SIDE: drag anywhere to move (a stick appears under your thumb). Push it far to walk faster.\nRIGHT SIDE: drag to look around.\n\nFIRE (big button): shoot. MELEE (button): a short strike at close range, and a finishing move on a staggered enemy. Hold for the rifle's automatic fire, and slide your thumb on it to keep aiming while you shoot.\nAIM: tap to aim over the shoulder (tap again to lower). Aiming is more accurate.\nRELOAD · JUMP · CROUCH: as named. Crouch to sneak past enemies and under low beams.\nUSE: open doors, press panels, read logs, pick things up (shown when you are close).\nSWAP: switch between the Pulse Rifle and the Energy Pistol.\nMED: use a medkit.\nTop right: LAMP (helmet lights), LOGS (objectives and research logs), II (pause).\n\nAndroid back button = pause. Aim assist helps on touch and can be changed in Settings.",
 	"KEYBOARD": "KEYBOARD & MOUSE\n{move} move · Mouse look · {sprint} sprint · {jump} jump · {crouch} crouch\nRight mouse aim · Left mouse fire · {reload} reload · {w1} / {w2} or mouse wheel: weapons\n{use} use · {med} medkit · {lamp} helmet lamp · {shoulder} swap shoulder · {logs} logs · Esc pause\n{melee} melee strike (close range, and finishes a staggered enemy)\n{closer} / {farther}, Ctrl + wheel or pinch: camera distance\nHold Enter to skip a cutscene.\n\nGAMEPAD\nLeft stick move · Right stick look · LT aim · RT fire · RB reload\nA jump · B crouch · X use · Y switch weapon · LB medkit\nClick left stick sprint · D-pad up lamp · View logs · Menu pause",
 	"HUD": "TOP LEFT: your current mission and objective.\nBOTTOM LEFT: VITALS (health, red) and STAMINA (blue). Sprinting uses stamina; it refills when you slow down. When health is low the screen pulses red: use a medkit.\nBOTTOM RIGHT: weapon name, ammo in the magazine / reserve ammo, and medkits.\nCENTRE: the crosshair. It flashes on a hit and turns red on a weak-point hit.\nRed marks at the screen edge show where damage came from.\nBOTTOM CENTRE: subtitles for voices and logs, and the USE prompt when you can interact.\nTOP CENTRE in the final battle: the Herald's health.",
 	"ENEMIES": "STALKER: fast four-legged hunter. It screeches, then lunges. Back off or side-step when it crouches, then shoot. Its glowing head is the weak point.\n\nSENTINEL: an infected security trooper with a crystal cannon arm. It hides at range and fires charged bolts. Watch for the violet glow as it charges and get behind cover. Shoot the glowing chest core.\n\nBRUTE: huge and slow, but it hits very hard. It raises both arms before a ground slam and roars before it charges. Dodge sideways, then shoot the glowing crystals on its BACK (weak point).\n\nTHE HERALD: the final boss. Destroy its 3 glowing cyan nodes. Its attacks show a warning first: SLAM draws a red ring on the ground, so leave the ring before it lands. SWEEP shows a glowing maw, so sidestep or break line of sight before the beam fires. Shard rain marks the ground in purple first.",

@@ -89,6 +89,8 @@ func _props() -> void:
 	add_child(lift)
 	lift.global_position = at(9.0, 5.0)
 	Props.add_slab(lift, Vector3(6.1, 0.3, 6.1), Vector3(0, -0.15, 0), false)   # 1.9.2 bug 6: the lift floor is solid
+	# 1.9.4 (bug 6): the cage's rails and posts are solid, except the door gap on the west side (local x < -2.5, |z| < 1.5)
+	Props.frame_trimesh_gap(lift, Props.part(lift, "Platform"), func(c: Vector3) -> bool: return not (c.x < -2.5 and absf(c.z) < 1.5))
 	label3d("SURFACE LIFT", at(9.0, 5.95) + Vector3(0, 4.2, 0), 180.0, 72, Color(1.0, 0.75, 0.3))
 	# pickups and stations (no softlocks in the survival fight)
 	pickup("ammo_rifle", "rea_r1", at(0.6, 2.4), 48)
@@ -125,10 +127,8 @@ func _hazards() -> void:
 			var vent := Props.make("kit_vent_cover", false)
 			add_child(vent)
 			vent.global_position = hz.global_position + Vector3(0, 0.02, 0)
-		else:
-			var cab := Props.make("cable_bundle", false)
-			add_child(cab)
-			cab.global_position = hz.global_position + Vector3(0, 0.0, 0)
+		# 1.9.5 (bug 10): the arc hazard no longer has a cable bundle on the floor under its centre (a grey 9 cm cable
+		# with no collider that the player's foot passed through). The arc's ring and sparks still mark it.
 		var ring := MeshInstance3D.new()
 		var tm := TorusMesh.new()
 		tm.inner_radius = 1.0
